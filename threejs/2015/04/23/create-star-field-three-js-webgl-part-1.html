@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Seeing Sounds [Part 1]: Create the star field</title>
+  <meta name="description" content="This tutorial assumes you have a basic knowledge of three.js, and know how to set up a very simple scene using the three.js renderer and camera. If you don't...">
+
+  <link rel="canonical" href="http://yourdomain.com/threejs/2015/04/23/create-star-field-three-js-webgl-part-1.html">
+  <link rel="alternate" type="application/rss+xml" title="Creative with Code" href="http://yourdomain.com/feed.xml" />
+
+  <!-- Material Design Lite css Library -->
+  <link rel="stylesheet" href="https://storage.googleapis.com/code.getmdl.io/1.0.5/material.blue_grey-light_green.min.css" />
+
+  <!-- Material Design Fonts -->
+  <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+
+  <!-- Custom theme css -->
+  <link rel="stylesheet" href="/css/main.css">
+</head>
+
+
+  <body>
+
+    <!-- Start Layout -->
+    
+    <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
+        <header class="mdl-layout__header">
+
+    <div class="mdl-layout__header-row">
+      <!-- Title -->
+      <span class="mdl-layout-title"><a href="/index.html" style="text-decoration:none; color:#fff;">Creative with Code</a></span>
+      <!-- Add spacer, to align navigation to the right -->
+      <div class="mdl-layout-spacer"></div>
+      <!-- Navigation. We hide it in small screens. -->
+      <nav class="mdl-navigation mdl-layout--large-screen-only">
+      
+        
+        <a class="mdl-navigation__link" href="/about/">About</a>
+        
+      
+        
+      
+        
+      
+        
+      
+        
+        <a class="mdl-navigation__link" href="/threejs/index.html">threejs</a>
+        
+      
+        
+        <a class="mdl-navigation__link" href="/technical/index.html">technical</a>
+        
+      
+        
+        <a class="mdl-navigation__link" href="/audio/index.html">audio</a>
+        
+      
+        
+        <a class="mdl-navigation__link" href="/design/index.html">design</a>
+        
+      
+      </nav>
+
+      <div class="android-search-box mdl-textfield mdl-js-textfield mdl-textfield--expandable mdl-textfield--floating-label mdl-textfield--align-right mdl-textfield--full-width">
+        <label class="mdl-button mdl-js-button mdl-button--icon" for="search-field">
+          <i class="material-icons">search</i>
+        </label>
+        <div class="mdl-textfield__expandable-holder">
+          <input class="mdl-textfield__input" type="text" id="search-field" />
+        </div>
+      </div>
+
+      <button class="mdl-button mdl-js-button mdl-button--icon" id="menu-lower-left">
+        <i class="material-icons">more_vert</i>
+      </button>
+
+      <ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="menu-lower-left">
+        
+        <li><a href="www.myawesomelink.com" class="mdl-menu__item">Cool Option 1</a></li>
+        
+        <li><a href="www.myawesomelink.com" class="mdl-menu__item">Cool Option 2</a></li>
+        
+        <li><a href="www.myawesomelink.com" class="mdl-menu__item">Cool Option 3</a></li>
+        
+      </ul>
+    </div>
+  </header>
+
+  <div class="mdl-layout__drawer">
+    <span class="mdl-layout-title">Menu</span>
+    <nav class="mdl-navigation">
+    
+      
+      <a class="mdl-navigation__link" href="/about/">About</a>
+      
+    
+      
+    
+      
+    
+      
+    
+      
+      <a class="mdl-navigation__link" href="/threejs/index.html">threejs</a>
+      
+    
+      
+      <a class="mdl-navigation__link" href="/technical/index.html">technical</a>
+      
+    
+      
+      <a class="mdl-navigation__link" href="/audio/index.html">audio</a>
+      
+    
+      
+      <a class="mdl-navigation__link" href="/design/index.html">design</a>
+      
+    
+    </nav>
+
+  </div>
+
+    
+
+      <main class="mdl-layout__content">
+        <div class="post-ribbon"></div>
+<main class="post-main mdl-layout__content">
+  <div class="post-container mdl-grid">
+    <div class="mdl-cell mdl-cell--2-col mdl-cell--hide-tablet mdl-cell--hide-phone"></div>
+    <div class="post-section mdl-color--white mdl-shadow--4dp content mdl-color-text--grey-800 mdl-cell mdl-cell--8-col">
+      <div class="mdl-color-text--grey-500">
+      Apr 23, 2015 • Graeme Fulton •  threejs  
+      </div>
+      <br>
+      <img src="/img/starfield.jpg" style="width:100%;"/>
+      <h3>Seeing Sounds [Part 1]: Create the star field</h3>
+      <article class="post-content">
+        <p><p>This tutorial assumes you have a basic knowledge of three.js, and know how to set up a very simple scene using the three.js renderer and camera. If you don't, then first have a look at my <a href="/threejs/2015/04/21/get-up-to-speed-with-three-js-webgl.html">getting started guide here</a>.</p>
+<p>In this part, we're going to get more familiar with three.js by building a star field. The field is essentially an array of moving spheres, so the best place to start is by creating a just single sphere. Once we've created our first star, we can just replicate it to create a whole field of them, followed by adding some movement. Here is the outcome of this part of the Seeing Sounds series:</p>
+<p><iframe style="width: 100%;" src="//codepen.io/GraemeFulton/embed/BNyQMM/?height=268&amp;theme-id=0" width="300" height="268" frameborder="no" scrolling="no" allowfullscreen="allowfullscreen">See the Pen <a href="http://codepen.io/GraemeFulton/pen/BNyQMM/">Three.js - Star field</a> by Graeme Fulton (<a href="http://codepen.io/GraemeFulton">@GraemeFulton</a>) on <a href="http://codepen.io">CodePen</a>.</iframe></p>
+<p>To get started, all you'll need is a local copy of three.js, which you can get from its <a title="three.js repo" href="https://github.com/mrdoob/three.js/" target="_blank">GitHub repository</a>, and we'll then code everything else within a single HTML file for simplicity.</p>
+<h3>Step 1: Create a single sphere</h3>
+<p>We're going to jump straight into the code now.</p>
+<h4>Create the HTML project file</h4>
+<p>The snippet below shows our main HTML project file, with a space for adding our single sphere:</p>
+<pre class="brush:js;auto-links:false;toolbar:false" contenteditable="false">&lt;!doctype html&gt;
+&lt;html lang="en"&gt;
+&lt;head&gt;
+  &lt;title&gt;Starfield Tutorial&lt;/title&gt;
+  &lt;meta charset="utf-8"&gt;
+&lt;/head&gt;
+&lt;body style="margin:0px;"&gt;
+
+  &lt;script src="/Stars/three.js"&gt;&lt;/script&gt;
+
+  &lt;script&gt;
+
+    //Sphere code will go here
+
+  &lt;/script&gt;
+
+&lt;/body&gt;
+&lt;/html&gt;</pre>
+<h4>Add the sphere</h4>
+<p>Between the script tags above (where it says "Sphere code will go here"), add the following code which will set up a basic three.js scene, and render a sphere on it. For more detailed instructions on how this is achieved, follow <a href="/threejs/2015/04/21/get-up-to-speed-with-three-js-webgl.html">this tutorial</a> I made earler, which has very similar code for adding a cube rather than a sphere.</p>
+<p>Here's what you'll get at the end of this step:</p>
+<p><iframe style="width: 100%;" src="//codepen.io/GraemeFulton/embed/VLYmmb/?height=268&amp;theme-id=0" width="300" height="268" frameborder="no" scrolling="no" allowfullscreen="allowfullscreen">See the Pen <a href="http://codepen.io/GraemeFulton/pen/VLYmmb/">Three.js Sphere</a> by Graeme Fulton (<a href="http://codepen.io/GraemeFulton">@GraemeFulton</a>) on <a href="http://codepen.io">CodePen</a>.</iframe></p>
+<h5>Code to add:</h5>
+<pre class="brush:js;auto-links:false;toolbar:false" contenteditable="false">&lt;!doctype html&gt;
+&lt;html lang="en"&gt;
+&lt;head&gt;
+  &lt;title&gt;Starfield Tutorial&lt;/title&gt;
+  &lt;meta charset="utf-8"&gt;
+&lt;/head&gt;
+&lt;body style="margin:0px;"&gt;
+
+  &lt;script src="/Stars/three.js"&gt;&lt;/script&gt;
+
+  &lt;script&gt;
+
+    //Declare three.js variables
+	var camera, scene, renderer, sphere;
+
+	//assign three.js objects to each variable
+	function init(){
+
+		//camera
+		camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 1, 1000);
+		camera.position.z = 5;
+
+		//scene
+		scene = new THREE.Scene();
+
+		//renderer
+		renderer = new THREE.WebGLRenderer();
+		//set the size of the renderer
+		renderer.setSize( window.innerWidth, window.innerHeight );
+
+		//add the renderer to the html document body
+		document.body.appendChild( renderer.domElement );
+	}
+
+
+	function addSphere(){
+		// Create a sphere to make visualization easier.
+		var geometry   = new THREE.SphereGeometry(0.5, 32, 32)
+		var material = new THREE.MeshBasicMaterial( {color: 0xffffff} );
+		sphere = new THREE.Mesh(geometry, material)
+		scene.add(sphere)
+
+
+	}
+
+	function render() {
+		//get the frame
+		requestAnimationFrame( render );
+
+		//render the scene
+		renderer.render( scene, camera );
+	}
+
+	init();
+	addSphere();
+	render();
+
+  &lt;/script&gt;
+
+&lt;/body&gt;
+&lt;/html&gt;</pre>
+<h3>Step 2: Create a stars array</h3>
+<p>Now instead of having just one sphere, in this step we're going to create a load of them to produce this:</p>
+<p><iframe style="width: 100%;" src="//codepen.io/GraemeFulton/embed/mJyOzK/?height=268&amp;theme-id=0" width="300" height="268" frameborder="no" scrolling="no" allowfullscreen="allowfullscreen">See the Pen <a href="http://codepen.io/GraemeFulton/pen/mJyOzK/">Three.js - Stars array</a> by Graeme Fulton (<a href="http://codepen.io/GraemeFulton">@GraemeFulton</a>) on <a href="http://codepen.io">CodePen</a>.</iframe></p>
+<p>If you look at line 14 of the code snippet of the previous step, you'll see we declared a 'sphere' variable. To start with, we need to change this to a 'stars' array for holding many spheres, so line 14 becomes:</p>
+<pre class="brush:js;auto-links:false;toolbar:false" contenteditable="false">//Declare three.js variables
+var camera, scene, renderer, stars=[];</pre>
+<p>The next bit we need to change is the <code>addSphere</code> function (line 36). Since we already know how to add one sphere, we just need to do this multiple times, and add each one to a stars array - we'll do this inside a for loop:</p>
+<pre class="brush:js;auto-links:false;toolbar:false" contenteditable="false">	function addSphere(){
+
+				// The loop will move from z position of -1000 to z position 1000, adding a random particle at each position.
+				for ( var z= -1000; z &lt; 1000; z+=20 ) {
+
+					// Make a sphere (exactly the same as before).
+					var geometry   = new THREE.SphereGeometry(0.5, 32, 32)
+					var material = new THREE.MeshBasicMaterial( {color: 0xffffff} );
+					var sphere = new THREE.Mesh(geometry, material)
+
+					// This time we give the sphere random x and y positions between -500 and 500
+					sphere.position.x = Math.random() * 1000 - 500;
+					sphere.position.y = Math.random() * 1000 - 500;
+
+					// Then set the z position to where it is in the loop (distance of camera)
+					sphere.position.z = z;
+
+					// scale it up a bit
+					sphere.scale.x = sphere.scale.y = 2;
+
+					//add the sphere to the scene
+					scene.add( sphere );
+
+					//finally push it to the stars array
+					stars.push(sphere);
+				}
+	}</pre>
+<p>As seen above, the <code>addSphere</code> function has only changed a little from what it was before. We first add a <code>for</code> loop to move the z position of the camera from -1000 to 1000 (line 4). Then, within the loop we use the exact same code as before to create a sphere, but this time we don't add it to the scene straight away (lines 7-9). Instead, a random x and y position is added to the sphere, and it's z position is then set based on where we are in the overall loop (lines 12-16).</p>
+<p>Finally, the sphere is scaled up slightly so we can see it better (line 19), and then added to the scene, and to the stars array (lines 22 and 25).</p>
+<h3>Step 3: Animate the star field</h3>
+<p>This is the final step, and all done by adding one suprisingly simple function, which we'll call <code>animateStars</code>:</p>
+<pre class="brush:js;auto-links:false;toolbar:false" contenteditable="false">	function animateStars() {
+
+		// loop through each star
+		for(var i=0; i&lt;stars.length; i++) {
+
+			star = stars[i];
+
+			// move it forward by a 10th of its array position each time
+			star.position.z +=  i/10;
+
+			// once the star is too close, reset its z position
+			if(star.position.z&gt;1000) star.position.z-=2000;
+		}
+	}</pre>
+<p>Here, we are iterating through every star in the stars array (line 4), and simply incrementing the z position (distance from the camera) of the star (line 9). Once the star is too close to the camera, we simply reset its z position so it starts moving forward again from the back (line 12).</p>
+<h3>Well done</h3>
+<p>At this point, you should have created the star field as shown in the demo at the top of this tutorial.</p>
+<p>The final source code is available <a href="https://github.com/GraemeFulton/threejs-starter/blob/master/Starfield.html" target="_blank">here on Github</a>.</p>
+<p>The next tutorial in this series will look into creating the terrain at the bottom of the visualization.</p>
+
+</p>
+      </article>
+    </div>
+  </div>
+</main>
+
+        <footer class="mdl-mega-footer">
+  <div class="mdl-mega-footer--middle-section">
+
+    <div class="mdl-mega-footer--drop-down-section">
+      <input class="mdl-mega-footer--heading-checkbox" type="checkbox" checked>
+      <h1 class="mdl-mega-footer--heading">INFO</h1>
+      <ul class="mdl-mega-footer--link-list">
+        <li><a href="mailto:creator@createwithcode.com">creator@createwithcode.com</a></li>
+        <li><a href="/feed.xml">subscribe via RSS</a></li>
+      </ul>
+    </div>
+
+    <div class="mdl-mega-footer--drop-down-section">
+      <input class="mdl-mega-footer--heading-checkbox" type="checkbox" checked>
+      <h1 class="mdl-mega-footer--heading">SOCIAL</h1>
+      <ul class="mdl-mega-footer--link-list">
+        
+        <li>
+          <a href="https://github.com/jekyll">
+            <span class="icon  icon--github">
+              <svg viewBox="0 0 16 16">
+                <path fill="#828282" d="M7.999,0.431c-4.285,0-7.76,3.474-7.76,7.761 c0,3.428,2.223,6.337,5.307,7.363c0.388,0.071,0.53-0.168,0.53-0.374c0-0.184-0.007-0.672-0.01-1.32 c-2.159,0.469-2.614-1.04-2.614-1.04c-0.353-0.896-0.862-1.135-0.862-1.135c-0.705-0.481,0.053-0.472,0.053-0.472 c0.779,0.055,1.189,0.8,1.189,0.8c0.692,1.186,1.816,0.843,2.258,0.645c0.071-0.502,0.271-0.843,0.493-1.037 C4.86,11.425,3.049,10.76,3.049,7.786c0-0.847,0.302-1.54,0.799-2.082C3.768,5.507,3.501,4.718,3.924,3.65 c0,0,0.652-0.209,2.134,0.796C6.677,4.273,7.34,4.187,8,4.184c0.659,0.003,1.323,0.089,1.943,0.261 c1.482-1.004,2.132-0.796,2.132-0.796c0.423,1.068,0.157,1.857,0.077,2.054c0.497,0.542,0.798,1.235,0.798,2.082 c0,2.981-1.814,3.637-3.543,3.829c0.279,0.24,0.527,0.713,0.527,1.437c0,1.037-0.01,1.874-0.01,2.129 c0,0.208,0.14,0.449,0.534,0.373c3.081-1.028,5.302-3.935,5.302-7.362C15.76,3.906,12.285,0.431,7.999,0.431z"/>
+              </svg>
+            </span>
+
+            <span class="username">jekyll</span>
+          </a>
+        </li>
+        
+        
+        <li>
+          <a href="https://twitter.com/jekyllrb">
+            <span class="icon  icon--twitter">
+              <svg viewBox="0 0 16 16">
+                <path fill="#828282" d="M15.969,3.058c-0.586,0.26-1.217,0.436-1.878,0.515c0.675-0.405,1.194-1.045,1.438-1.809
+                c-0.632,0.375-1.332,0.647-2.076,0.793c-0.596-0.636-1.446-1.033-2.387-1.033c-1.806,0-3.27,1.464-3.27,3.27 c0,0.256,0.029,0.506,0.085,0.745C5.163,5.404,2.753,4.102,1.14,2.124C0.859,2.607,0.698,3.168,0.698,3.767 c0,1.134,0.577,2.135,1.455,2.722C1.616,6.472,1.112,6.325,0.671,6.08c0,0.014,0,0.027,0,0.041c0,1.584,1.127,2.906,2.623,3.206 C3.02,9.402,2.731,9.442,2.433,9.442c-0.211,0-0.416-0.021-0.615-0.059c0.416,1.299,1.624,2.245,3.055,2.271 c-1.119,0.877-2.529,1.4-4.061,1.4c-0.264,0-0.524-0.015-0.78-0.046c1.447,0.928,3.166,1.469,5.013,1.469 c6.015,0,9.304-4.983,9.304-9.304c0-0.142-0.003-0.283-0.009-0.423C14.976,4.29,15.531,3.714,15.969,3.058z"/>
+              </svg>
+            </span>
+
+            <span class="username">jekyllrb</span>
+          </a>
+        </li>
+      
+      </ul>
+    </div>
+
+    <div class="mdl-mega-footer--drop-down-section">
+      <input class="mdl-mega-footer--heading-checkbox" type="checkbox" checked>
+      <h1 class="mdl-mega-footer--heading">ABOUT</h1>
+      <ul class="mdl-mega-footer--link-list">
+        <li>Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.
+</li>
+      </ul>
+    </div>
+
+
+  </div>
+
+  <div class="mdl-mega-footer--bottom-section">
+    <div class="mdl-logo">Creative with Code</div>
+    <ul class="mdl-mega-footer--link-list">
+      <li><a href="#">Help</a></li>
+      <li><a href="#">Privacy & Terms</a></li>
+    </ul>
+  </div>
+
+</footer>
+
+      </main>
+
+    </div>
+    <!-- /End Layout-->
+
+    <!-- Material Design Lite js Library -->
+    <script type="text/javascript" src="https://storage.googleapis.com/code.getmdl.io/1.0.0/material.min.js"></script>
+    
+  </body>
+
+</html>
