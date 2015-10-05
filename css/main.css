@@ -474,11 +474,13 @@ a img {
   z-index: 2; }
 
 .android-image-link {
-  text-decoration: none; }
+  text-decoration: none;
+  height: 180px; }
 
 .android-screen-image {
-  width: 100%;
-  z-index: 1; }
+  height: 100%;
+  z-index: 1;
+  max-width: 68vw; }
 
 .android-tablet .android-link {
   display: block;
@@ -555,10 +557,11 @@ a img {
 
 .android-card-container .mdl-card__media {
   overflow: hidden;
-  background: transparent; }
+  background: transparent;
+  height: 180px; }
 
 .android-card-container .mdl-card__media img {
-  width: 100%; }
+  height: 100%; }
 
 .android-card-container .mdl-card__title {
   background: transparent;
