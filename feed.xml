@@ -2,12 +2,12 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Creative with Code</title>
-    <description>Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.
+    <description>Get creative with code. We&#39;re about experimenting with new front end web technologies.
 </description>
     <link>http://yourdomain.com/</link>
     <atom:link href="http://yourdomain.com/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Mon, 05 Oct 2015 01:41:52 +0100</pubDate>
-    <lastBuildDate>Mon, 05 Oct 2015 01:41:52 +0100</lastBuildDate>
+    <pubDate>Mon, 05 Oct 2015 09:54:58 +0100</pubDate>
+    <lastBuildDate>Mon, 05 Oct 2015 09:54:58 +0100</lastBuildDate>
     <generator>Jekyll v2.5.3</generator>
     
       <item>
@@ -344,11 +344,11 @@ var camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHei
 
 </description>
         <pubDate>Tue, 08 Sep 2015 12:34:20 +0100</pubDate>
-        <link>http://yourdomain.com/threejs/2015/09/08/threejs-first-person-navigation.html</link>
-        <guid isPermaLink="true">http://yourdomain.com/threejs/2015/09/08/threejs-first-person-navigation.html</guid>
+        <link>http://yourdomain.com/webgl/2015/09/08/threejs-first-person-navigation.html</link>
+        <guid isPermaLink="true">http://yourdomain.com/webgl/2015/09/08/threejs-first-person-navigation.html</guid>
         
         
-        <category>threejs</category>
+        <category>webgl</category>
         
       </item>
     
@@ -615,11 +615,11 @@ console.log(&#39;mongodb connected&#39;);
 
 </description>
         <pubDate>Sun, 26 Jul 2015 12:34:20 +0100</pubDate>
-        <link>http://yourdomain.com/threejs/2015/07/26/threejs-infinite-world-webgl-part-1.html</link>
-        <guid isPermaLink="true">http://yourdomain.com/threejs/2015/07/26/threejs-infinite-world-webgl-part-1.html</guid>
+        <link>http://yourdomain.com/webgl/2015/07/26/threejs-infinite-world-webgl-part-1.html</link>
+        <guid isPermaLink="true">http://yourdomain.com/webgl/2015/07/26/threejs-infinite-world-webgl-part-1.html</guid>
         
         
-        <category>threejs</category>
+        <category>webgl</category>
         
       </item>
     
@@ -745,11 +745,11 @@ console.log(&#39;mongodb connected&#39;);
 
 </description>
         <pubDate>Sun, 26 Jul 2015 12:34:20 +0100</pubDate>
-        <link>http://yourdomain.com/threejs/2015/07/26/threejs-infinite-world-webgl.html</link>
-        <guid isPermaLink="true">http://yourdomain.com/threejs/2015/07/26/threejs-infinite-world-webgl.html</guid>
+        <link>http://yourdomain.com/webgl/2015/07/26/threejs-infinite-world-webgl.html</link>
+        <guid isPermaLink="true">http://yourdomain.com/webgl/2015/07/26/threejs-infinite-world-webgl.html</guid>
         
         
-        <category>threejs</category>
+        <category>webgl</category>
         
       </item>
     
@@ -798,11 +798,11 @@ console.log(&#39;mongodb connected&#39;);
 
 </description>
         <pubDate>Sat, 25 Jul 2015 12:34:20 +0100</pubDate>
-        <link>http://yourdomain.com/threejs/2015/07/25/threejs-infinite-world-webgl-part-0.html</link>
-        <guid isPermaLink="true">http://yourdomain.com/threejs/2015/07/25/threejs-infinite-world-webgl-part-0.html</guid>
+        <link>http://yourdomain.com/webgl/2015/07/25/threejs-infinite-world-webgl-part-0.html</link>
+        <guid isPermaLink="true">http://yourdomain.com/webgl/2015/07/25/threejs-infinite-world-webgl-part-0.html</guid>
         
         
-        <category>threejs</category>
+        <category>webgl</category>
         
       </item>
     

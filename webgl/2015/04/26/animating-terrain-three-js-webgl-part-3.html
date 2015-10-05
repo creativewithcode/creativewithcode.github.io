@@ -6,10 +6,10 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <title>First person navigation with threeJS</title>
-  <meta name="description" content="This tutorial will show you how&nbsp;to navigate through a 3D environment using your keyboard's arrows, much like a first person shooter game such as Doom (o...">
+  <title>Seeing sounds [Part 3]: Star field + Terrain</title>
+  <meta name="description" content="Previously, we learned how to create an animating star field in&nbsp;part 1 of the Seeing Sounds series with the outcome below:See the Pen Three.js - Star fi...">
 
-  <link rel="canonical" href="http://yourdomain.com/threejs/2015/09/08/threejs-first-person-navigation.html">
+  <link rel="canonical" href="http://yourdomain.com/webgl/2015/04/26/animating-terrain-three-js-webgl-part-3.html">
   <link rel="alternate" type="application/rss+xml" title="Creative with Code" href="http://yourdomain.com/feed.xml" />
 
   <!-- Material Design Lite css Library -->
@@ -49,7 +49,7 @@
         
       
         
-        <a class="mdl-navigation__link" href="/threejs/index.html">threejs</a>
+        <a class="mdl-navigation__link" href="/webgl/index.html">webgl</a>
         
       
         
@@ -106,7 +106,7 @@
       
     
       
-      <a class="mdl-navigation__link" href="/threejs/index.html">threejs</a>
+      <a class="mdl-navigation__link" href="/webgl/index.html">webgl</a>
       
     
       
@@ -134,113 +134,21 @@
     <div class="mdl-cell mdl-cell--2-col mdl-cell--hide-tablet mdl-cell--hide-phone"></div>
     <div class="post-section mdl-color--white mdl-shadow--4dp content mdl-color-text--grey-800 mdl-cell mdl-cell--8-col">
       <div class="mdl-color-text--grey-500">
-      Sep 8, 2015 • Graeme Fulton •  threejs  
+      Apr 26, 2015 • Graeme Fulton •  webgl  
       </div>
       <br>
-      <img src="/img/doom.jpg" style="width:100%;"/>
-      <h3>First person navigation with threeJS</h3>
+      <img src="/img/terrain-stars.jpg" style="width:100%;"/>
+      <h3>Seeing sounds [Part 3]: Star field + Terrain</h3>
       <article class="post-content">
-        <p><p>This tutorial will show you how&nbsp;to navigate through a 3D environment using your keyboard's arrows, much like a first person shooter game such as Doom (or Halo these days). To achieve this, you'll need three things:</p>
-<ol>
-<li>A surface to navigate along - use <a href="http://threejs.org/docs/#Reference/Extras.Geometries/PlaneGeometry" target="_blank">planeGeometry</a>&nbsp;or follow <a title="terrain guide" href="/threejs/2015/04/25/create-terrain-three-js-webgl-part-2.html" target="_blank">this guide</a>&nbsp;to set up a fancier terrain</li>
-<li>The&nbsp;<a title="threex keyboardstate" href="https://github.com/jeromeetienne/threex.keyboardstate" target="_blank">ThreeX.Keyboardstate script by Jerome Etienne</a></li>
-<li>Some music - this is just for you to enjoy following the tutorial more</li>
-</ol>
-<hr />
-
-<h3>&nbsp;Step 1: Include the ThreeX.Keyboardstate Script</h3>
-<p>An easy first step -&nbsp;just include the ThreeX.Keyboardstate script underneath the main three.js script:</p>
-<pre class="brush:html;auto-links:false;toolbar:false" contenteditable="false">  &lt;script src="libs/three.js"&gt;&lt;/script&gt;
-  &lt;script src="libs/THREEx.KeyboardState.js"&gt;&lt;/script&gt; </pre>
-<hr />
-
-<h3>Step 2: Create a skeleton Camera Control Object</h3>
-<p>Using the <a title="combination constructor pattern" href="/threejs/2015/05/03/object-oriented-javascript-for-beginners.html" target="_blank">combination/constructor prototype pattern</a>&nbsp;(a way&nbsp;of writing object oriented JavaScript),&nbsp;create a Camera Controls object:</p>
-<pre class="brush:js;auto-links:false;toolbar:false" contenteditable="false">  /**
-   * CameraControls
-   */
-  function CameraControls(){
-    //constructor
-  }
-
-  CameraControls.prototype={
-    constructor:CameraControls
-  };</pre>
-<p>Above is the basic structure for our CameraControl object:</p>
-<ul>
-<li>In line 4, we define create the constructor for the CameraControls object.</li>
-<li>In line 8, we add the constructor to the CameraControls object&nbsp;</li>
-</ul>
-<p>Now inside the prototype declaration, we can add a function called 'update' which will contain all the code related to moving the camera around the world:</p>
-<pre class="brush:js;auto-links:false;toolbar:false" contenteditable="false">  CameraControls.prototype={
-    constructor:CameraControls,
-
-    update:function(camera, keyboard, clock){
-      //functionality to go here
-    }
-
-  };</pre>
-<p>Line 4 shows the new update function, which has camera, keyboard and clock variables:</p>
-<ul>
-<li>It's obvious what the camera is</li>
-<li>Keyboard will be a&nbsp;ThreeX.Keyboardstate instance</li>
-</ul>
-<p>Now your set up, and we can start adding in the main functionality to control the camera position.</p>
-<hr />
-
-<h3>Step 3: Move the camera using ThreeX.Keyboardstate</h3>
-<p>Inside the <code>update</code> function created in the previous step, we'll add all the code to move the camera about - using the ThreeX.Keyboardstate script included in step 1.</p>
-<p>To start, define 3 variables at the top of the update function:</p>
-<pre class="brush:js;auto-links:false;toolbar:false" contenteditable="false">var delta = clock.getDelta(); // seconds.
-var moveDistance = 150 * delta; // 200 pixels per second
-var rotateAngle = Math.PI / 2 * delta;   // pi/2 radians (90 degrees) per second
-    	</pre>
-<p>What are these for?</p>
-<ul>
-<li><code>delta</code> uses the clock instance passed into the update function - it is used to define the speed in <code>moveDistance</code> and <code>rotateAngle</code></li>
-<li><code>moveDistance</code> defines how many pixels the camera will move per second when a direction key is pressed</li>
-<li><code>rotateAngle</code> does the same as <code>moveDistance</code>, but for rotating left and right</li>
-</ul>
-<p>Now we can move onto hooking up the keyboard presses&nbsp;with the camera. &nbsp;Keep in mind that in the following codeblock, <code>keyboard</code>&nbsp;is a <code>ThreeX.Keyboardstate&nbsp;</code>object passed into the update function, so has some awesome functionality. The <code>keyboard</code> (ThreeX.Keyboardstate instance) object has a <code>pressed()</code>&nbsp;function, which accepts any key on the keyboard as a parameter. Therefore, to detect if the up arrow is being pressed, we can pass in "up":</p>
-<pre class="brush:html;auto-links:false;toolbar:false" contenteditable="false">if ( keyboard.pressed("up") ){
-    //if up is pressed, move the camera into the screen
-    camera.translateZ( -moveDistance );
-}</pre>
-<p>Above, we use the <code>translateZ</code> function available to the camera object, and move the camera into the screen (away from you) by providing a negative <code>moveDistance</code> value.</p>
-<p>That's actually as complicated as it gets - implementations of the&nbsp;other arrow key presses can be seen below. Left and right rotate the camera rather than move it:</p>
-<pre class="brush:js;auto-links:false;toolbar:false" contenteditable="false">// move forwards/backwards/left/right
-//up
-if ( keyboard.pressed("up") )
-    		camera.translateZ( -moveDistance );
-//down
-if ( keyboard.pressed("down") )
-    		camera.translateZ(  moveDistance );
-
-// rotate left/right
-THREE.Matrix4().identity();
-
-//left
-if ( keyboard.pressed("left") )
-    camera.rotateOnAxis( new THREE.Vector3(0,1,0), rotateAngle);
-//right
-if ( keyboard.pressed("right") )
-    camera.rotateOnAxis( new THREE.Vector3(0,1,0), -rotateAngle);</pre>
-<hr />
-
-<h3>Step 4: Use the CameraControls object in your main script</h3>
-<p>To actually use the object created in the previous steps, you first have to create an instance of it:</p>
-<pre class="brush:html;auto-links:false;toolbar:false" contenteditable="false">var cameraControls = new CameraControls();</pre>
-<p>Then, create the keyboard instance (along with clock and camera):</p>
-<pre class="brush:html;auto-links:false;toolbar:false" contenteditable="false">var keyboard = new THREEx.KeyboardState();
-var clock = new THREE.Clock();
-var camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 1, 1000);</pre>
-<p>And finally use the update function we created in the render function of your main three.js script:</p>
-<pre class="brush:html;auto-links:false;toolbar:false" contenteditable="false">cameraControls.update(camera,keyboard,clock);</pre>
-<hr />
-
-<h3>Well Done</h3>
-<p>Congrats, you're done - if there's any questions/improvements please add them in the comments.</p>
-<p>&nbsp;</p>
+        <p><p>Previously, we learned how to create an animating star field in&nbsp;<a href="/threejs/2015/04/23/create-star-field-three-js-webgl-part-1.html">part 1</a> of the Seeing Sounds series with the outcome below:</p>
+<p><iframe style="width: 100%;" src="//codepen.io/GraemeFulton/embed/BNyQMM/?height=268&amp;theme-id=0" width="300" height="268" frameborder="no" scrolling="no" allowfullscreen="allowfullscreen">See the Pen <a href="http://codepen.io/GraemeFulton/pen/BNyQMM/">Three.js - Star field</a> by Graeme Fulton (<a href="http://codepen.io/GraemeFulton">@GraemeFulton</a>) on <a href="http://codepen.io">CodePen</a>.</iframe></p>
+<p>Then, in <a href="/threejs/2015/04/25/create-terrain-three-js-webgl-part-2.html">part 2</a>, we learned how to create the following terrain:</p>
+<p><iframe style="width: 100%;" src="//codepen.io/GraemeFulton/embed/GJgWNZ/?height=268&amp;theme-id=0" width="300" height="268" frameborder="no" scrolling="no" allowfullscreen="allowfullscreen">See the Pen <a href="http://codepen.io/GraemeFulton/pen/GJgWNZ/">Three.js - Bumpy terrain</a> by Graeme Fulton (<a href="http://codepen.io/GraemeFulton">@GraemeFulton</a>) on <a href="http://codepen.io">CodePen</a>.</iframe></p>
+<p>In this tutorial, all we will do is combine the code produced from these two lessons to produce a terrain at the bottom with a starfield flying above it. This is so simple that it can be explained in just one step:</p>
+<h3>Step 1 of 1: Combine the code</h3>
+<p>All we need to do to combine these scenes is add the new bits of code from part 2 to the code from the end of part 1. That is, we need to insert the <code>addLight</code> and <code>addGround</code> functions, and the Perlin noise generator code, and also the Perlin variables to the top of our file. Doing so will produce our combined scene as below:</p>
+<p><iframe style="width: 100%;" src="//codepen.io/GraemeFulton/embed/oXgqqP/?height=600&amp;theme-id=0" width="300" height="456" frameborder="no" scrolling="no" allowfullscreen="allowfullscreen">See the Pen <a href="http://codepen.io/GraemeFulton/pen/oXgqqP/">Three.js - Star field and Terrain</a> by Graeme Fulton (<a href="http://codepen.io/GraemeFulton">@GraemeFulton</a>) on <a href="http://codepen.io">CodePen</a>.</iframe></p>
+<p>The entire code can be seen <a href="https://github.com/GraemeFulton/threejs-starter/blob/master/StarsAndTerrain.html" target="_blank">here on GitHub</a></p>
 
 </p>
       </article>
@@ -266,20 +174,20 @@ var camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHei
       <ul class="mdl-mega-footer--link-list">
         
         <li>
-          <a href="https://github.com/jekyll">
+          <a href="https://github.com/creativewithcode">
             <span class="icon  icon--github">
               <svg viewBox="0 0 16 16">
                 <path fill="#828282" d="M7.999,0.431c-4.285,0-7.76,3.474-7.76,7.761 c0,3.428,2.223,6.337,5.307,7.363c0.388,0.071,0.53-0.168,0.53-0.374c0-0.184-0.007-0.672-0.01-1.32 c-2.159,0.469-2.614-1.04-2.614-1.04c-0.353-0.896-0.862-1.135-0.862-1.135c-0.705-0.481,0.053-0.472,0.053-0.472 c0.779,0.055,1.189,0.8,1.189,0.8c0.692,1.186,1.816,0.843,2.258,0.645c0.071-0.502,0.271-0.843,0.493-1.037 C4.86,11.425,3.049,10.76,3.049,7.786c0-0.847,0.302-1.54,0.799-2.082C3.768,5.507,3.501,4.718,3.924,3.65 c0,0,0.652-0.209,2.134,0.796C6.677,4.273,7.34,4.187,8,4.184c0.659,0.003,1.323,0.089,1.943,0.261 c1.482-1.004,2.132-0.796,2.132-0.796c0.423,1.068,0.157,1.857,0.077,2.054c0.497,0.542,0.798,1.235,0.798,2.082 c0,2.981-1.814,3.637-3.543,3.829c0.279,0.24,0.527,0.713,0.527,1.437c0,1.037-0.01,1.874-0.01,2.129 c0,0.208,0.14,0.449,0.534,0.373c3.081-1.028,5.302-3.935,5.302-7.362C15.76,3.906,12.285,0.431,7.999,0.431z"/>
               </svg>
             </span>
 
-            <span class="username">jekyll</span>
+            <span class="username">creativewithcode</span>
           </a>
         </li>
         
         
         <li>
-          <a href="https://twitter.com/jekyllrb">
+          <a href="https://twitter.com/creativewithcode">
             <span class="icon  icon--twitter">
               <svg viewBox="0 0 16 16">
                 <path fill="#828282" d="M15.969,3.058c-0.586,0.26-1.217,0.436-1.878,0.515c0.675-0.405,1.194-1.045,1.438-1.809
@@ -287,7 +195,7 @@ var camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHei
               </svg>
             </span>
 
-            <span class="username">jekyllrb</span>
+            <span class="username">creativewithcode</span>
           </a>
         </li>
       
@@ -298,7 +206,7 @@ var camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHei
       <input class="mdl-mega-footer--heading-checkbox" type="checkbox" checked>
       <h1 class="mdl-mega-footer--heading">ABOUT</h1>
       <ul class="mdl-mega-footer--link-list">
-        <li>Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.
+        <li>Get creative with code. We're about experimenting with new front end web technologies.
 </li>
       </ul>
     </div>
