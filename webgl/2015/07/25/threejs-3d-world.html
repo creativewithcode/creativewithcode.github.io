@@ -143,10 +143,10 @@
         <p><p>Using three.js, there are different ways to create the effect of an 'infinite world' where a user can never reach the end due to it dynamically regenerating more terrain.</p>
 <p>This post looks at a couple alternative ways to create this effect, leading towards the goal of enabling a user to&nbsp;navigate a&nbsp;world in&nbsp;first person, without&nbsp;reaching the edge.</p>
 <h3>1. The stationary camera trick</h3>
-<p>One possible way to create this effect can be seen in '<a title="Seeing sounds part 4" href="/threejs/2015/05/03/animating-terrain-three-js-webgl-part-4.html">Seeing Sounds&nbsp;Part 4</a>' where&nbsp;the terrain was infinitely animating based on a stationary camera. Here, objects are&nbsp;animated towards and past the camera, to be repositioned at the start where the cycle would continue, as seen below:</p>
+<p>One possible way to create this effect can be seen in '<a title="Seeing sounds part 4" href="/webgl/2015/05/03/animating-terrain-three-js-webgl-part-4.html">Seeing Sounds&nbsp;Part 4</a>' where&nbsp;the terrain was infinitely animating based on a stationary camera. Here, objects are&nbsp;animated towards and past the camera, to be repositioned at the start where the cycle would continue, as seen below:</p>
 <p><img src="/img/cam-a.png" alt="" width="300" height="396" />
 <img src="/img/cam-b.png" alt="" width="300" height="396" /></p>
-<p>I've used stars in the&nbsp;diagram above as it's the same example&nbsp;used in a previous&nbsp;<a title="star field" href="/threejs/2015/04/23/create-star-field-three-js-webgl-part-1.html">stars tutorial</a>&nbsp;I have written which you can read to get a better understanding of the method. The stars can be used interchangably with other objects such as large planes of terrain.</p>
+<p>I've used stars in the&nbsp;diagram above as it's the same example&nbsp;used in a previous&nbsp;<a title="star field" href="/webgl/2015/04/23/create-star-field-three-js-webgl-part-1.html">stars tutorial</a>&nbsp;I have written which you can read to get a better understanding of the method. The stars can be used interchangably with other objects such as large planes of terrain.</p>
 <h3>2. First person infinite worlds</h3>
 <p>The previous&nbsp;method&nbsp;is fine for situations where the camera is stationary, but&nbsp;if we want to enable a user to explore&nbsp;the world in first person (like a shooting game such as doom),&nbsp;the camera would now be following the user, meaning the above trick&nbsp;wouldn't work (correct me if I'm wrong in the comments).</p>
 <p>To enable a first person mode and still&nbsp;create an 'infinite world' effect, we would now need to track the movement of the camera, and position&nbsp;the ground around it as seen in this <a title="three.js infinite terrain" href="https://onlysickdontseek.wordpress.com/2014/08/10/algorithm-for-procedural-terrains-what-i-used-in-my-project/" target="_blank">blog</a>, and the image below:</p>
@@ -156,7 +156,7 @@
 <p>For example,&nbsp;if the camera moves from the centre into the next terrain on the left (in the image it would move one square to the left), the set of terrains from the right (those circled in the image) would be repositioned in front of the camera to the left (as shown by the arrow in the diagram) - thereby keeping the camera in a&nbsp;central square.&nbsp;</p>
 <p>This idea is explained further in <a title="infinite terrain" href="https://onlysickdontseek.wordpress.com/2014/08/10/algorithm-for-procedural-terrains-what-i-used-in-my-project/" target="_blank">this blog</a>, so read there for more details.</p>
 <h3>Trying it out</h3>
-<p>I have now created a first version of this which can be seen&nbsp;<a title="Infinite three.js world" href="/threejs/2015/07/25/threejs-infinite-world-webgl-part-0.html">here</a>.&nbsp;</p>
+<p>I have now created a first version of this which can be seen&nbsp;<a title="Infinite three.js world" href="/webgl/2015/07/25/threejs-infinite-world-webgl-part-0.html">here</a>.&nbsp;</p>
 
 </p>
       </article>
