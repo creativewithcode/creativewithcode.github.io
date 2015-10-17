@@ -20,6 +20,13 @@ blockquote {
   blockquote > :last-child {
     margin-bottom: 0; }
 
+blockquote::after {
+  content: none !important;
+  margin-left: -0.05em; }
+
+blockquote::before {
+  content: none !important; }
+
 /**
  * Code formatting
  */
@@ -513,8 +520,7 @@ a img {
   text-decoration: none; }
 
 .android-link .material-icons {
-  position: relative;
-  top: 6px; }
+  position: relative; }
 
 .android-alt-link {
   text-decoration: none;
