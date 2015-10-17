@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>The MEAN Stack on Heroku : configuring MongoDB and Gulp</title>
+  <meta name="description" content="I&rsquo;ve been working with the MEAN stack, following an example in Jeff Dickey&rsquo;s book: &ldquo;Write Modern Web Apps with the MEAN Stack&rdquo; to cre...">
+
+  <link rel="canonical" href="http://yourdomain.com/technical/2015/08/10/mean-stack-heroku-mongodb-gulp.html">
+  <link rel="alternate" type="application/rss+xml" title="Creative with Code" href="http://yourdomain.com/feed.xml" />
+
+  <!-- Material Design Lite css Library -->
+  <link rel="stylesheet" href="https://storage.googleapis.com/code.getmdl.io/1.0.5/material.deep_purple-green.min.css" />
+
+  <!-- Material Design Fonts -->
+  <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+
+  <!-- Custom theme css -->
+  <link rel="stylesheet" href="/css/main.css">
+</head>
+
+
+  <body>
+
+    <!-- Start Layout -->
+    
+    <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
+        <header class="mdl-layout__header">
+
+    <div class="mdl-layout__header-row">
+      <!-- Title -->
+      <span class="mdl-layout-title"><a href="/index.html" style="text-decoration:none; color:#fff;">Creative with Code</a></span>
+      <!-- Add spacer, to align navigation to the right -->
+      <div class="mdl-layout-spacer"></div>
+      <!-- Navigation. We hide it in small screens. -->
+      <nav class="mdl-navigation mdl-layout--large-screen-only">
+      
+        
+        <a class="mdl-navigation__link" href="/about/">About</a>
+        
+      
+        
+      
+        
+      
+        
+      
+        
+        <a class="mdl-navigation__link" href="/webgl/index.html">webgl</a>
+        
+      
+        
+        <a class="mdl-navigation__link" href="/technical/index.html">technical</a>
+        
+      
+        
+        <a class="mdl-navigation__link" href="/audio/index.html">audio</a>
+        
+      
+        
+        <a class="mdl-navigation__link" href="/design/index.html">design</a>
+        
+      
+      </nav>
+
+      <div class="android-search-box mdl-textfield mdl-js-textfield mdl-textfield--expandable mdl-textfield--floating-label mdl-textfield--align-right mdl-textfield--full-width">
+        <label class="mdl-button mdl-js-button mdl-button--icon" for="search-field">
+          <i class="material-icons">search</i>
+        </label>
+        <div class="mdl-textfield__expandable-holder">
+          <input class="mdl-textfield__input" type="text" id="search-field" />
+        </div>
+      </div>
+
+      <button class="mdl-button mdl-js-button mdl-button--icon" id="menu-lower-left">
+        <i class="material-icons">more_vert</i>
+      </button>
+
+      <ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="menu-lower-left">
+        
+        <li><a href="www.myawesomelink.com" class="mdl-menu__item">Cool Option 1</a></li>
+        
+        <li><a href="www.myawesomelink.com" class="mdl-menu__item">Cool Option 2</a></li>
+        
+        <li><a href="www.myawesomelink.com" class="mdl-menu__item">Cool Option 3</a></li>
+        
+      </ul>
+    </div>
+  </header>
+
+  <div class="mdl-layout__drawer">
+    <span class="mdl-layout-title">Menu</span>
+    <nav class="mdl-navigation">
+    
+      
+      <a class="mdl-navigation__link" href="/about/">About</a>
+      
+    
+      
+    
+      
+    
+      
+    
+      
+      <a class="mdl-navigation__link" href="/webgl/index.html">webgl</a>
+      
+    
+      
+      <a class="mdl-navigation__link" href="/technical/index.html">technical</a>
+      
+    
+      
+      <a class="mdl-navigation__link" href="/audio/index.html">audio</a>
+      
+    
+      
+      <a class="mdl-navigation__link" href="/design/index.html">design</a>
+      
+    
+    </nav>
+
+  </div>
+
+    
+
+      <main class="mdl-layout__content">
+        <div class="post-ribbon"></div>
+<main class="post-main mdl-layout__content">
+  <div class="post-container mdl-grid">
+    <div class="mdl-cell mdl-cell--2-col mdl-cell--hide-tablet mdl-cell--hide-phone"></div>
+    <div class="post-section mdl-color--white mdl-shadow--4dp content mdl-color-text--grey-800 mdl-cell mdl-cell--8-col">
+      <div class="mdl-color-text--grey-500">
+      Aug 10, 2015 • Graeme Fulton •  technical  
+      </div>
+      <br>
+      <img src="https://fbcdn-photos-f-a.akamaihd.net/hphotos-ak-xpt1/v/t1.0-0/p206x206/11998970_956066974452315_7529215656206182610_n.png?oh=0a2b013a22f48e489f5d4b1853291828&oe=5663CB93&__gda__=1449596085_9ada145c05f2d017e44b5fd39502c1da" style="width:100%;"/>
+      <h3>The MEAN Stack on Heroku : configuring MongoDB and Gulp</h3>
+      <article class="post-content">
+        <p><p class="p1">I&rsquo;ve been working with the MEAN stack, following an example in Jeff Dickey&rsquo;s book: &ldquo;Write Modern Web Apps with the MEAN Stack&rdquo; to create a web&nbsp;application. &nbsp;I had it working fine locally, but encountered a few problems when deploying the app in the cloud using Heroku, which is what I'm outlining in this post. I'll start with how I create the app from the web interface, and then configuring MongoDB and Gulp to work on Heroku.&nbsp;</p>
+<h3 class="p1">1. Create a Heroku App&nbsp;</h3>
+<p class="p1"><span class="s1">Here was my general process:</span></p>
+<ol>
+<li>Create a new app in from the Heroku web interface</li>
+<li>Clone my git repository and <code>cd</code> into my cloned project directory</li>
+<li>Then follow the instructions provided by heroku to log into and push the app up:<br /><br />
+<p style="box-sizing: border-box; margin-right: 0px; margin-bottom: 10px; margin-left: 0px; line-height: 24px; font-size: 13px; color: #7d7d8e; font-family: benton-sans, 'Helvetica Neue', helvetica, arial, sans-serif; -webkit-font-smoothing: subpixel-antialiased !important;">If you haven't already, log in to your Heroku account and follow the prompts to create a new SSH public key.</p>
+<pre style="box-sizing: border-box; overflow: auto; font-size: 13px; font-family: Menlo, Monaco, Consolas, 'Courier New', monospace; padding: 9.5px; margin-top: 0px; margin-bottom: 10px; line-height: 1.42857; word-break: break-all; word-wrap: break-word; color: #3f3f44; border: 1px solid #e0e0e6; border-radius: 4px; -webkit-font-smoothing: subpixel-antialiased !important; background-color: #fcfcfd;">$ heroku login</pre>
+<h4 style="box-sizing: border-box; font-family: benton-sans, 'Helvetica Neue', helvetica, arial, sans-serif; font-weight: 400; line-height: 1.1; color: #3f3f44; margin-top: 20px; margin-bottom: 10px; -webkit-font-smoothing: subpixel-antialiased !important;">Clone the repository</h4>
+<p style="box-sizing: border-box; margin-right: 0px; margin-bottom: 10px; margin-left: 0px; line-height: 24px; font-size: 13px; color: #7d7d8e; font-family: benton-sans, 'Helvetica Neue', helvetica, arial, sans-serif; -webkit-font-smoothing: subpixel-antialiased !important;">Use Git to clone&nbsp;social-app-test's source code to your local machine.</p>
+<pre style="box-sizing: border-box; overflow: auto; font-size: 13px; font-family: Menlo, Monaco, Consolas, 'Courier New', monospace; padding: 9.5px; margin-top: 0px; margin-bottom: 10px; line-height: 1.42857; word-break: break-all; word-wrap: break-word; color: #3f3f44; border: 1px solid #e0e0e6; border-radius: 4px; -webkit-font-smoothing: subpixel-antialiased !important; background-color: #fcfcfd;">$ heroku git:clone -a app-name
+$ cd app-name</pre>
+<h4 style="box-sizing: border-box; font-family: benton-sans, 'Helvetica Neue', helvetica, arial, sans-serif; font-weight: 400; line-height: 1.1; color: #3f3f44; margin-top: 20px; margin-bottom: 10px; -webkit-font-smoothing: subpixel-antialiased !important;">Deploy your changes</h4>
+<p style="box-sizing: border-box; margin-right: 0px; margin-bottom: 10px; margin-left: 0px; line-height: 24px; font-size: 13px; color: #7d7d8e; font-family: benton-sans, 'Helvetica Neue', helvetica, arial, sans-serif; -webkit-font-smoothing: subpixel-antialiased !important;">Make some changes to the code you just cloned deploy them to Heroku using Git.</p>
+<pre style="box-sizing: border-box; overflow: auto; font-size: 13px; font-family: Menlo, Monaco, Consolas, 'Courier New', monospace; padding: 9.5px; margin-top: 0px; margin-bottom: 10px; line-height: 1.42857; word-break: break-all; word-wrap: break-word; color: #3f3f44; border: 1px solid #e0e0e6; border-radius: 4px; -webkit-font-smoothing: subpixel-antialiased !important; background-color: #fcfcfd;">$ git add .
+$ git commit -am "make it better"
+$ git push heroku master<br /><br /></pre>
+</li>
+</ol>
+<p>At this stage, I was getting the following Heroku application error when visiting the URL of my new app:</p>
+<p><img src="http://i.stack.imgur.com/QvuHW.png" alt="Heroku Application Error" width="513" height="208" /></p>
+<p class="p3"><span class="s1">There were a couple problems causing this - the MongoDB connection is broken, and the gulp tasks aren't running. These problems are addressed below:</span></p>
+<h3>2. Fixing the MongoDB Connection</h3>
+<p>To run MongoDB on Heroku, you need to install it as a service for your app, which can be done in one line:</p>
+<p class="p3"><code><span class="s1">heroku addons:add mongolab &nbsp;</span></code></p>
+<p>Once MongoLab is installed, you&rsquo;ll need to ensure your mongoose connection is set to use Heroku&rsquo;s environmental variable, as well as your own (so you don't break how things work locally). That can be done really easily by adding the&nbsp;<code>process.env.MONGOLAB_URL</code>&nbsp;variable when&nbsp;using <code>mongoose.connect()</code>. For my app it was in my db.js file:</p>
+<p class="p2">&nbsp;</p>
+<pre class="brush:js;auto-links:false;toolbar:false" contenteditable="false">mongoose.connect(process.env.MONGOLAB_URI || 'mongodb://localhost/social', function(){
+
+console.log('mongodb connected');
+
+})
+</pre>
+<p class="p3">&nbsp;</p>
+<h3 class="p3">3.&nbsp;Running gulp on Heroku</h3>
+<p class="p5">&nbsp;To run the app locally, I was entering <code>gulp dev</code>&nbsp;from the console, which was running a bunch of tasks to build and serve the app.&nbsp;</p>
+<p class="p2">Of course, when you push the app to Heroku, this step is missing so the app never builds. This can be easily solved by modifying your <code>package.json</code> to include a <strong>start script</strong> which is always run by Heroku. In the start script, you can enter any tasks you want to run straight away - mine was <code>gulp dev</code>:</p>
+<p class="p2">&nbsp;</p>
+<pre class="brush:js;auto-links:false;toolbar:false" contenteditable="false">&nbsp; "scripts": {
+
+&nbsp; &nbsp; "start": "gulp dev"
+
+&nbsp; }</pre>
+<p class="p2">Now you can commit and push those changes to Heroku and it should work. If it doesn&rsquo;t, just run <code>heroku logs</code>&nbsp;from the terminal, and do some googling around the errors.&nbsp;</p>
+<h3 class="p2">What's next?</h3>
+<p class="p2"><a title="MongoDB + Bluemix" href="/threejs/2015/09/07/mean-stack-ibm-bluemix.html" target="_blank">Doing the same thing with IBM Bluemix</a></p>
+
+</p>
+      </article>
+    </div>
+  </div>
+</main>
+
+        <footer class="mdl-mega-footer">
+  <div class="mdl-mega-footer--middle-section">
+
+    <div class="mdl-mega-footer--drop-down-section">
+      <input class="mdl-mega-footer--heading-checkbox" type="checkbox" checked>
+      <h1 class="mdl-mega-footer--heading">INFO</h1>
+      <ul class="mdl-mega-footer--link-list">
+        <li><a href="mailto:creator@createwithcode.com">creator@createwithcode.com</a></li>
+        <li><a href="/feed.xml">subscribe via RSS</a></li>
+      </ul>
+    </div>
+
+    <div class="mdl-mega-footer--drop-down-section">
+      <input class="mdl-mega-footer--heading-checkbox" type="checkbox" checked>
+      <h1 class="mdl-mega-footer--heading">SOCIAL</h1>
+      <ul class="mdl-mega-footer--link-list">
+        
+        <li>
+          <a href="https://github.com/creativewithcode">
+            <span class="icon  icon--github">
+              <svg viewBox="0 0 16 16">
+                <path fill="#828282" d="M7.999,0.431c-4.285,0-7.76,3.474-7.76,7.761 c0,3.428,2.223,6.337,5.307,7.363c0.388,0.071,0.53-0.168,0.53-0.374c0-0.184-0.007-0.672-0.01-1.32 c-2.159,0.469-2.614-1.04-2.614-1.04c-0.353-0.896-0.862-1.135-0.862-1.135c-0.705-0.481,0.053-0.472,0.053-0.472 c0.779,0.055,1.189,0.8,1.189,0.8c0.692,1.186,1.816,0.843,2.258,0.645c0.071-0.502,0.271-0.843,0.493-1.037 C4.86,11.425,3.049,10.76,3.049,7.786c0-0.847,0.302-1.54,0.799-2.082C3.768,5.507,3.501,4.718,3.924,3.65 c0,0,0.652-0.209,2.134,0.796C6.677,4.273,7.34,4.187,8,4.184c0.659,0.003,1.323,0.089,1.943,0.261 c1.482-1.004,2.132-0.796,2.132-0.796c0.423,1.068,0.157,1.857,0.077,2.054c0.497,0.542,0.798,1.235,0.798,2.082 c0,2.981-1.814,3.637-3.543,3.829c0.279,0.24,0.527,0.713,0.527,1.437c0,1.037-0.01,1.874-0.01,2.129 c0,0.208,0.14,0.449,0.534,0.373c3.081-1.028,5.302-3.935,5.302-7.362C15.76,3.906,12.285,0.431,7.999,0.431z"/>
+              </svg>
+            </span>
+
+            <span class="username">creativewithcode</span>
+          </a>
+        </li>
+        
+        
+        <li>
+          <a href="https://twitter.com/creativewithcode">
+            <span class="icon  icon--twitter">
+              <svg viewBox="0 0 16 16">
+                <path fill="#828282" d="M15.969,3.058c-0.586,0.26-1.217,0.436-1.878,0.515c0.675-0.405,1.194-1.045,1.438-1.809
+                c-0.632,0.375-1.332,0.647-2.076,0.793c-0.596-0.636-1.446-1.033-2.387-1.033c-1.806,0-3.27,1.464-3.27,3.27 c0,0.256,0.029,0.506,0.085,0.745C5.163,5.404,2.753,4.102,1.14,2.124C0.859,2.607,0.698,3.168,0.698,3.767 c0,1.134,0.577,2.135,1.455,2.722C1.616,6.472,1.112,6.325,0.671,6.08c0,0.014,0,0.027,0,0.041c0,1.584,1.127,2.906,2.623,3.206 C3.02,9.402,2.731,9.442,2.433,9.442c-0.211,0-0.416-0.021-0.615-0.059c0.416,1.299,1.624,2.245,3.055,2.271 c-1.119,0.877-2.529,1.4-4.061,1.4c-0.264,0-0.524-0.015-0.78-0.046c1.447,0.928,3.166,1.469,5.013,1.469 c6.015,0,9.304-4.983,9.304-9.304c0-0.142-0.003-0.283-0.009-0.423C14.976,4.29,15.531,3.714,15.969,3.058z"/>
+              </svg>
+            </span>
+
+            <span class="username">creativewithcode</span>
+          </a>
+        </li>
+      
+      </ul>
+    </div>
+
+    <div class="mdl-mega-footer--drop-down-section">
+      <input class="mdl-mega-footer--heading-checkbox" type="checkbox" checked>
+      <h1 class="mdl-mega-footer--heading">ABOUT</h1>
+      <ul class="mdl-mega-footer--link-list">
+        <li>Get creative with code. We're about experimenting with new front end web technologies.
+</li>
+      </ul>
+    </div>
+
+
+  </div>
+
+  <div class="mdl-mega-footer--bottom-section">
+    <div class="mdl-logo">Creative with Code</div>
+    <ul class="mdl-mega-footer--link-list">
+      <li><a href="#">Help</a></li>
+      <li><a href="#">Privacy & Terms</a></li>
+    </ul>
+  </div>
+
+</footer>
+
+      </main>
+
+    </div>
+    <!-- /End Layout-->
+
+    <!-- Material Design Lite js Library -->
+    <script type="text/javascript" src="https://storage.googleapis.com/code.getmdl.io/1.0.0/material.min.js"></script>
+    
+  </body>
+
+</html>

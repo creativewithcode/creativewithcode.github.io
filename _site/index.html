@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Creative with Code</title>
+  <meta name="description" content="Get creative with code. We're about experimenting with new front end web technologies.
+">
+
+  <link rel="canonical" href="http://yourdomain.com/">
+  <link rel="alternate" type="application/rss+xml" title="Creative with Code" href="http://yourdomain.com/feed.xml" />
+
+  <!-- Material Design Lite css Library -->
+  <link rel="stylesheet" href="https://storage.googleapis.com/code.getmdl.io/1.0.5/material.deep_purple-green.min.css" />
+
+  <!-- Material Design Fonts -->
+  <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+
+  <!-- Custom theme css -->
+  <link rel="stylesheet" href="/css/main.css">
+</head>
+
+
+  <body>
+
+    <!-- Start Layout -->
+    
+    <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
+        <header class="mdl-layout__header">
+
+    <div class="mdl-layout__header-row">
+      <!-- Title -->
+      <span class="mdl-layout-title"><a href="/index.html" style="text-decoration:none; color:#fff;">Creative with Code</a></span>
+      <!-- Add spacer, to align navigation to the right -->
+      <div class="mdl-layout-spacer"></div>
+      <!-- Navigation. We hide it in small screens. -->
+      <nav class="mdl-navigation mdl-layout--large-screen-only">
+      
+        
+        <a class="mdl-navigation__link" href="/about/">About</a>
+        
+      
+        
+      
+        
+      
+        
+      
+        
+        <a class="mdl-navigation__link" href="/webgl/index.html">webgl</a>
+        
+      
+        
+        <a class="mdl-navigation__link" href="/technical/index.html">technical</a>
+        
+      
+        
+        <a class="mdl-navigation__link" href="/audio/index.html">audio</a>
+        
+      
+        
+        <a class="mdl-navigation__link" href="/design/index.html">design</a>
+        
+      
+      </nav>
+
+      <div class="android-search-box mdl-textfield mdl-js-textfield mdl-textfield--expandable mdl-textfield--floating-label mdl-textfield--align-right mdl-textfield--full-width">
+        <label class="mdl-button mdl-js-button mdl-button--icon" for="search-field">
+          <i class="material-icons">search</i>
+        </label>
+        <div class="mdl-textfield__expandable-holder">
+          <input class="mdl-textfield__input" type="text" id="search-field" />
+        </div>
+      </div>
+
+      <button class="mdl-button mdl-js-button mdl-button--icon" id="menu-lower-left">
+        <i class="material-icons">more_vert</i>
+      </button>
+
+      <ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="menu-lower-left">
+        
+        <li><a href="www.myawesomelink.com" class="mdl-menu__item">Cool Option 1</a></li>
+        
+        <li><a href="www.myawesomelink.com" class="mdl-menu__item">Cool Option 2</a></li>
+        
+        <li><a href="www.myawesomelink.com" class="mdl-menu__item">Cool Option 3</a></li>
+        
+      </ul>
+    </div>
+  </header>
+
+  <div class="mdl-layout__drawer">
+    <span class="mdl-layout-title">Menu</span>
+    <nav class="mdl-navigation">
+    
+      
+      <a class="mdl-navigation__link" href="/about/">About</a>
+      
+    
+      
+    
+      
+    
+      
+    
+      
+      <a class="mdl-navigation__link" href="/webgl/index.html">webgl</a>
+      
+    
+      
+      <a class="mdl-navigation__link" href="/technical/index.html">technical</a>
+      
+    
+      
+      <a class="mdl-navigation__link" href="/audio/index.html">audio</a>
+      
+    
+      
+      <a class="mdl-navigation__link" href="/design/index.html">design</a>
+      
+    
+    </nav>
+
+  </div>
+
+    
+
+      <main class="mdl-layout__content">
+              <!-- Page styles -->
+      <link rel="stylesheet" href="styles.css">
+      <style>
+      #particle-canvas{
+      	position: absolute!important;
+        top:0;left:0;
+      	width: 100vw;
+      	height: 88vh;
+        z-index:1!important;
+      }
+      .top-section{
+        position:relative;
+        height:88vh;
+      }
+      </style>
+
+        <div class="android-content">
+
+          <a name="top"></a>
+        <section class="top-section">
+
+          <div id="particle-canvas"></div>
+
+          <div class="android-be-together-section mdl-typography--text-center">
+            <div class="android-font android-slogan">make something. get creative.</div>
+            <div class="android-font android-sub-slogan">welcome to Creative with Code... bring your idea to life.</div>
+
+            <a href="#screens">
+              <button class="android-fab mdl-button mdl-button--colored mdl-js-button mdl-button--fab mdl-js-ripple-effect">
+                <i class="material-icons">expand_more</i>
+              </button>
+            </a>
+          </div>
+        </section>
+
+
+          <div class="android-screen-section mdl-typography--text-center">
+            <a name="screens"></a>
+            <div class="mdl-typography--display-1-color-contrast">Experiment with new technologies.</div>
+            <div class="android-font android-sub-slogan">Get creative with design and code.</div>
+
+            <div class="android-screens android-more-section">
+              <div class="android-wear android-screen mdl-cell mdl-cell--3-col mdl-cell--4-col-tablet mdl-cell--4-col-phone mdl-card">
+                <a class="android-image-link" href="/webgl/index.html">
+                  <img class="android-screen-image" src="/img/home/icons/3d.png">
+                </a>
+                <a class="android-link mdl-typography--font-regular mdl-typography--text-uppercase" href="/webgl/index.html">Web Graphics</a>
+              </div>
+              <div class="android-phone android-screen mdl-cell mdl-cell--3-col mdl-cell--4-col-tablet mdl-cell--4-col-phone mdl-card">
+                <a class="android-image-link" href="/technical/index.html">
+                  <img class="android-screen-image" src="/img/home/icons/keyboard.png">
+                </a>
+                <a class="android-link mdl-typography--font-regular mdl-typography--text-uppercase" href="/technical/index.html">Code</a>
+              </div>
+              <div class="android-tablet android-screen mdl-cell mdl-cell--3-col mdl-cell--4-col-tablet mdl-cell--4-col-phone mdl-card">
+                <a class="android-image-link" href="/audio/index.html">
+                  <img class="android-screen-image" src="/img/home/icons/mp3.png">
+                </a>
+                <a class="android-link mdl-typography--font-regular mdl-typography--text-uppercase" href="/audio/index.html">Audio</a>
+              </div>
+              <div class="android-tv android-screen mdl-cell mdl-cell--3-col mdl-cell--4-col-tablet mdl-cell--4-col-phone mdl-card">
+                <a class="android-image-link" href="/design/index.html">
+                  <img class="android-screen-image" src="/img/home/icons/bulb.png">
+                </a>
+                <a class="android-link mdl-typography--font-regular mdl-typography--text-uppercase" href="/design/index.html">Design</a>
+              </div>
+            </div>
+          </div>
+
+
+          <div class="android-wear-section">
+            <div class="android-wear-band">
+              <div class="android-wear-band-text">
+                <div class="mdl-typography--display-2 mdl-typography--font-thin">Find out how to contribute</div>
+                <p class="mdl-typography--headline mdl-typography--font-thin">
+                  Creative with code is a github project.
+                </p>
+                <p>
+                  <a class="mdl-typography--font-regular mdl-typography--text-uppercase android-alt-link" href="/about/">
+                    Read about the project&nbsp;<i class="material-icons">chevron_right</i>
+                  </a>
+                </p>
+              </div>
+            </div>
+          </div>
+
+
+
+          <div class="android-more-section">
+            <div class="android-section-title mdl-typography--display-1-color-contrast">More Posts</div>
+            <div class="android-card-container mdl-grid">
+              <div class="mdl-cell mdl-cell--3-col mdl-cell--4-col-tablet mdl-cell--4-col-phone mdl-card mdl-shadow--3dp">
+                <div class="mdl-card__media" style="background-image:url('/img/js.jpg')!important">
+                </div>
+                <div class="mdl-card__title">
+                   <h4 class="mdl-card__title-text">Object Oriented JavaScript for beginners</h4>
+                </div>
+                <div class="mdl-card__supporting-text">
+                  <span class="mdl-typography--font-light mdl-typography--subhead">Basic introduction to object oriented JavaScript</span>
+                </div>
+                <div class="mdl-card__actions">
+                   <a class="android-link mdl-button mdl-js-button mdl-typography--text-uppercase" href="/technical/2015/05/03/object-oriented-javascript-for-beginners.html">
+                     Read now
+                     <i class="material-icons">chevron_right</i>
+                   </a>
+                </div>
+              </div>
+
+              <div class="mdl-cell mdl-cell--3-col mdl-cell--4-col-tablet mdl-cell--4-col-phone mdl-card mdl-shadow--3dp">
+                <div class="mdl-card__media" style="background-image:url('/img/music-viz-2.png')!important">
+                </div>
+                <div class="mdl-card__title">
+                   <h4 class="mdl-card__title-text">Visualize music with the Web Audio API: Getting Started</h4>
+                </div>
+                <div class="mdl-card__supporting-text">
+                  <span class="mdl-typography--font-light mdl-typography--subhead">Web Audio API usage in the wild</span>
+                </div>
+                <div class="mdl-card__actions">
+                   <a class="android-link mdl-button mdl-js-button mdl-typography--text-uppercase" href="/audio/2015/05/04/web-audio-api-music-visualization.html">
+                     Read now
+                     <i class="material-icons">chevron_right</i>
+                   </a>
+                </div>
+              </div>
+
+              <div class="mdl-cell mdl-cell--3-col mdl-cell--4-col-tablet mdl-cell--4-col-phone mdl-card mdl-shadow--3dp">
+                <div class="mdl-card__media" style="background-image:url('http://i0.wp.com/motionographer.com/wp-content/uploads/2014/12/material1.gif?fit=700%2C700')!important">
+                </div>
+                <div class="mdl-card__title">
+                   <h4 class="mdl-card__title-text">Get creative with Google’s material design language</h4>
+                </div>
+                <div class="mdl-card__supporting-text">
+                  <span class="mdl-typography--font-light mdl-typography--subhead">A first look into Google Material Design.</span>
+                </div>
+                <div class="mdl-card__actions">
+                   <a class="android-link mdl-button mdl-js-button mdl-typography--text-uppercase" href="/design/2015/08/30/google-material-design-app.html">
+                     Read now
+                     <i class="material-icons">chevron_right</i>
+                   </a>
+                </div>
+              </div>
+
+              <div class="mdl-cell mdl-cell--3-col mdl-cell--4-col-tablet mdl-cell--4-col-phone mdl-card mdl-shadow--3dp">
+                <div class="mdl-card__media" style="background-image:url('img/cube.png')!important">
+                </div>
+                <div class="mdl-card__title">
+                   <h4 class="mdl-card__title-text">Beginners guide to three.js: set your first scene</h4>
+                </div>
+                <div class="mdl-card__supporting-text">
+                  <span class="mdl-typography--font-light mdl-typography--subhead">An introduction to threeJS. Here you'll learn how to create your first threeJS scene whilst learning the basic concepts of threeJS.</span>
+                </div>
+                <div class="mdl-card__actions">
+                   <a class="android-link mdl-button mdl-js-button mdl-typography--text-uppercase" href="/webgl/2015/04/21/get-up-to-speed-with-three-js-webgl.html">
+                     Read now
+                     <i class="material-icons">chevron_right</i>
+                   </a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+
+
+
+
+          <!-- <div class="android-customized-section">
+            <div class="android-customized-section-text">
+              <div class="mdl-typography--font-light mdl-typography--display-1-color-contrast">Featured tutorial series</div>
+              <p class="mdl-typography--font-light">
+                Seeing sounds with ThreeJS: Create a music visualizer using threeJS.
+                <br>
+                <a href="" class="android-link mdl-typography--font-light">Start hacking</a>
+              </p>
+            </div>
+            <div class="android-customized-section-image"></div>
+          </div> -->
+
+
+        </div>
+        <footer class="mdl-mega-footer">
+  <div class="mdl-mega-footer--middle-section">
+
+    <div class="mdl-mega-footer--drop-down-section">
+      <input class="mdl-mega-footer--heading-checkbox" type="checkbox" checked>
+      <h1 class="mdl-mega-footer--heading">INFO</h1>
+      <ul class="mdl-mega-footer--link-list">
+        <li><a href="mailto:creator@createwithcode.com">creator@createwithcode.com</a></li>
+        <li><a href="/feed.xml">subscribe via RSS</a></li>
+      </ul>
+    </div>
+
+    <div class="mdl-mega-footer--drop-down-section">
+      <input class="mdl-mega-footer--heading-checkbox" type="checkbox" checked>
+      <h1 class="mdl-mega-footer--heading">SOCIAL</h1>
+      <ul class="mdl-mega-footer--link-list">
+        
+        <li>
+          <a href="https://github.com/creativewithcode">
+            <span class="icon  icon--github">
+              <svg viewBox="0 0 16 16">
+                <path fill="#828282" d="M7.999,0.431c-4.285,0-7.76,3.474-7.76,7.761 c0,3.428,2.223,6.337,5.307,7.363c0.388,0.071,0.53-0.168,0.53-0.374c0-0.184-0.007-0.672-0.01-1.32 c-2.159,0.469-2.614-1.04-2.614-1.04c-0.353-0.896-0.862-1.135-0.862-1.135c-0.705-0.481,0.053-0.472,0.053-0.472 c0.779,0.055,1.189,0.8,1.189,0.8c0.692,1.186,1.816,0.843,2.258,0.645c0.071-0.502,0.271-0.843,0.493-1.037 C4.86,11.425,3.049,10.76,3.049,7.786c0-0.847,0.302-1.54,0.799-2.082C3.768,5.507,3.501,4.718,3.924,3.65 c0,0,0.652-0.209,2.134,0.796C6.677,4.273,7.34,4.187,8,4.184c0.659,0.003,1.323,0.089,1.943,0.261 c1.482-1.004,2.132-0.796,2.132-0.796c0.423,1.068,0.157,1.857,0.077,2.054c0.497,0.542,0.798,1.235,0.798,2.082 c0,2.981-1.814,3.637-3.543,3.829c0.279,0.24,0.527,0.713,0.527,1.437c0,1.037-0.01,1.874-0.01,2.129 c0,0.208,0.14,0.449,0.534,0.373c3.081-1.028,5.302-3.935,5.302-7.362C15.76,3.906,12.285,0.431,7.999,0.431z"/>
+              </svg>
+            </span>
+
+            <span class="username">creativewithcode</span>
+          </a>
+        </li>
+        
+        
+        <li>
+          <a href="https://twitter.com/creativewithcode">
+            <span class="icon  icon--twitter">
+              <svg viewBox="0 0 16 16">
+                <path fill="#828282" d="M15.969,3.058c-0.586,0.26-1.217,0.436-1.878,0.515c0.675-0.405,1.194-1.045,1.438-1.809
+                c-0.632,0.375-1.332,0.647-2.076,0.793c-0.596-0.636-1.446-1.033-2.387-1.033c-1.806,0-3.27,1.464-3.27,3.27 c0,0.256,0.029,0.506,0.085,0.745C5.163,5.404,2.753,4.102,1.14,2.124C0.859,2.607,0.698,3.168,0.698,3.767 c0,1.134,0.577,2.135,1.455,2.722C1.616,6.472,1.112,6.325,0.671,6.08c0,0.014,0,0.027,0,0.041c0,1.584,1.127,2.906,2.623,3.206 C3.02,9.402,2.731,9.442,2.433,9.442c-0.211,0-0.416-0.021-0.615-0.059c0.416,1.299,1.624,2.245,3.055,2.271 c-1.119,0.877-2.529,1.4-4.061,1.4c-0.264,0-0.524-0.015-0.78-0.046c1.447,0.928,3.166,1.469,5.013,1.469 c6.015,0,9.304-4.983,9.304-9.304c0-0.142-0.003-0.283-0.009-0.423C14.976,4.29,15.531,3.714,15.969,3.058z"/>
+              </svg>
+            </span>
+
+            <span class="username">creativewithcode</span>
+          </a>
+        </li>
+      
+      </ul>
+    </div>
+
+    <div class="mdl-mega-footer--drop-down-section">
+      <input class="mdl-mega-footer--heading-checkbox" type="checkbox" checked>
+      <h1 class="mdl-mega-footer--heading">ABOUT</h1>
+      <ul class="mdl-mega-footer--link-list">
+        <li>Get creative with code. We're about experimenting with new front end web technologies.
+</li>
+      </ul>
+    </div>
+
+
+  </div>
+
+  <div class="mdl-mega-footer--bottom-section">
+    <div class="mdl-logo">Creative with Code</div>
+    <ul class="mdl-mega-footer--link-list">
+      <li><a href="#">Help</a></li>
+      <li><a href="#">Privacy & Terms</a></li>
+    </ul>
+  </div>
+
+</footer>
+
+      </div>
+      <script>
+      // Create Particle class
+      var Particle = function(parent) {
+
+        this.canvas = parent.canvas;
+        this.ctx = parent.ctx;
+        this.particleColor = parent.options.particleColor;
+
+        this.x = Math.random() * this.canvas.width;
+        this.y = Math.random() * this.canvas.height;
+        this.velocity = {
+          x: (Math.random() - 0.5) * parent.options.velocity,
+          y: (Math.random() - 0.5) * parent.options.velocity
+        };
+      };
+      Particle.prototype.update = function() {
+
+        // Change dir if outside map
+        if (this.x > this.canvas.width + 20 || this.x < -20) {
+          this.velocity.x = -this.velocity.x;
+        }
+        if (this.y > this.canvas.height + 20 || this.y < -20) {
+          this.velocity.y = -this.velocity.y;
+        }
+
+        // Update position
+        this.x += this.velocity.x;
+        this.y += this.velocity.y;
+      };
+      Particle.prototype.draw = function() {
+
+        // Draw particle
+        this.ctx.beginPath();
+        this.ctx.fillStyle = this.particleColor;
+        this.ctx.globalAlpha = 0.7;
+        this.ctx.arc(this.x, this.y, 1.5, 0, 2 * Math.PI);
+        this.ctx.fill();
+      };
+
+      // Create ParticleNetwork class
+      var ParticleNetwork = function(canvas, options) {
+
+        this.canvasDiv = canvas;
+        this.canvasDiv.size = {
+          'width': this.canvasDiv.offsetWidth,
+          'height': this.canvasDiv.offsetHeight
+        };
+
+        // Set options
+        options = options !== undefined ? options : {};
+        this.options = {
+          particleColor: (options.particleColor !== undefined) ? options.particleColor : '#fff',
+          background: (options.background !== undefined) ? options.background : '#1a252f',
+          interactive: (options.interactive !== undefined) ? options.interactive : true,
+          velocity: this.setVelocity(options.speed),
+          density: this.setDensity(options.density)
+        };
+
+        this.init();
+      };
+      ParticleNetwork.prototype.init = function() {
+
+        // Create background div
+        this.bgDiv = document.createElement('div');
+        this.canvasDiv.appendChild(this.bgDiv);
+        this.setStyles(this.bgDiv, {
+          'position': 'absolute',
+          'top': 0,
+          'left': 0,
+          'bottom': 0,
+          'right': 0,
+          'z-index': 1
+        });
+
+        // Check if valid background hex color
+        if ((/(^#[0-9A-F]{6}$)|(^#[0-9A-F]{3}$)/i).test(this.options.background)) {
+          this.setStyles(this.bgDiv, {
+            'background': this.options.background
+          });
+        }
+        // Else check if valid image
+        else if ((/\.(gif|jpg|jpeg|tiff|png)$/i).test(this.options.background)) {
+          this.setStyles(this.bgDiv, {
+            'background': 'url("' + this.options.background + '") no-repeat center',
+            'background-size': 'cover'
+          });
+        }
+        // Else throw error
+        else {
+          console.error('Please specify a valid background image or hexadecimal color');
+          return false;
+        }
+
+        // Check if valid particleColor
+        if (!(/(^#[0-9A-F]{6}$)|(^#[0-9A-F]{3}$)/i).test(this.options.particleColor)) {
+          console.error('Please specify a valid particleColor hexadecimal color');
+          return false;
+        }
+
+        // Create canvas & context
+        this.canvas = document.createElement('canvas');
+        this.canvasDiv.appendChild(this.canvas);
+        this.ctx = this.canvas.getContext('2d');
+        this.canvas.width = this.canvasDiv.size.width;
+        this.canvas.height = this.canvasDiv.size.height;
+
+        this.setStyles(this.canvasDiv, {
+          'position': 'relative'
+        });
+        this.setStyles(this.canvas, {
+          'z-index': '20',
+          'position': 'relative'
+        });
+
+        // Add resize listener to canvas
+        window.addEventListener('resize', function() {
+
+          // Check if div has changed size
+          if (this.canvasDiv.offsetWidth === this.canvasDiv.size.width && this.canvasDiv.offsetHeight === this.canvasDiv.size.height) {
+            return false;
+          }
+
+          // Scale canvas
+          this.canvas.width = this.canvasDiv.size.width = this.canvasDiv.offsetWidth;
+          this.canvas.height = this.canvasDiv.size.height = this.canvasDiv.offsetHeight;
+
+          // Set timeout to wait until end of resize event
+          clearTimeout(this.resetTimer);
+          this.resetTimer = setTimeout(function() {
+
+            // Reset particles
+            this.particles = [];
+            for (var i = 0; i < this.canvas.width * this.canvas.height / this.options.density; i++) {
+              this.particles.push(new Particle(this));
+            }
+            if (this.options.interactive) {
+              this.particles.push(this.mouseParticle);
+            }
+
+          }.bind(this), 500);
+
+        }.bind(this));
+
+        // Initialise particles
+        this.particles = [];
+        for (var i = 0; i < this.canvas.width * this.canvas.height / this.options.density; i++) {
+          this.particles.push(new Particle(this));
+        }
+
+        if (this.options.interactive) {
+
+          // Add mouse particle if interactive
+          this.mouseParticle = new Particle(this);
+          this.mouseParticle.velocity = {
+            x: 0,
+            y: 0
+          };
+          this.particles.push(this.mouseParticle);
+
+          // Mouse event listeners
+          this.canvas.addEventListener('mousemove', function(e) {
+            this.mouseParticle.x = e.clientX - this.canvas.offsetLeft;
+            this.mouseParticle.y = e.clientY - this.canvas.offsetTop;
+          }.bind(this));
+
+          this.canvas.addEventListener('mouseup', function(e) {
+            this.mouseParticle.velocity = {
+              x: (Math.random() - 0.5) * this.options.velocity,
+              y: (Math.random() - 0.5) * this.options.velocity
+            };
+            this.mouseParticle = new Particle(this);
+            this.mouseParticle.velocity = {
+              x: 0,
+              y: 0
+            };
+            this.particles.push(this.mouseParticle);
+          }.bind(this));
+        }
+
+        // Update canvas
+        requestAnimationFrame(this.update.bind(this));
+      }
+      ParticleNetwork.prototype.update = function() {
+        this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+        this.ctx.globalAlpha = 1;
+
+        // Draw particles
+        for (var i = 0; i < this.particles.length; i++) {
+          this.particles[i].update();
+          this.particles[i].draw();
+
+          // Draw connections
+          for (var j = this.particles.length - 1; j > i; j--) {
+            var distance = Math.sqrt(
+              Math.pow(this.particles[i].x - this.particles[j].x, 2) + Math.pow(this.particles[i].y - this.particles[j].y, 2)
+            );
+            if (distance > 120) {
+              continue;
+            }
+
+            this.ctx.beginPath();
+            this.ctx.strokeStyle = this.options.particleColor;
+            this.ctx.globalAlpha = (120 - distance) / 120;
+            this.ctx.lineWidth = 0.7;
+            this.ctx.moveTo(this.particles[i].x, this.particles[i].y);
+            this.ctx.lineTo(this.particles[j].x, this.particles[j].y);
+            this.ctx.stroke();
+          }
+        }
+
+        if (this.options.velocity !== 0) {
+          requestAnimationFrame(this.update.bind(this));
+        }
+      };
+
+      // Helper method to set velocity multiplier
+      ParticleNetwork.prototype.setVelocity = function(speed) {
+          if (speed === 'fast') {
+            return 1;
+          } else if (speed === 'slow') {
+            return 0.33;
+          } else if (speed === 'none') {
+            return 0;
+          }
+          return 0.66;
+        }
+        // Helper method to set density multiplier
+      ParticleNetwork.prototype.setDensity = function(density) {
+          if (density === 'high') {
+            return 5000;
+          } else if (density === 'low') {
+            return 20000;
+          }
+          return 10000;
+        }
+        // Helper method to set multiple styles
+      ParticleNetwork.prototype.setStyles = function(div, styles) {
+        for (var property in styles) {
+          div.style[property] = styles[property];
+        }
+      }
+
+      var canvasDiv = document.getElementById('particle-canvas');
+      var options = {
+        particleColor: '#e1aaff',
+        // background:'#673AB7',
+         background: '/img/home/mac.jpg',
+        interactive: true,
+        speed: 'medium',
+        density: 'high'
+      };
+      var particleCanvas = new ParticleNetwork(canvasDiv, options);
+      </script>
+
+      </main>
+
+    </div>
+    <!-- /End Layout-->
+
+    <!-- Material Design Lite js Library -->
+    <script type="text/javascript" src="https://storage.googleapis.com/code.getmdl.io/1.0.0/material.min.js"></script>
+    
+  </body>
+
+</html>

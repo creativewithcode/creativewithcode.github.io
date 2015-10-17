@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Beginners guide to three.js: set your first scene</title>
+  <meta name="description" content="IntroductionIf you imagine a film set, there's a guy pointing a camera at a scene of different props, and he can do so from different angles. It's all pretty...">
+
+  <link rel="canonical" href="http://yourdomain.com/webgl/2015/04/21/get-up-to-speed-with-three-js-webgl.html">
+  <link rel="alternate" type="application/rss+xml" title="Creative with Code" href="http://yourdomain.com/feed.xml" />
+
+  <!-- Material Design Lite css Library -->
+  <link rel="stylesheet" href="https://storage.googleapis.com/code.getmdl.io/1.0.5/material.deep_purple-green.min.css" />
+
+  <!-- Material Design Fonts -->
+  <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+
+  <!-- Custom theme css -->
+  <link rel="stylesheet" href="/css/main.css">
+</head>
+
+
+  <body>
+
+    <!-- Start Layout -->
+    
+    <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
+        <header class="mdl-layout__header">
+
+    <div class="mdl-layout__header-row">
+      <!-- Title -->
+      <span class="mdl-layout-title"><a href="/index.html" style="text-decoration:none; color:#fff;">Creative with Code</a></span>
+      <!-- Add spacer, to align navigation to the right -->
+      <div class="mdl-layout-spacer"></div>
+      <!-- Navigation. We hide it in small screens. -->
+      <nav class="mdl-navigation mdl-layout--large-screen-only">
+      
+        
+        <a class="mdl-navigation__link" href="/about/">About</a>
+        
+      
+        
+      
+        
+      
+        
+      
+        
+        <a class="mdl-navigation__link" href="/webgl/index.html">webgl</a>
+        
+      
+        
+        <a class="mdl-navigation__link" href="/technical/index.html">technical</a>
+        
+      
+        
+        <a class="mdl-navigation__link" href="/audio/index.html">audio</a>
+        
+      
+        
+        <a class="mdl-navigation__link" href="/design/index.html">design</a>
+        
+      
+      </nav>
+
+      <div class="android-search-box mdl-textfield mdl-js-textfield mdl-textfield--expandable mdl-textfield--floating-label mdl-textfield--align-right mdl-textfield--full-width">
+        <label class="mdl-button mdl-js-button mdl-button--icon" for="search-field">
+          <i class="material-icons">search</i>
+        </label>
+        <div class="mdl-textfield__expandable-holder">
+          <input class="mdl-textfield__input" type="text" id="search-field" />
+        </div>
+      </div>
+
+      <button class="mdl-button mdl-js-button mdl-button--icon" id="menu-lower-left">
+        <i class="material-icons">more_vert</i>
+      </button>
+
+      <ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="menu-lower-left">
+        
+        <li><a href="www.myawesomelink.com" class="mdl-menu__item">Cool Option 1</a></li>
+        
+        <li><a href="www.myawesomelink.com" class="mdl-menu__item">Cool Option 2</a></li>
+        
+        <li><a href="www.myawesomelink.com" class="mdl-menu__item">Cool Option 3</a></li>
+        
+      </ul>
+    </div>
+  </header>
+
+  <div class="mdl-layout__drawer">
+    <span class="mdl-layout-title">Menu</span>
+    <nav class="mdl-navigation">
+    
+      
+      <a class="mdl-navigation__link" href="/about/">About</a>
+      
+    
+      
+    
+      
+    
+      
+    
+      
+      <a class="mdl-navigation__link" href="/webgl/index.html">webgl</a>
+      
+    
+      
+      <a class="mdl-navigation__link" href="/technical/index.html">technical</a>
+      
+    
+      
+      <a class="mdl-navigation__link" href="/audio/index.html">audio</a>
+      
+    
+      
+      <a class="mdl-navigation__link" href="/design/index.html">design</a>
+      
+    
+    </nav>
+
+  </div>
+
+    
+
+      <main class="mdl-layout__content">
+        <div class="post-ribbon"></div>
+<main class="post-main mdl-layout__content">
+  <div class="post-container mdl-grid">
+    <div class="mdl-cell mdl-cell--2-col mdl-cell--hide-tablet mdl-cell--hide-phone"></div>
+    <div class="post-section mdl-color--white mdl-shadow--4dp content mdl-color-text--grey-800 mdl-cell mdl-cell--8-col">
+      <div class="mdl-color-text--grey-500">
+      Apr 21, 2015 • Graeme Fulton •  webgl  
+      </div>
+      <br>
+      <img src="/img/cube.png" style="width:100%;"/>
+      <h3>Beginners guide to three.js: set your first scene</h3>
+      <article class="post-content">
+        <p><h4>Introduction</h4>
+<p>If you imagine a film set, there's a guy pointing a camera at a scene of different props, and he can do so from different angles. It's all pretty similar in three.js, which is made up of objects that make coding 3D experiences much more natural to us. For example, three of the tools we have at our disposal when using three.js are below:</p>
+<ol>
+<li>&nbsp;Scene - this contains all the 3D object data (all the props)</li>
+<li>&nbsp;Camera - this has a field of view, position and rotation</li>
+<li>&nbsp;Renderer - this figures out what objects look like from the camera's point of view</li>
+</ol>
+<p>Three.js&nbsp;<a href="#">simplifies WebGL</a>, enabling us to use simple concepts such as those above to produce 3D experiences with minimal code. The same would have required hundreds of lines of JavaScript when using WebGL directly.</p>
+<p>In this tutorial, we'll be setting up the three.js environment in step 1, then using the Scene, Camera and Renderer objects listed above, getting an understanding of each in step 2. In the final step 3, we'll add an animating cube to the scene we've created.</p>
+<h4>The Outcome</h4>
+<p>Here's what we'll end up with - if you just want the code you can grab it from the codepen below or&nbsp;<a title="github repo" href="https://github.com/GraemeFulton/threejs-starter" target="_blank">github</a>. Otherwise, to learn about what's going on, continue reading from step 1.</p>
+<p><iframe style="width: 100%;" src="//codepen.io/GraemeFulton/embed/zGxKKM/?height=319&amp;theme-id=0" width="300" height="319" frameborder="no" scrolling="no" allowfullscreen="allowfullscreen">See the Pen <a href="http://codepen.io/GraemeFulton/pen/zGxKKM/">Three.js starter</a> by Graeme Fulton (<a href="http://codepen.io/GraemeFulton">@GraemeFulton</a>) on <a href="http://codepen.io">CodePen</a>.</iframe></p>
+<hr />
+
+<h3>Step 1: Download three.js &amp; setup the HTML project</h3>
+<h4>Download three.js</h4>
+<p>First, get a copy of three.js from its&nbsp;<a title="three.js repo" href="https://github.com/mrdoob/three.js/" target="_blank">GitHub repository</a>, and save it locally.</p>
+<p>The reason I'm storing this locally is to prevent the applicaiton breaking if a different release of three.js is used. The latest version at the time of this tutorial was revision 71, so you should use r71 if you're having any issues.&nbsp;</p>
+<p>Apart from three.js, we're just going to be coding everything else within a single HTML file for simplicity.</p>
+<h4>Create the HTML project file</h4>
+<p>All we're doing below is including our local three.js library, and opening some script tags where most of the code will go.</p>
+<pre class="brush:html;auto-links:false;toolbar:false" contenteditable="false">&lt;!doctype html&gt;
+&lt;html lang="en"&gt;
+&lt;head&gt;
+  &lt;title&gt;Three.js Tutorial&lt;/title&gt;
+  &lt;meta charset="utf-8"&gt;
+&lt;/head&gt;
+&lt;body&gt;
+
+  &lt;script src="three.js"&gt;&lt;/script&gt;
+
+  &lt;script&gt;
+
+    //code will go here...
+
+  &lt;/script&gt;
+
+&lt;/body&gt;
+&lt;/html&gt;</pre>
+<hr />
+
+<h3>Step 2: Create a Scene, Camera and Renderer</h3>
+<p><img src="/img/camera-man.jpg" alt="" width="499" height="332" /></p>
+<p>Now, we'll declare 3 global variables, and assign each of them with a three.js object. First we'll create a Scene, then add a Camera, followed by the Renderer.</p>
+<h4>Create the Scene</h4>
+<p>The scene is really simple:</p>
+<pre class="brush:js;auto-links:false;toolbar:false" contenteditable="false">//declare scene variable
+var scene;
+
+//create the scene
+scene = new THREE.Scene();</pre>
+<h4>Add the Camera</h4>
+<p>To add the camera, we assign a PerspectiveCamera object to a camera variable. There's a few different other camera options, but we'll use the PerspectiveCamera above:</p>
+<pre class="brush:js;auto-links:false;toolbar:false" contenteditable="false">//declare camera variable
+var camera;
+
+//assign three.js perspective camera to variable
+camera = new THREE.PerspectiveCamera(75, window.innerWidth/ window.innerHeight, 0.1, 1000);</pre>
+<p>Let's step through the arguments provided to the PerspectiveCamera:</p>
+<ul>
+<li>The first argument we have provided, <code>75</code>, is the field of view for the camera.</li>
+<li>Second, <code>window.innerWidth/ window.innerHeight</code> is the aspect ratio.</li>
+<li>The final two arguments are the clipping plane for far and near.</li>
+</ul>
+<h4>Add the Renderer</h4>
+<p>For rendering, we'll use the WebGLRenderer object, which will display our scene using WebGL. Alternatively, canvasRenderer() could have been used, which uses the canvas element - it's a good fallback for when WebGL is not available.</p>
+<pre class="brush:js;auto-links:false;toolbar:false" contenteditable="false">//declare renderer variable
+var renderer;
+
+//assign WebGL renderer object
+renderer = new THREE.WebGLRenderer();
+
+//set the size of the renderer
+renderer.setSize( window.innerWidth, window.innerHeight );
+
+//add the renderer to the html document body element
+document.body.appendChild( renderer.domElement );</pre>
+<h4>Bring it all together</h4>
+<p>You can then combine all of the above code into something more manageable as seen in the snippet below. The variables are declared globally, and then we have an <code>init()</code> function, which we call at the bottom to build our scene.</p>
+<pre class="brush:js;auto-links:false;toolbar:false" contenteditable="false">    //Declare three.js variables
+	var camera, scene, renderer;
+
+	//assign three.js objects to each variable
+	function init(){
+
+		//camera
+		camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 );
+
+		//scene
+		scene = new THREE.Scene();
+
+		//renderer
+		renderer = new THREE.WebGLRenderer();
+		//set the size of the renderer
+		renderer.setSize( window.innerWidth, window.innerHeight );
+
+		//add the renderer to the html document body
+		document.body.appendChild( renderer.domElement );
+
+
+	}</pre>
+<p>At this point, you still won't actually see anything if you run the code as there's nothing on the scene, and it isn't actually rendered. So let's fix that in the next step:</p>
+<hr />
+
+<h3>Step 3: Rendering a cube onto the scene</h3>
+<p><img src="/img/cube.png" alt="" width="500" height="349" /></p>
+<p>In this step, we'll first create a cube and add it to our scene, and then create a rendering loop which will run our scene.</p>
+<h4>Create the Cube</h4>
+<p>First, we declare the cube variable globally, so it can be used in other methods if necessary, then create the cube within an <code>addCube</code> function. To do this, we use <code>BoxGeometry</code> to create a geometry object, then create some material with a colour, and then <code>Mesh</code> them together to create to cube. After we add the cube to the scene, we have to set the camera position so that the cube becomes visible.</p>
+<p>If that sounded complicated, it's actually really simple if you look at it line by line:</p>
+<pre class="brush:js;auto-links:false;toolbar:false" contenteditable="false">var cube;
+
+function addCube(){
+
+		//create box geometry object
+		var geometry = new THREE.BoxGeometry( 1, 1, 1 );
+		//create material with colour
+		var material = new THREE.MeshBasicMaterial( { color: 0x00ff00 } );
+		//combine geometry with material to create the cube
+		cube = new THREE.Mesh( geometry, material );
+		//add the cube to the scene
+		scene.add( cube );
+
+		//set the camera position
+		camera.position.z = 5;
+	}</pre>
+<h4>Render the scene</h4>
+<p>Here, we define a <code>render()</code> function, which basically acts as a loop, firing 60 times a second:</p>
+<pre class="brush:js;auto-links:false;toolbar:false" contenteditable="false">	function render() {
+		//get the frame
+		requestAnimationFrame( render );
+		//render the scene
+		renderer.render( scene, camera );
+	}</pre>
+<p>Now to run all of this, just add the following to the bottom of your script:</p>
+<pre class="brush:js;auto-links:false;toolbar:false" contenteditable="false">	init();
+	addCube();
+	render();</pre>
+<h4>Animate the cube</h4>
+<p>To demonstrate how this render loop is actually working, we can animate the cube just by adding a couple lines within the render function:</p>
+<pre class="brush:js;auto-links:false;toolbar:false" contenteditable="false">	function render() {
+		//get the frame
+		requestAnimationFrame( render );
+
+		//animate the cube
+		cube.rotation.x += 0.1;
+		cube.rotation.y += 0.1;
+
+
+		//render the scene
+		renderer.render( scene, camera );
+	}</pre>
+<p>Because the render function acts in a loop, it adds 0.1 to the x and y rotations of the cube 60 times a second, creating a rotating animation.</p>
+<hr />
+
+<h3>Well done</h3>
+<p>Good work, you've learned some of the very basics of three.js. I'll be adding a new tutorial to further manipulate the cube in the future.</p>
+
+</p>
+      </article>
+    </div>
+  </div>
+</main>
+
+        <footer class="mdl-mega-footer">
+  <div class="mdl-mega-footer--middle-section">
+
+    <div class="mdl-mega-footer--drop-down-section">
+      <input class="mdl-mega-footer--heading-checkbox" type="checkbox" checked>
+      <h1 class="mdl-mega-footer--heading">INFO</h1>
+      <ul class="mdl-mega-footer--link-list">
+        <li><a href="mailto:creator@createwithcode.com">creator@createwithcode.com</a></li>
+        <li><a href="/feed.xml">subscribe via RSS</a></li>
+      </ul>
+    </div>
+
+    <div class="mdl-mega-footer--drop-down-section">
+      <input class="mdl-mega-footer--heading-checkbox" type="checkbox" checked>
+      <h1 class="mdl-mega-footer--heading">SOCIAL</h1>
+      <ul class="mdl-mega-footer--link-list">
+        
+        <li>
+          <a href="https://github.com/creativewithcode">
+            <span class="icon  icon--github">
+              <svg viewBox="0 0 16 16">
+                <path fill="#828282" d="M7.999,0.431c-4.285,0-7.76,3.474-7.76,7.761 c0,3.428,2.223,6.337,5.307,7.363c0.388,0.071,0.53-0.168,0.53-0.374c0-0.184-0.007-0.672-0.01-1.32 c-2.159,0.469-2.614-1.04-2.614-1.04c-0.353-0.896-0.862-1.135-0.862-1.135c-0.705-0.481,0.053-0.472,0.053-0.472 c0.779,0.055,1.189,0.8,1.189,0.8c0.692,1.186,1.816,0.843,2.258,0.645c0.071-0.502,0.271-0.843,0.493-1.037 C4.86,11.425,3.049,10.76,3.049,7.786c0-0.847,0.302-1.54,0.799-2.082C3.768,5.507,3.501,4.718,3.924,3.65 c0,0,0.652-0.209,2.134,0.796C6.677,4.273,7.34,4.187,8,4.184c0.659,0.003,1.323,0.089,1.943,0.261 c1.482-1.004,2.132-0.796,2.132-0.796c0.423,1.068,0.157,1.857,0.077,2.054c0.497,0.542,0.798,1.235,0.798,2.082 c0,2.981-1.814,3.637-3.543,3.829c0.279,0.24,0.527,0.713,0.527,1.437c0,1.037-0.01,1.874-0.01,2.129 c0,0.208,0.14,0.449,0.534,0.373c3.081-1.028,5.302-3.935,5.302-7.362C15.76,3.906,12.285,0.431,7.999,0.431z"/>
+              </svg>
+            </span>
+
+            <span class="username">creativewithcode</span>
+          </a>
+        </li>
+        
+        
+        <li>
+          <a href="https://twitter.com/creativewithcode">
+            <span class="icon  icon--twitter">
+              <svg viewBox="0 0 16 16">
+                <path fill="#828282" d="M15.969,3.058c-0.586,0.26-1.217,0.436-1.878,0.515c0.675-0.405,1.194-1.045,1.438-1.809
+                c-0.632,0.375-1.332,0.647-2.076,0.793c-0.596-0.636-1.446-1.033-2.387-1.033c-1.806,0-3.27,1.464-3.27,3.27 c0,0.256,0.029,0.506,0.085,0.745C5.163,5.404,2.753,4.102,1.14,2.124C0.859,2.607,0.698,3.168,0.698,3.767 c0,1.134,0.577,2.135,1.455,2.722C1.616,6.472,1.112,6.325,0.671,6.08c0,0.014,0,0.027,0,0.041c0,1.584,1.127,2.906,2.623,3.206 C3.02,9.402,2.731,9.442,2.433,9.442c-0.211,0-0.416-0.021-0.615-0.059c0.416,1.299,1.624,2.245,3.055,2.271 c-1.119,0.877-2.529,1.4-4.061,1.4c-0.264,0-0.524-0.015-0.78-0.046c1.447,0.928,3.166,1.469,5.013,1.469 c6.015,0,9.304-4.983,9.304-9.304c0-0.142-0.003-0.283-0.009-0.423C14.976,4.29,15.531,3.714,15.969,3.058z"/>
+              </svg>
+            </span>
+
+            <span class="username">creativewithcode</span>
+          </a>
+        </li>
+      
+      </ul>
+    </div>
+
+    <div class="mdl-mega-footer--drop-down-section">
+      <input class="mdl-mega-footer--heading-checkbox" type="checkbox" checked>
+      <h1 class="mdl-mega-footer--heading">ABOUT</h1>
+      <ul class="mdl-mega-footer--link-list">
+        <li>Get creative with code. We're about experimenting with new front end web technologies.
+</li>
+      </ul>
+    </div>
+
+
+  </div>
+
+  <div class="mdl-mega-footer--bottom-section">
+    <div class="mdl-logo">Creative with Code</div>
+    <ul class="mdl-mega-footer--link-list">
+      <li><a href="#">Help</a></li>
+      <li><a href="#">Privacy & Terms</a></li>
+    </ul>
+  </div>
+
+</footer>
+
+      </main>
+
+    </div>
+    <!-- /End Layout-->
+
+    <!-- Material Design Lite js Library -->
+    <script type="text/javascript" src="https://storage.googleapis.com/code.getmdl.io/1.0.0/material.min.js"></script>
+    
+  </body>
+
+</html>

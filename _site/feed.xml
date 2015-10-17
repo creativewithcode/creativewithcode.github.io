@@ -1,0 +1,810 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Creative with Code</title>
+    <description>Get creative with code. We&#39;re about experimenting with new front end web technologies.
+</description>
+    <link>http://yourdomain.com/</link>
+    <atom:link href="http://yourdomain.com/feed.xml" rel="self" type="application/rss+xml"/>
+    <pubDate>Sat, 17 Oct 2015 14:34:15 +0100</pubDate>
+    <lastBuildDate>Sat, 17 Oct 2015 14:34:15 +0100</lastBuildDate>
+    <generator>Jekyll v2.5.3</generator>
+    
+      <item>
+        <title>Detect audio boost with the Web Audio API</title>
+        <description>&lt;p&gt;&lt;span style=&quot;font-size: 14px; font-weight: normal;&quot;&gt;Previously, we&amp;nbsp;created an &lt;a title=&quot;audio analyser&quot; href=&quot;../../writings/post/creating-a-sound-analyser-with-the-web-audio-api&quot; target=&quot;_blank&quot;&gt;audio analyser&lt;/a&gt;&amp;nbsp;which sets up everything we need to start of analysing music. We left off by using the&amp;nbsp;&lt;/span&gt;&lt;code style=&quot;font-size: 14px; font-weight: normal;&quot;&gt;onaudioprocess&lt;/code&gt;&lt;span style=&quot;font-size: 14px; font-weight: normal;&quot;&gt;&amp;nbsp;event handler of the script processor node to call our&amp;nbsp;&lt;code&gt;analyseBoost&lt;/code&gt; function, which will analyse the music. In this tutorial&amp;nbsp;we&#39;ll finish off looking at the &lt;code&gt;analyseBoost&lt;/code&gt; function, and look at h&lt;/span&gt;ow it&amp;nbsp;measures the sound level of a&amp;nbsp;track by leveraging the audio&amp;nbsp;analyser.&lt;/p&gt;
+&lt;h3&gt;Analyse Boost&lt;/h3&gt;
+&lt;p&gt;We left off by using the &lt;code&gt;onaudioprocess&lt;/code&gt;&amp;nbsp;event handler of the script processor node to call our&amp;nbsp;analyseBoost function:&lt;/p&gt;
+&lt;pre class=&quot;brush:js;auto-links:false;toolbar:false&quot; contenteditable=&quot;false&quot;&gt;scriptProcessorNode.onaudioprocess = function(e) {
+              audioAnalyserInstance.analyseBoost();
+           }&lt;/pre&gt;
+&lt;p&gt;This means that for as long as audio is being processed, or the song is playing, we will be analysing the music. Therefore, if we set the music to play during the&amp;nbsp;&lt;code&gt;init()&lt;/code&gt;&amp;nbsp;function of a three.js scene, the we will constantly be analysing the boost of the song, meaning that within the &lt;code&gt;render()&lt;/code&gt; function of a&amp;nbsp;three.js scene we will have real time access to the music data.&amp;nbsp;&lt;/p&gt;
+&lt;p&gt;Now let&#39;s see how the boost is actually analysed for use in the three.js &lt;code&gt;render()&lt;/code&gt; function.&lt;/p&gt;
+&lt;h3&gt;The code&lt;/h3&gt;
+&lt;pre class=&quot;brush:html;auto-links:false;toolbar:false&quot; contenteditable=&quot;false&quot;&gt;    analyseBoost:function(){
+
+          var audioArray = new Uint8Array(this.analyser.frequencyBinCount);
+
+       this.analyser.getByteFrequencyData(audioArray);
+
+          this.boost = 0;
+
+          for (var i = 0; i &amp;lt; audioArray.length; i++) {
+              this.boost += audioArray[i];
+           }
+
+          this.boost = this.boost / audioArray.length;
+    }&lt;/pre&gt;
+&lt;p&gt;To analyse the sound frequency of our file, we&amp;nbsp;use the &lt;code&gt;frequencyBinCount&lt;/code&gt;&amp;nbsp;property of the analyser node to calculate the number of values needed for the visualization (&lt;a title=&quot;frequencyBinCount&quot; href=&quot;https://developer.mozilla.org/en-US/docs/Web/API/AnalyserNode/frequencyBinCount&quot; target=&quot;_blank&quot;&gt;see here&lt;/a&gt;).&amp;nbsp;&amp;nbsp;We then use this&amp;nbsp;&lt;code&gt;Uint8Array&lt;/code&gt; (&lt;code&gt;audioArray&lt;/code&gt;) as an argument to&amp;nbsp;&lt;code&gt;getByteFrequencyData()&lt;/code&gt;, which copies the frequency data into our&amp;nbsp;&lt;code&gt;audioArray&lt;/code&gt; (line 5).&lt;/p&gt;
+&lt;p&gt;Then in line 7, the boost variable (which is used by external classes) is initialized to 0. We then add each index of the &lt;code&gt;audioArray&lt;/code&gt; to the boost variable in the for loop on lines 9-11, and then get the average boost by dividing the boost by the number of items in the &lt;code&gt;audioArray&lt;/code&gt; on line 13.&lt;/p&gt;
+&lt;h3&gt;Improvements&lt;/h3&gt;
+&lt;p&gt;The boost detected here is only a &#39;loudness&#39; value, and doesn&#39;t allow us to analyse the track for specific instruments. Possible improvements to this JavaScript object would be to add additional functions to detect different characteristics of the music.&amp;nbsp;&lt;/p&gt;
+
+</description>
+        <pubDate>Fri, 18 Sep 2015 05:34:20 +0100</pubDate>
+        <link>http://yourdomain.com/audio/2015/09/18/detect-audio-boost.html</link>
+        <guid isPermaLink="true">http://yourdomain.com/audio/2015/09/18/detect-audio-boost.html</guid>
+        
+        
+        <category>audio</category>
+        
+      </item>
+    
+      <item>
+        <title>Load audio with the Web Audio API</title>
+        <description>&lt;p&gt;This tutorial is part of the &quot;&lt;a title=&quot;Seeing sounds with three.js&quot; target=&quot;_blank&quot;&gt;Seeing Sounds with Three.JS&lt;/a&gt;&quot; tutorial series. In this part we will be getting started with the web audio API to add music to an&amp;nbsp;existing scene.&lt;/p&gt;
+&lt;p&gt;We&#39;re building on the previous part of this series where we &lt;a title=&quot;Creating a terrain in three.js&quot; href=&quot;/webgl/2015/04/25/create-terrain-three-js-webgl-part-2.html&quot; target=&quot;_blank&quot;&gt;created a terrain&lt;/a&gt;. The purpose is&amp;nbsp;to get that terrain moving to the beat of any chosen&amp;nbsp;music track, so it looks like the floor is jumping.&lt;/p&gt;
+&lt;p&gt;However before that can be done, we first need to analyse the chosen sound file and&amp;nbsp;detect the beat- and that is what we will do in this tutorial by creating an audio analyser object. The audioAnalyser will allow us to detect the beat of the music to be used in&amp;nbsp;the next tutorial which will look at using that beat to move&amp;nbsp;our terrain. &amp;nbsp;&lt;/p&gt;
+&lt;hr /&gt;
+
+&lt;h3&gt;The Audio Analyser&lt;/h3&gt;
+&lt;p&gt;The final audioAnalyser script&amp;nbsp;we&#39;re create can be seen here:&amp;nbsp;&lt;/p&gt;
+&lt;p&gt;&lt;a class=&quot;btn btn-success&quot; href=&quot;https://gist.github.com/GraemeFulton/45ae4291b778702fce44&quot; target=&quot;_blank&quot;&gt;View on Github&lt;/a&gt;&lt;/p&gt;
+&lt;h4&gt;Overview&lt;/h4&gt;
+&lt;p&gt;Overall the audioAnalyser consists of a constructor, and 5 functions:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;constructor - sets up the objects main properties, such as the sound track.&lt;/li&gt;
+&lt;li&gt;loadAudio() - this does what you expect&lt;/li&gt;
+&lt;li&gt;decodeAudio() - once the audio is loaded, it needs to be decoded.&lt;/li&gt;
+&lt;li&gt;setUpAnalyser() - sets up everything needed to analyse the music&lt;/li&gt;
+&lt;li&gt;analyseBoost() - finds the beat&lt;/li&gt;
+&lt;li&gt;play() - call this to start everything off&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h4&gt;Usage&lt;/h4&gt;
+&lt;p&gt;You can use the audio analyser like this:&lt;/p&gt;
+&lt;pre class=&quot;brush:html;auto-links:false;toolbar:false&quot; contenteditable=&quot;false&quot;&gt;//create an instance (providing your sound file path)
+var audioAnalyser = new AudioAnalyser(&#39;objects/audio/music.mp3&#39;);
+
+//play music
+audioAnalyser.play();&lt;/pre&gt;
+&lt;hr /&gt;
+
+&lt;h3&gt;How it works&lt;/h3&gt;
+&lt;h4&gt;The Audio Context&lt;/h4&gt;
+&lt;p&gt;When instantiating the audioAnalyser,&amp;nbsp;a number of things are set up in the constructor. The main parts are the creation of an Audio Context, the Buffer Source, and the XMLHttpRequest:&lt;/p&gt;
+&lt;pre class=&quot;brush:html;auto-links:false;toolbar:false&quot; contenteditable=&quot;false&quot;&gt;//create audio context
+this.audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+
+//create buffer source
+this.source = this.audioCtx.createBufferSource();
+
+//create XMLHttpRequest
+this.request = new XMLHttpRequest();&lt;/pre&gt;
+&lt;p&gt;The Audio Context is used to manage the sound passed into the constructor, and also to play it. All the functionality&amp;nbsp;we need to analyse our music is provided by the Audio Context, such as decoding the music.&amp;nbsp;&lt;/p&gt;
+&lt;p&gt;A Buffer Source is then created from the Audio Context through calling &lt;code&gt;audioCtx.createBufferSource();&lt;/code&gt;&amp;nbsp;&lt;/p&gt;
+&lt;p&gt;The XMLHttpRequest property is used for fetching the sound from the filepath.&lt;/p&gt;
+&lt;h4&gt;The Audio Buffer&lt;/h4&gt;
+&lt;p&gt;Calling&lt;code&gt;&amp;nbsp;audioAnalyser.play()&lt;/code&gt;&amp;nbsp;starts everything off by triggering &lt;code&gt;loadAudio()&lt;/code&gt;, which uses the request property created in the consturctor to load our sound (as seen in line 3) :&lt;/p&gt;
+&lt;pre class=&quot;brush:html;auto-links:false;toolbar:false&quot; contenteditable=&quot;false&quot;&gt; loadAudio:function(){
+
+        this.request.open(&#39;GET&#39;, this.sound, true);
+        this.request.responseType = &#39;arraybuffer&#39;;
+
+        var audioAnalyserInstance = this;
+        //on load decode the audio
+        this.request.onload = function() {
+          audioAnalyserInstance.decodeAudio();
+        }
+
+        //then send the request
+        this.request.send();
+
+    }&lt;/pre&gt;
+&lt;p&gt;Line 4 then sets a response type of arraybuffer for loading the sound. This arraybuffer then becomes&amp;nbsp;part of our request object, and is used to decode the audio. That happens in line 9, where we call decodeAudio();&lt;/p&gt;
+&lt;h3&gt;Decode the Audio&lt;/h3&gt;
+&lt;p&gt;Here, we again use the Audio Context&#39;s (this.audioCtx) decodeAudioData function, using our request object as a parameter so that we can access the arraybuffer which it holds (line 4):&amp;nbsp;&lt;/p&gt;
+&lt;pre class=&quot;brush:html;auto-links:false;toolbar:false&quot; contenteditable=&quot;false&quot;&gt;decodeAudio:function(){
+
+        var audioAnalyserInstance = this;
+        this.audioCtx.decodeAudioData(this.request.response, function(decodedData) {
+
+            audioAnalyserInstance.setUpAnalyser(decodedData);
+        },
+        function(e){&quot;Error with decoding audio data&quot; + e.err});
+    }&lt;/pre&gt;
+&lt;p&gt;The decodeAudioData also has a callback function as the second parameter (line 4), which simply calls the setUpAnalyser function of our audioAnalyser (line 6).&lt;/p&gt;
+&lt;h3&gt;That&#39;s all for now&lt;/h3&gt;
+&lt;p&gt;That&#39;s enough for one tutorial. In the next part, we&#39;ll look at the last section&amp;nbsp;of the audioAnalyser code, and find out how an&amp;nbsp;the audio context&#39;s&amp;nbsp;&lt;span style=&quot;color: #333333; font-family: Consolas, &#39;Liberation Mono&#39;, Menlo, Courier, monospace; font-size: 12px; line-height: 16.8px; white-space: pre;&quot;&gt;createAnalyser&lt;/span&gt;&amp;nbsp;function can be used to analyse the beat.&lt;/p&gt;
+
+</description>
+        <pubDate>Tue, 15 Sep 2015 10:34:20 +0100</pubDate>
+        <link>http://yourdomain.com/audio/2015/09/15/loading-audio-with-web-audio-api.html</link>
+        <guid isPermaLink="true">http://yourdomain.com/audio/2015/09/15/loading-audio-with-web-audio-api.html</guid>
+        
+        
+        <category>audio</category>
+        
+      </item>
+    
+      <item>
+        <title>Create a sound analyser with the Web Audio API</title>
+        <description>&lt;p&gt;We left off having loaded the audio using the analyseAudio object. Now we&#39;re going to explore the &lt;code&gt;setUpAnalyser()&lt;/code&gt; function which will starts off&amp;nbsp;the sound analysing process. &lt;code&gt;setUpAnalyser&lt;/code&gt;&amp;nbsp;sets up everything we need to analyse the music:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;it creates a separate processor node required for the analysis&amp;nbsp;&lt;/li&gt;
+&lt;li&gt;sets up the sound&amp;nbsp;buffer for playing the track, and also loops the song&lt;/li&gt;
+&lt;li&gt;makes sure the analyseBoost function is called when the track is playing&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr /&gt;
+
+&lt;h3&gt;Overview&lt;/h3&gt;
+&lt;p&gt;There&#39;s 4 steps to this tutorial:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Step 1 will create a processor node used for processing music&lt;/li&gt;
+&lt;li&gt;Step 2 creates the sound analyser&lt;/li&gt;
+&lt;li&gt;Step 3 uses the sound buffer to play the music&lt;/li&gt;
+&lt;li&gt;Step 4 calls makes sure the sound is analysed when processed&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr /&gt;
+
+&lt;h4&gt;Step 1: What is a script processor node?&lt;/h4&gt;
+&lt;p&gt;The first thing to do is create a script processor which is used for direct audio processing in JavaScript. To create the processor node, audio context has a handy function: &lt;code&gt;createScriptProcessor(bufferSize, numberOfInputChannels, numberOfOutputChannels);&lt;/code&gt;&amp;nbsp;. I have used it as follows:&lt;/p&gt;
+&lt;pre class=&quot;brush:js;auto-links:false;toolbar:false&quot; contenteditable=&quot;false&quot;&gt;var scriptProcessorNode = this.audioCtx.createScriptProcessor(2048, 1, 1);
+&lt;/pre&gt;
+&lt;p&gt;&amp;nbsp;We then set the processor node&#39;s buffer to the one passed into the setUpAnalyser function, and connect it using audio context&#39;s destination property:&lt;/p&gt;
+&lt;pre class=&quot;brush:js;auto-links:false;toolbar:false&quot; contenteditable=&quot;false&quot;&gt;//set buffer
+scriptProcessorNode.buffer = buffer;
+//connect
+scriptProcessorNode.connect(this.audioCtx.destination);&lt;/pre&gt;
+&lt;hr /&gt;
+
+&lt;h4&gt;Step 2: Create the sound analyser using Audio Context&lt;/h4&gt;
+&lt;p&gt;Actually creating the analyser is very simple. We just use the audio context&#39;s &lt;code&gt;createAnalyser()&lt;/code&gt; function (line 2). After that, we set a few of the analyser&#39;s properties:&lt;/p&gt;
+&lt;pre class=&quot;brush:js;auto-links:false;toolbar:false&quot; contenteditable=&quot;false&quot;&gt;//create analyser
+this.analyser = this.audioCtx.createAnalyser();
+//set analyser properties
+this.analyser.smoothingTimeConstant = 0.6;
+this.analyser.fftSize = 512;
+this.analyser.connect(scriptProcessorNodes);&lt;/pre&gt;
+&lt;hr /&gt;
+
+&lt;h4&gt;Step 3: The source buffer lets the music play&lt;/h4&gt;
+&lt;p&gt;Next, we make use of our original source buffer, which had previously been instantiated in the constructor like so:&lt;/p&gt;
+&lt;pre class=&quot;brush:js;auto-links:false;toolbar:false&quot; contenteditable=&quot;false&quot;&gt;this.source = this.audioCtx.createBufferSource();&lt;/pre&gt;
+&lt;p&gt;The source property is used to play the music, so we set it&#39;s buffer property, and connect it using the audio context destination (just like with the processor node). Additionally, we can set the loop property to true so that the song repeats instead of stopping at the end:&lt;/p&gt;
+&lt;pre class=&quot;brush:js;auto-links:false;toolbar:false&quot; contenteditable=&quot;false&quot;&gt;//set buffer
+this.source.buffer = buffer;
+//connect
+this.source.connect(this.audioCtx.destination);
+//set looping
+this.source.loop = true;
+//connect using analyser
+this.source.connect(this.analyser);&lt;/pre&gt;
+&lt;hr /&gt;
+
+&lt;h4&gt;Step 4: The last step :)&lt;/h4&gt;
+&lt;p&gt;The final&amp;nbsp;part of this function triggers&amp;nbsp;&lt;code&gt;analyseBoost()&lt;/code&gt;, which is used to analyse the track whilst&amp;nbsp;it plays:&lt;/p&gt;
+&lt;pre class=&quot;brush:js;auto-links:false;toolbar:false&quot; contenteditable=&quot;false&quot;&gt;scriptProcessorNode.onaudioprocess = function(e) {
+              audioAnalyserInstance.analyseBoost();
+           }&lt;/pre&gt;
+&lt;hr /&gt;
+
+&lt;h3&gt;Overall&lt;/h3&gt;
+&lt;p&gt;The overall function should look like this:&lt;/p&gt;
+&lt;pre class=&quot;brush:js;auto-links:false;toolbar:false&quot; contenteditable=&quot;false&quot;&gt;setUpAnalyser:function(buffer){
+
+         var audioAnalyserInstance = this;
+         var scriptProcessorNode = this.audioCtx.createScriptProcessor(2048, 1, 1);
+          scriptProcessorNode.buffer = buffer;
+          scriptProcessorNode.connect(this.audioCtx.destination);
+
+          this.analyser = this.audioCtx.createAnalyser();
+          this.analyser.smoothingTimeConstant = 0.6;
+          this.analyser.fftSize = 512;
+          this.analyser.connect(scriptProcessorNodes);
+
+          this.source.buffer = buffer;
+          this.source.connect(this.audioCtx.destination);
+          this.source.loop = true;
+          this.source.connect(this.analyser);
+
+          scriptProcessorNode.onaudioprocess = function(e) {
+              audioAnalyserInstance.analyseBoost();
+           }
+
+
+    }&lt;/pre&gt;
+&lt;hr /&gt;
+
+&lt;h3&gt;Nice one.&lt;/h3&gt;
+&lt;p&gt;The next part of this series will use the analyser created in this tutorial to detect the beat of the music.&amp;nbsp;&lt;/p&gt;
+
+</description>
+        <pubDate>Fri, 11 Sep 2015 14:34:20 +0100</pubDate>
+        <link>http://yourdomain.com/audio/2015/09/11/creating-sound-analyser-web-audio-api.html</link>
+        <guid isPermaLink="true">http://yourdomain.com/audio/2015/09/11/creating-sound-analyser-web-audio-api.html</guid>
+        
+        
+        <category>audio</category>
+        
+      </item>
+    
+      <item>
+        <title>First person navigation with threeJS</title>
+        <description>&lt;p&gt;This tutorial will show you how&amp;nbsp;to navigate through a 3D environment using your keyboard&#39;s arrows, much like a first person shooter game such as Doom (or Halo these days). To achieve this, you&#39;ll need three things:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;A surface to navigate along - use &lt;a href=&quot;http://threejs.org/docs/#Reference/Extras.Geometries/PlaneGeometry&quot; target=&quot;_blank&quot;&gt;planeGeometry&lt;/a&gt;&amp;nbsp;or follow &lt;a title=&quot;terrain guide&quot; href=&quot;/webgl/2015/04/25/create-terrain-three-js-webgl-part-2.html&quot; target=&quot;_blank&quot;&gt;this guide&lt;/a&gt;&amp;nbsp;to set up a fancier terrain&lt;/li&gt;
+&lt;li&gt;The&amp;nbsp;&lt;a title=&quot;threex keyboardstate&quot; href=&quot;https://github.com/jeromeetienne/threex.keyboardstate&quot; target=&quot;_blank&quot;&gt;ThreeX.Keyboardstate script by Jerome Etienne&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Some music - this is just for you to enjoy following the tutorial more&lt;/li&gt;
+&lt;/ol&gt;
+&lt;hr /&gt;
+
+&lt;h3&gt;&amp;nbsp;Step 1: Include the ThreeX.Keyboardstate Script&lt;/h3&gt;
+&lt;p&gt;An easy first step -&amp;nbsp;just include the ThreeX.Keyboardstate script underneath the main three.js script:&lt;/p&gt;
+&lt;pre class=&quot;brush:html;auto-links:false;toolbar:false&quot; contenteditable=&quot;false&quot;&gt;  &amp;lt;script src=&quot;libs/three.js&quot;&amp;gt;&amp;lt;/script&amp;gt;
+  &amp;lt;script src=&quot;libs/THREEx.KeyboardState.js&quot;&amp;gt;&amp;lt;/script&amp;gt; &lt;/pre&gt;
+&lt;hr /&gt;
+
+&lt;h3&gt;Step 2: Create a skeleton Camera Control Object&lt;/h3&gt;
+&lt;p&gt;Using the &lt;a title=&quot;combination constructor pattern&quot; href=&quot;/webgl/2015/05/03/object-oriented-javascript-for-beginners.html&quot; target=&quot;_blank&quot;&gt;combination/constructor prototype pattern&lt;/a&gt;&amp;nbsp;(a way&amp;nbsp;of writing object oriented JavaScript),&amp;nbsp;create a Camera Controls object:&lt;/p&gt;
+&lt;pre class=&quot;brush:js;auto-links:false;toolbar:false&quot; contenteditable=&quot;false&quot;&gt;  /**
+   * CameraControls
+   */
+  function CameraControls(){
+    //constructor
+  }
+
+  CameraControls.prototype={
+    constructor:CameraControls
+  };&lt;/pre&gt;
+&lt;p&gt;Above is the basic structure for our CameraControl object:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;In line 4, we define create the constructor for the CameraControls object.&lt;/li&gt;
+&lt;li&gt;In line 8, we add the constructor to the CameraControls object&amp;nbsp;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Now inside the prototype declaration, we can add a function called &#39;update&#39; which will contain all the code related to moving the camera around the world:&lt;/p&gt;
+&lt;pre class=&quot;brush:js;auto-links:false;toolbar:false&quot; contenteditable=&quot;false&quot;&gt;  CameraControls.prototype={
+    constructor:CameraControls,
+
+    update:function(camera, keyboard, clock){
+      //functionality to go here
+    }
+
+  };&lt;/pre&gt;
+&lt;p&gt;Line 4 shows the new update function, which has camera, keyboard and clock variables:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;It&#39;s obvious what the camera is&lt;/li&gt;
+&lt;li&gt;Keyboard will be a&amp;nbsp;ThreeX.Keyboardstate instance&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Now your set up, and we can start adding in the main functionality to control the camera position.&lt;/p&gt;
+&lt;hr /&gt;
+
+&lt;h3&gt;Step 3: Move the camera using ThreeX.Keyboardstate&lt;/h3&gt;
+&lt;p&gt;Inside the &lt;code&gt;update&lt;/code&gt; function created in the previous step, we&#39;ll add all the code to move the camera about - using the ThreeX.Keyboardstate script included in step 1.&lt;/p&gt;
+&lt;p&gt;To start, define 3 variables at the top of the update function:&lt;/p&gt;
+&lt;pre class=&quot;brush:js;auto-links:false;toolbar:false&quot; contenteditable=&quot;false&quot;&gt;var delta = clock.getDelta(); // seconds.
+var moveDistance = 150 * delta; // 200 pixels per second
+var rotateAngle = Math.PI / 2 * delta;   // pi/2 radians (90 degrees) per second
+    	&lt;/pre&gt;
+&lt;p&gt;What are these for?&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;delta&lt;/code&gt; uses the clock instance passed into the update function - it is used to define the speed in &lt;code&gt;moveDistance&lt;/code&gt; and &lt;code&gt;rotateAngle&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;moveDistance&lt;/code&gt; defines how many pixels the camera will move per second when a direction key is pressed&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;rotateAngle&lt;/code&gt; does the same as &lt;code&gt;moveDistance&lt;/code&gt;, but for rotating left and right&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Now we can move onto hooking up the keyboard presses&amp;nbsp;with the camera. &amp;nbsp;Keep in mind that in the following codeblock, &lt;code&gt;keyboard&lt;/code&gt;&amp;nbsp;is a &lt;code&gt;ThreeX.Keyboardstate&amp;nbsp;&lt;/code&gt;object passed into the update function, so has some awesome functionality. The &lt;code&gt;keyboard&lt;/code&gt; (ThreeX.Keyboardstate instance) object has a &lt;code&gt;pressed()&lt;/code&gt;&amp;nbsp;function, which accepts any key on the keyboard as a parameter. Therefore, to detect if the up arrow is being pressed, we can pass in &quot;up&quot;:&lt;/p&gt;
+&lt;pre class=&quot;brush:html;auto-links:false;toolbar:false&quot; contenteditable=&quot;false&quot;&gt;if ( keyboard.pressed(&quot;up&quot;) ){
+    //if up is pressed, move the camera into the screen
+    camera.translateZ( -moveDistance );
+}&lt;/pre&gt;
+&lt;p&gt;Above, we use the &lt;code&gt;translateZ&lt;/code&gt; function available to the camera object, and move the camera into the screen (away from you) by providing a negative &lt;code&gt;moveDistance&lt;/code&gt; value.&lt;/p&gt;
+&lt;p&gt;That&#39;s actually as complicated as it gets - implementations of the&amp;nbsp;other arrow key presses can be seen below. Left and right rotate the camera rather than move it:&lt;/p&gt;
+&lt;pre class=&quot;brush:js;auto-links:false;toolbar:false&quot; contenteditable=&quot;false&quot;&gt;// move forwards/backwards/left/right
+//up
+if ( keyboard.pressed(&quot;up&quot;) )
+    		camera.translateZ( -moveDistance );
+//down
+if ( keyboard.pressed(&quot;down&quot;) )
+    		camera.translateZ(  moveDistance );
+
+// rotate left/right
+THREE.Matrix4().identity();
+
+//left
+if ( keyboard.pressed(&quot;left&quot;) )
+    camera.rotateOnAxis( new THREE.Vector3(0,1,0), rotateAngle);
+//right
+if ( keyboard.pressed(&quot;right&quot;) )
+    camera.rotateOnAxis( new THREE.Vector3(0,1,0), -rotateAngle);&lt;/pre&gt;
+&lt;hr /&gt;
+
+&lt;h3&gt;Step 4: Use the CameraControls object in your main script&lt;/h3&gt;
+&lt;p&gt;To actually use the object created in the previous steps, you first have to create an instance of it:&lt;/p&gt;
+&lt;pre class=&quot;brush:html;auto-links:false;toolbar:false&quot; contenteditable=&quot;false&quot;&gt;var cameraControls = new CameraControls();&lt;/pre&gt;
+&lt;p&gt;Then, create the keyboard instance (along with clock and camera):&lt;/p&gt;
+&lt;pre class=&quot;brush:html;auto-links:false;toolbar:false&quot; contenteditable=&quot;false&quot;&gt;var keyboard = new THREEx.KeyboardState();
+var clock = new THREE.Clock();
+var camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 1, 1000);&lt;/pre&gt;
+&lt;p&gt;And finally use the update function we created in the render function of your main three.js script:&lt;/p&gt;
+&lt;pre class=&quot;brush:html;auto-links:false;toolbar:false&quot; contenteditable=&quot;false&quot;&gt;cameraControls.update(camera,keyboard,clock);&lt;/pre&gt;
+&lt;hr /&gt;
+
+&lt;h3&gt;Well Done&lt;/h3&gt;
+&lt;p&gt;Congrats, you&#39;re done - if there&#39;s any questions/improvements please add them in the comments.&lt;/p&gt;
+&lt;p&gt;&amp;nbsp;&lt;/p&gt;
+
+</description>
+        <pubDate>Tue, 08 Sep 2015 12:34:20 +0100</pubDate>
+        <link>http://yourdomain.com/webgl/2015/09/08/threejs-first-person-navigation.html</link>
+        <guid isPermaLink="true">http://yourdomain.com/webgl/2015/09/08/threejs-first-person-navigation.html</guid>
+        
+        
+        <category>webgl</category>
+        
+      </item>
+    
+      <item>
+        <title>MEAN stack on IBM Bluemix: configuring MongoDB</title>
+        <description>&lt;p&gt;This is a follow up to a previous post: &quot;&lt;a title=&quot;Mean stack on heroku&quot; href=&quot;/technical/2015/08/10/mean-stack-heroku-mongodb-gulp.html&quot; target=&quot;_blank&quot;&gt;The MEAN Stack on Heroku&lt;/a&gt;&quot;, which looked at deploying and building a MEAN stack application in the cloud via Heroku.&lt;/p&gt;
+&lt;p&gt;This time, I&#39;m doing the exact same thing on IBM Bluemix, but this time I&amp;nbsp;will focus primarily on configuring the Bluemix MongoDB service, as the rest is the same as when using&amp;nbsp;Heroku.&lt;/p&gt;
+&lt;h3&gt;Configuring MongoLab on Bluemix&lt;/h3&gt;
+&lt;p&gt;You first need to install the MongoLab service on Bluemix and register it to your app. You can do that using cloud foundry from the command line, or just add it from the web interface.&lt;/p&gt;
+&lt;p&gt;Once MongoLab is installed and connected to your app, you&amp;rsquo;ll need to ensure your mongoose connection is set to use Bluemix&#39;s&amp;nbsp;environmental variable, as well as your own (so you don&#39;t break how things work locally). That can be done by altering the way you connect to the database using&lt;code style=&quot;box-sizing: border-box; border-radius: 4px; font-family: Menlo, Monaco, Consolas, &#39;Courier New&#39;, monospace; font-size: 14.3999996185303px; padding: 2px 4px; color: #595959; border: 1px solid #e4e4e4; line-height: 28px; background-color: #f5f7f8;&quot;&gt;mongoose.connect()&lt;/code&gt;. For my app, I altered my db.js file to following:&lt;/p&gt;
+&lt;pre class=&quot;brush:html;auto-links:false;toolbar:false&quot; contenteditable=&quot;false&quot;&gt;if (process.env.VCAP_SERVICES)
+{
+      var env = JSON.parse(process.env.VCAP_SERVICES);
+
+      for (var svcName in env)
+      {
+            if (svcName.match(/^mongo.*/))
+            {
+               mongoose.connect(env[&#39;mongolab&#39;][0].credentials.uri);
+               console.log (&quot;Connected to mongodb service&quot;);
+
+            }
+       }
+}
+else{
+
+mongoose.connect(&#39;mongodb://localhost/social&#39;);
+
+}
+&lt;/pre&gt;
+&lt;p&gt;Bluemix stores the mongodb connection variable in an environmental variable called &lt;code&gt;VCAP_SERVICES&lt;/code&gt;, so we need to find it and use it within &lt;code&gt;mongoose.connect()&lt;/code&gt;. Here&#39;s what&#39;s happening in the above code snippet:&amp;nbsp;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;In line 3, we store the &lt;code&gt;VCAP_SERVICES&lt;/code&gt;&amp;nbsp;variable into a local variable called env &amp;nbsp;&lt;/li&gt;
+&lt;li&gt;In line 5, we loop through the different service names stored in env&lt;/li&gt;
+&lt;li&gt;line 6 is a check to see if any service names match &#39;mongo&#39;&lt;/li&gt;
+&lt;li&gt;If so, we can be sure our service is installed correctly. The mongolab service variable holds an array of information - one of which is details, which holds our connection URI - which we can use to connect with (line 8)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&amp;nbsp;Apart from doing this there&#39;s one more bit that needs fixing before the app will run:&lt;/p&gt;
+&lt;h3&gt;Set the port&amp;nbsp;&lt;/h3&gt;
+&lt;p&gt;When creating a node server locally, it&#39;s pretty standard to use port 3000. However, I found Bluemix doesn&#39;t like this, as it also has its own environmental variable for the port too: process.env.VCAP_APP_PORT, which you can use like so:&lt;/p&gt;
+&lt;pre class=&quot;brush:html;auto-links:false;toolbar:false&quot; contenteditable=&quot;false&quot;&gt;var port = 3000;
+if (process.env.VCAP_APP_PORT !== null) {
+    port = process.env.VCAP_APP_PORT;
+}
+
+app.listen(port, function(){
+
+	console.log(&#39;listening on &#39;, 3000)
+
+})&lt;/pre&gt;
+&lt;p&gt;&amp;nbsp;&lt;/p&gt;
+&lt;h3&gt;Updates&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;See &lt;a href=&quot;https://developer.ibm.com/bluemix/2014/07/17/node-cfenv-makes-it-easy/&quot; target=&quot;_blank&quot;&gt;here&lt;/a&gt;&amp;nbsp;for a better way to access VCAP_SERVICES&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&amp;nbsp;&lt;/p&gt;
+
+</description>
+        <pubDate>Mon, 07 Sep 2015 12:34:20 +0100</pubDate>
+        <link>http://yourdomain.com/technical/2015/09/07/mean-stack-ibm-bluemix.html</link>
+        <guid isPermaLink="true">http://yourdomain.com/technical/2015/09/07/mean-stack-ibm-bluemix.html</guid>
+        
+        
+        <category>technical</category>
+        
+      </item>
+    
+      <item>
+        <title>Get creative with Google’s material design language</title>
+        <description>&lt;p class=&quot;p1&quot;&gt;Everything I&amp;rsquo;ve seen regarding Google&amp;rsquo;s new material design language has got me very excited. Rather than just being aware of it though, I wanted to get my hands dirty and experience working with it to gain a true understanding.&lt;/p&gt;
+&lt;p class=&quot;p2&quot;&gt;To do so, I have redesigned a fairly mundane job board application to follow concepts from Google&amp;rsquo;s material design guidelines. As well as redesigning the application, I have also fully implemented it in code, so you can&amp;nbsp;&lt;a title=&quot;graduate jobs&quot; href=&quot;http://grad-jobs.com&quot; target=&quot;_blank&quot;&gt;see it in action&lt;/a&gt;.&lt;/p&gt;
+&lt;p class=&quot;p2&quot;&gt;This post therefore aims to show why I found material design appealing to use in the first place, and also brief overview of the web application I created.&lt;/p&gt;
+&lt;h3 class=&quot;p2&quot;&gt;Why use material design?&lt;/h3&gt;
+&lt;h4&gt;Moving away from flat design&lt;/h4&gt;
+&lt;p class=&quot;p2&quot;&gt;The flat design trend was a great improvement on skeuomorphic ideas which had more focus on the look of the interface. Flat design has allowed us to give more attention to functionality and how the interface actually works, thereby making products easier to use.&lt;/p&gt;
+&lt;p class=&quot;p2&quot;&gt;&lt;img src=&quot;http://www.eightytwenty.ie/blog/wp-content/uploads/2013/09/skeuomorphic-11.jpg&quot; alt=&quot;&quot; width=&quot;308&quot; height=&quot;286&quot; /&gt;&lt;img src=&quot;http://colleyportfolio.weebly.com/uploads/2/4/0/1/24017385/8964085_orig.jpg&quot; alt=&quot;&quot; width=&quot;394&quot; height=&quot;287&quot; /&gt;&lt;/p&gt;
+&lt;p class=&quot;p1&quot;&gt;As with everything though, despite the&amp;nbsp;success of flat design, it can always be improved and evolved into something even better &amp;ndash; that&amp;rsquo;s what Google have helped do with material design.&lt;/p&gt;
+&lt;h4 class=&quot;p1&quot;&gt;The Z Axis&lt;/h4&gt;
+&lt;p class=&quot;p1&quot;&gt;&lt;span class=&quot;s1&quot;&gt;Flat design is constrained only to the X and Y axis, meaning objects on a page can only move left to right and up and down. Due to this, all elements share the same plane which can quickly lead to generic interfaces and even difficulty in&amp;nbsp;navigation since action buttons can blend in with the rest of the content. Material design literally adds an extra dimension to the flat design, enabling designers to, according to Google: &amp;ldquo;&lt;em&gt;synthesize the classic principles of good design with the innovation and possibility of technology and science&lt;/em&gt;&amp;rdquo;.&lt;/span&gt;&lt;/p&gt;
+&lt;p class=&quot;p1&quot;&gt;&lt;img src=&quot;http://blog.mytemplatez.com/wp-content/uploads/2015/03/material-design-axis.jpg&quot; alt=&quot;material design&quot; width=&quot;589&quot; height=&quot;372&quot; /&gt;&lt;/p&gt;
+&lt;p class=&quot;p1&quot;&gt;&lt;span class=&quot;s1&quot;&gt;In providing the&amp;nbsp;extra Z axis, I&#39;ve personally found there to be more room for creativity, as well as greater opportunity to leverage&amp;nbsp;technological capabilities - this isn&#39;t print after all. By combining animation with layout, you can create something with a lot more meaning, and I&#39;d totally agree with how Sinsabaugh (Wired Magazine) puts it:&lt;/span&gt;&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;em&gt;&amp;nbsp;&quot;If we take anything from Material Design it isn&amp;rsquo;t&amp;nbsp;&lt;a href=&quot;http://www.google.com/design/spec/style/color.html&quot; target=&quot;_blank&quot;&gt;how to use color,&lt;/a&gt;&amp;nbsp;&lt;a href=&quot;http://www.google.com/design/spec/animation/authentic-motion.html&quot; target=&quot;_blank&quot;&gt;how your ease timing should be set,&lt;/a&gt;or&amp;nbsp;&lt;a href=&quot;http://www.google.com/design/spec/what-is-material/objects-in-3d-space.html#objects-in-3d-space-elevation&quot; target=&quot;_blank&quot;&gt;what the resting elevation of an object should be.&lt;/a&gt;&amp;nbsp;It&amp;rsquo;s not the details themselves we take away, it&amp;rsquo;s how the details combine to create purposeful brand experience.&quot;&lt;/em&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;hr /&gt;
+
+&lt;h3 class=&quot;p1&quot;&gt;Material in practice&lt;/h3&gt;
+&lt;p class=&quot;p2&quot;&gt;I applied Google&amp;rsquo;s material design to a fairly mundane job board website I&amp;rsquo;d created&amp;nbsp;a couple years ago. It&amp;rsquo;s made a boring task of searching for jobs a lot more appealing through the use of animations and vibrant colors.&lt;/p&gt;
+&lt;h4 class=&quot;p2&quot;&gt;A jobs board, made material&lt;/h4&gt;
+&lt;p class=&quot;p1&quot;&gt;&lt;span class=&quot;s1&quot;&gt;The jobs board&amp;nbsp;starts off with an on-boarding process, asking the user where they want to work, and where. Once the on-boarding is&amp;nbsp;complete, the user receives a&amp;nbsp;list job of recommendations based on their choices. Below is a gif&amp;nbsp;showing the main landing page:&lt;/span&gt;&lt;/p&gt;
+&lt;p class=&quot;p2&quot;&gt;&lt;iframe class=&quot;giphy-embed&quot; src=&quot;//giphy.com/embed/xTiTnrIh8ifPoe8ks8&quot; width=&quot;614&quot; height=&quot;326&quot; frameborder=&quot;0&quot; allowfullscreen=&quot;allowfullscreen&quot;&gt;&lt;/iframe&gt;&lt;/p&gt;
+&lt;h4 class=&quot;p2&quot;&gt;Animation with meaning&lt;/h4&gt;
+&lt;p&gt;This is what&#39;s happening in the above gif:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;The card moves in from the bottom the grows take up more screen space.&lt;/li&gt;
+&lt;li&gt;The large card with all the information is one of the highest on the Z axis, taking priority.&lt;/li&gt;
+&lt;li&gt;The start now button is also raised on top of the card, standing out to the user&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Similar animations and material concepts are used in the following pages of the on boarding process, where the user chooses their industry and location:&lt;/p&gt;
+&lt;p class=&quot;p2&quot;&gt;&lt;iframe src=&quot;https://www.youtube.com/embed/Zt-lAbz6Vv8&quot; width=&quot;560&quot; height=&quot;315&quot; frameborder=&quot;0&quot; allowfullscreen=&quot;allowfullscreen&quot;&gt;&lt;/iframe&gt;&lt;/p&gt;
+&lt;h3 class=&quot;p1&quot;&gt;&lt;span class=&quot;s1&quot;&gt;Authentic Motion&lt;/span&gt;&lt;/h3&gt;
+&lt;p class=&quot;p1&quot;&gt;&lt;span class=&quot;s1&quot;&gt;All the animations were implemented following Google&amp;rsquo;s guidelines on authentic motion,&amp;nbsp; which states that in order to draw attention to specific objects you can vary the change in speed when starting and stopping. This is shown by the green line and dot below:&lt;/span&gt;&lt;/p&gt;
+&lt;p class=&quot;p2&quot;&gt;&lt;span class=&quot;s1&quot;&gt;&lt;img src=&quot;https://html5experts.jp/wp-content/uploads/2014/07/Authentic-Motion-Animation-Google-design-guidelines.png&quot; alt=&quot;authentic motion&quot; width=&quot;640&quot; height=&quot;364&quot; /&gt;&lt;/span&gt;&lt;/p&gt;
+&lt;p class=&quot;p2&quot;&gt;&amp;nbsp;&lt;/p&gt;
+&lt;hr /&gt;
+
+&lt;h3 class=&quot;p2&quot;&gt;I like material design&lt;/h3&gt;
+&lt;p class=&quot;p2&quot;&gt;Through implementing a real life product with material design, I&#39;ve been able to truly see the benefits, and to me they are real. I&#39;ve enjoyed the way material design borrows concepts from the real world but applies them in a unique way. For that reason, I&#39;m not sure if it&amp;nbsp;is actually skeuomorphic or not - please add your thoughts to the&amp;nbsp;comments below if you&#39;ve got any idea.&amp;nbsp;&lt;/p&gt;
+&lt;p class=&quot;p1&quot;&gt;&lt;span class=&quot;s1&quot;&gt;I&amp;rsquo;ll be writing a follow up post on other concepts of material design. For now, check out the site:&amp;nbsp;&lt;a title=&quot;Grad Job&quot; href=&quot;http://grad-jobs.com&quot; target=&quot;_blank&quot;&gt;http://grad-jobs.com&lt;/a&gt;&lt;/span&gt;&lt;/p&gt;
+
+</description>
+        <pubDate>Sun, 30 Aug 2015 12:34:20 +0100</pubDate>
+        <link>http://yourdomain.com/design/2015/08/30/google-material-design-app.html</link>
+        <guid isPermaLink="true">http://yourdomain.com/design/2015/08/30/google-material-design-app.html</guid>
+        
+        
+        <category>design</category>
+        
+      </item>
+    
+      <item>
+        <title>The MEAN Stack on Heroku : configuring MongoDB and Gulp</title>
+        <description>&lt;p class=&quot;p1&quot;&gt;I&amp;rsquo;ve been working with the MEAN stack, following an example in Jeff Dickey&amp;rsquo;s book: &amp;ldquo;Write Modern Web Apps with the MEAN Stack&amp;rdquo; to create a web&amp;nbsp;application. &amp;nbsp;I had it working fine locally, but encountered a few problems when deploying the app in the cloud using Heroku, which is what I&#39;m outlining in this post. I&#39;ll start with how I create the app from the web interface, and then configuring MongoDB and Gulp to work on Heroku.&amp;nbsp;&lt;/p&gt;
+&lt;h3 class=&quot;p1&quot;&gt;1. Create a Heroku App&amp;nbsp;&lt;/h3&gt;
+&lt;p class=&quot;p1&quot;&gt;&lt;span class=&quot;s1&quot;&gt;Here was my general process:&lt;/span&gt;&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Create a new app in from the Heroku web interface&lt;/li&gt;
+&lt;li&gt;Clone my git repository and &lt;code&gt;cd&lt;/code&gt; into my cloned project directory&lt;/li&gt;
+&lt;li&gt;Then follow the instructions provided by heroku to log into and push the app up:&lt;br /&gt;&lt;br /&gt;
+&lt;p style=&quot;box-sizing: border-box; margin-right: 0px; margin-bottom: 10px; margin-left: 0px; line-height: 24px; font-size: 13px; color: #7d7d8e; font-family: benton-sans, &#39;Helvetica Neue&#39;, helvetica, arial, sans-serif; -webkit-font-smoothing: subpixel-antialiased !important;&quot;&gt;If you haven&#39;t already, log in to your Heroku account and follow the prompts to create a new SSH public key.&lt;/p&gt;
+&lt;pre style=&quot;box-sizing: border-box; overflow: auto; font-size: 13px; font-family: Menlo, Monaco, Consolas, &#39;Courier New&#39;, monospace; padding: 9.5px; margin-top: 0px; margin-bottom: 10px; line-height: 1.42857; word-break: break-all; word-wrap: break-word; color: #3f3f44; border: 1px solid #e0e0e6; border-radius: 4px; -webkit-font-smoothing: subpixel-antialiased !important; background-color: #fcfcfd;&quot;&gt;$ heroku login&lt;/pre&gt;
+&lt;h4 style=&quot;box-sizing: border-box; font-family: benton-sans, &#39;Helvetica Neue&#39;, helvetica, arial, sans-serif; font-weight: 400; line-height: 1.1; color: #3f3f44; margin-top: 20px; margin-bottom: 10px; -webkit-font-smoothing: subpixel-antialiased !important;&quot;&gt;Clone the repository&lt;/h4&gt;
+&lt;p style=&quot;box-sizing: border-box; margin-right: 0px; margin-bottom: 10px; margin-left: 0px; line-height: 24px; font-size: 13px; color: #7d7d8e; font-family: benton-sans, &#39;Helvetica Neue&#39;, helvetica, arial, sans-serif; -webkit-font-smoothing: subpixel-antialiased !important;&quot;&gt;Use Git to clone&amp;nbsp;social-app-test&#39;s source code to your local machine.&lt;/p&gt;
+&lt;pre style=&quot;box-sizing: border-box; overflow: auto; font-size: 13px; font-family: Menlo, Monaco, Consolas, &#39;Courier New&#39;, monospace; padding: 9.5px; margin-top: 0px; margin-bottom: 10px; line-height: 1.42857; word-break: break-all; word-wrap: break-word; color: #3f3f44; border: 1px solid #e0e0e6; border-radius: 4px; -webkit-font-smoothing: subpixel-antialiased !important; background-color: #fcfcfd;&quot;&gt;$ heroku git:clone -a app-name
+$ cd app-name&lt;/pre&gt;
+&lt;h4 style=&quot;box-sizing: border-box; font-family: benton-sans, &#39;Helvetica Neue&#39;, helvetica, arial, sans-serif; font-weight: 400; line-height: 1.1; color: #3f3f44; margin-top: 20px; margin-bottom: 10px; -webkit-font-smoothing: subpixel-antialiased !important;&quot;&gt;Deploy your changes&lt;/h4&gt;
+&lt;p style=&quot;box-sizing: border-box; margin-right: 0px; margin-bottom: 10px; margin-left: 0px; line-height: 24px; font-size: 13px; color: #7d7d8e; font-family: benton-sans, &#39;Helvetica Neue&#39;, helvetica, arial, sans-serif; -webkit-font-smoothing: subpixel-antialiased !important;&quot;&gt;Make some changes to the code you just cloned deploy them to Heroku using Git.&lt;/p&gt;
+&lt;pre style=&quot;box-sizing: border-box; overflow: auto; font-size: 13px; font-family: Menlo, Monaco, Consolas, &#39;Courier New&#39;, monospace; padding: 9.5px; margin-top: 0px; margin-bottom: 10px; line-height: 1.42857; word-break: break-all; word-wrap: break-word; color: #3f3f44; border: 1px solid #e0e0e6; border-radius: 4px; -webkit-font-smoothing: subpixel-antialiased !important; background-color: #fcfcfd;&quot;&gt;$ git add .
+$ git commit -am &quot;make it better&quot;
+$ git push heroku master&lt;br /&gt;&lt;br /&gt;&lt;/pre&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;At this stage, I was getting the following Heroku application error when visiting the URL of my new app:&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;http://i.stack.imgur.com/QvuHW.png&quot; alt=&quot;Heroku Application Error&quot; width=&quot;513&quot; height=&quot;208&quot; /&gt;&lt;/p&gt;
+&lt;p class=&quot;p3&quot;&gt;&lt;span class=&quot;s1&quot;&gt;There were a couple problems causing this - the MongoDB connection is broken, and the gulp tasks aren&#39;t running. These problems are addressed below:&lt;/span&gt;&lt;/p&gt;
+&lt;h3&gt;2. Fixing the MongoDB Connection&lt;/h3&gt;
+&lt;p&gt;To run MongoDB on Heroku, you need to install it as a service for your app, which can be done in one line:&lt;/p&gt;
+&lt;p class=&quot;p3&quot;&gt;&lt;code&gt;&lt;span class=&quot;s1&quot;&gt;heroku addons:add mongolab &amp;nbsp;&lt;/span&gt;&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;Once MongoLab is installed, you&amp;rsquo;ll need to ensure your mongoose connection is set to use Heroku&amp;rsquo;s environmental variable, as well as your own (so you don&#39;t break how things work locally). That can be done really easily by adding the&amp;nbsp;&lt;code&gt;process.env.MONGOLAB_URL&lt;/code&gt;&amp;nbsp;variable when&amp;nbsp;using &lt;code&gt;mongoose.connect()&lt;/code&gt;. For my app it was in my db.js file:&lt;/p&gt;
+&lt;p class=&quot;p2&quot;&gt;&amp;nbsp;&lt;/p&gt;
+&lt;pre class=&quot;brush:js;auto-links:false;toolbar:false&quot; contenteditable=&quot;false&quot;&gt;mongoose.connect(process.env.MONGOLAB_URI || &#39;mongodb://localhost/social&#39;, function(){
+
+console.log(&#39;mongodb connected&#39;);
+
+})
+&lt;/pre&gt;
+&lt;p class=&quot;p3&quot;&gt;&amp;nbsp;&lt;/p&gt;
+&lt;h3 class=&quot;p3&quot;&gt;3.&amp;nbsp;Running gulp on Heroku&lt;/h3&gt;
+&lt;p class=&quot;p5&quot;&gt;&amp;nbsp;To run the app locally, I was entering &lt;code&gt;gulp dev&lt;/code&gt;&amp;nbsp;from the console, which was running a bunch of tasks to build and serve the app.&amp;nbsp;&lt;/p&gt;
+&lt;p class=&quot;p2&quot;&gt;Of course, when you push the app to Heroku, this step is missing so the app never builds. This can be easily solved by modifying your &lt;code&gt;package.json&lt;/code&gt; to include a &lt;strong&gt;start script&lt;/strong&gt; which is always run by Heroku. In the start script, you can enter any tasks you want to run straight away - mine was &lt;code&gt;gulp dev&lt;/code&gt;:&lt;/p&gt;
+&lt;p class=&quot;p2&quot;&gt;&amp;nbsp;&lt;/p&gt;
+&lt;pre class=&quot;brush:js;auto-links:false;toolbar:false&quot; contenteditable=&quot;false&quot;&gt;&amp;nbsp; &quot;scripts&quot;: {
+
+&amp;nbsp; &amp;nbsp; &quot;start&quot;: &quot;gulp dev&quot;
+
+&amp;nbsp; }&lt;/pre&gt;
+&lt;p class=&quot;p2&quot;&gt;Now you can commit and push those changes to Heroku and it should work. If it doesn&amp;rsquo;t, just run &lt;code&gt;heroku logs&lt;/code&gt;&amp;nbsp;from the terminal, and do some googling around the errors.&amp;nbsp;&lt;/p&gt;
+&lt;h3 class=&quot;p2&quot;&gt;What&#39;s next?&lt;/h3&gt;
+&lt;p class=&quot;p2&quot;&gt;&lt;a title=&quot;MongoDB + Bluemix&quot; href=&quot;/threejs/2015/09/07/mean-stack-ibm-bluemix.html&quot; target=&quot;_blank&quot;&gt;Doing the same thing with IBM Bluemix&lt;/a&gt;&lt;/p&gt;
+
+</description>
+        <pubDate>Mon, 10 Aug 2015 12:34:20 +0100</pubDate>
+        <link>http://yourdomain.com/technical/2015/08/10/mean-stack-heroku-mongodb-gulp.html</link>
+        <guid isPermaLink="true">http://yourdomain.com/technical/2015/08/10/mean-stack-heroku-mongodb-gulp.html</guid>
+        
+        
+        <category>technical</category>
+        
+      </item>
+    
+      <item>
+        <title>Code an infinite 3D world with three.js [Part 1]</title>
+        <description>&lt;h3&gt;Intro&lt;/h3&gt;
+&lt;p&gt;This tutorial will show you how to create an infinite terrain that can be used in combination with a &lt;a href=&quot;http://stemkoski.github.io/Three.js/Chase-Camera.html&quot;&gt;Chase Camera&lt;/a&gt;. If you try the&amp;nbsp;&lt;a href=&quot;http://stemkoski.github.io/Three.js/Chase-Camera.html&quot;&gt;Chase Camera&lt;/a&gt;&amp;nbsp;demo, the concept created in this tutorial is the creation of new terrain when the object reaches the edge of the existing terrain.&lt;/p&gt;
+&lt;h4&gt;Outcome&lt;/h4&gt;
+&lt;p&gt;The entire tutorial will creatie a 9 x 9 grid, keeping the camera in the middle. In this part, we&#39;ll just be creating the first column made up of three tiles.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Step 1 will create those three tiles&lt;/li&gt;
+&lt;li&gt;Step 2 will allow us to move forward, adding ground in front of us&lt;/li&gt;
+&lt;li&gt;Step 3 will allow us to move backwards, adding ground in the opposite direction.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;This will put is in a good position for &lt;a title=&quot;infinite threejs terrain part 2&quot; href=&quot;/webgl/2015/07/26/threejs-infinite-world-webgl.html&quot;&gt;Part 2&lt;/a&gt;, where we&#39;ll replicate this column twice more to create the full grid, ending in the final infinite world.&lt;/p&gt;
+&lt;hr /&gt;
+
+&lt;h3&gt;Step 1: &amp;nbsp;Start off with three tiles&lt;/h3&gt;
+&lt;p&gt;First, create three tiles with the camera positioned in the middle:&lt;/p&gt;
+&lt;p&gt;&lt;iframe style=&quot;box-sizing: border-box; border-radius: 0px !important; max-width: 100%;&quot; src=&quot;https://www.youtube.com/embed/mXDzRLPOjQI&quot; width=&quot;359&quot; height=&quot;202&quot; frameborder=&quot;0&quot; allowfullscreen=&quot;allowfullscreen&quot;&gt;&lt;/iframe&gt;&lt;/p&gt;
+&lt;p&gt;As seen in the video, we&#39;re creating three tiles of terrain in a row (to create the initial terrain,&amp;nbsp;&lt;a title=&quot;Creating a terrain with three.js&quot; href=&quot;/webgl/2015/04/25/create-terrain-three-js-webgl-part-2.html&quot;&gt;look here&lt;/a&gt;), using tiles of 100 x 100 for simplicity. This is all done inside the &lt;code&gt;createTerrainMatrix&lt;/code&gt; function. Look at the &lt;code&gt;for&lt;/code&gt; loop from within the main block of code:&lt;/p&gt;
+&lt;p&gt;&lt;span class=&quot;pl-k&quot; style=&quot;box-sizing: border-box; color: #a71d5d; font-family: Consolas, &#39;Liberation Mono&#39;, Menlo, Courier, monospace; font-size: 12px; line-height: 16.8px; white-space: pre;&quot;&gt;for&lt;/span&gt;&lt;span style=&quot;color: #333333; font-family: Consolas, &#39;Liberation Mono&#39;, Menlo, Courier, monospace; font-size: 12px; line-height: 16.8px; white-space: pre;&quot;&gt; ( &lt;/span&gt;&lt;span class=&quot;pl-k&quot; style=&quot;box-sizing: border-box; color: #a71d5d; font-family: Consolas, &#39;Liberation Mono&#39;, Menlo, Courier, monospace; font-size: 12px; line-height: 16.8px; white-space: pre;&quot;&gt;var&lt;/span&gt;&lt;span style=&quot;color: #333333; font-family: Consolas, &#39;Liberation Mono&#39;, Menlo, Courier, monospace; font-size: 12px; line-height: 16.8px; white-space: pre;&quot;&gt; z&lt;/span&gt;&lt;span class=&quot;pl-k&quot; style=&quot;box-sizing: border-box; color: #a71d5d; font-family: Consolas, &#39;Liberation Mono&#39;, Menlo, Courier, monospace; font-size: 12px; line-height: 16.8px; white-space: pre;&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;pl-c1&quot; style=&quot;box-sizing: border-box; color: #0086b3; font-family: Consolas, &#39;Liberation Mono&#39;, Menlo, Courier, monospace; font-size: 12px; line-height: 16.8px; white-space: pre;&quot;&gt;100&lt;/span&gt;&lt;span style=&quot;color: #333333; font-family: Consolas, &#39;Liberation Mono&#39;, Menlo, Courier, monospace; font-size: 12px; line-height: 16.8px; white-space: pre;&quot;&gt;; z &lt;/span&gt;&lt;span class=&quot;pl-k&quot; style=&quot;box-sizing: border-box; color: #a71d5d; font-family: Consolas, &#39;Liberation Mono&#39;, Menlo, Courier, monospace; font-size: 12px; line-height: 16.8px; white-space: pre;&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;pl-k&quot; style=&quot;box-sizing: border-box; color: #a71d5d; font-family: Consolas, &#39;Liberation Mono&#39;, Menlo, Courier, monospace; font-size: 12px; line-height: 16.8px; white-space: pre;&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;pl-c1&quot; style=&quot;box-sizing: border-box; color: #0086b3; font-family: Consolas, &#39;Liberation Mono&#39;, Menlo, Courier, monospace; font-size: 12px; line-height: 16.8px; white-space: pre;&quot;&gt;200&lt;/span&gt;&lt;span style=&quot;color: #333333; font-family: Consolas, &#39;Liberation Mono&#39;, Menlo, Courier, monospace; font-size: 12px; line-height: 16.8px; white-space: pre;&quot;&gt;; z&lt;/span&gt;&lt;span class=&quot;pl-k&quot; style=&quot;box-sizing: border-box; color: #a71d5d; font-family: Consolas, &#39;Liberation Mono&#39;, Menlo, Courier, monospace; font-size: 12px; line-height: 16.8px; white-space: pre;&quot;&gt;-=&lt;/span&gt;&lt;span class=&quot;pl-c1&quot; style=&quot;box-sizing: border-box; color: #0086b3; font-family: Consolas, &#39;Liberation Mono&#39;, Menlo, Courier, monospace; font-size: 12px; line-height: 16.8px; white-space: pre;&quot;&gt;100&lt;/span&gt;&lt;span style=&quot;color: #333333; font-family: Consolas, &#39;Liberation Mono&#39;, Menlo, Courier, monospace; font-size: 12px; line-height: 16.8px; white-space: pre;&quot;&gt; )&lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;&lt;span&gt;&lt;span&gt;Consider that our camera is intially positioned at z=5, and our 3 tiles are 100 x 100.&amp;nbsp;With this in mind, we&#39;ll place the first tile behind the camera at z=100, then the second one will be 100 in front (the height of the tile), and the third further away from the camera at z = -200. That&#39;s all created with the for loop. Apart from that, our code is pretty much the same as the original addGround() function from the &lt;a title=&quot;threejs terrain&quot; href=&quot;/webgl/2015/05/03/animating-terrain-three-js-webgl-part-4.html&quot;&gt;previous tutorial&lt;/a&gt;.&lt;/span&gt;&lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;We can create an initial for loop starting at 100, moving to -200. &amp;nbsp;&lt;/p&gt;
+&lt;pre class=&quot;brush:js;auto-links:false;toolbar:false&quot; contenteditable=&quot;false&quot;&gt;    /**
+     * createTerrainMatrix
+     * @TODO: create the matrix of terrains - need to add 9 bits of terrain
+     */
+    createTerrainMatrix:function(scene, perlinNoise){
+
+        //every 100px on the z axis, add a bit of ground
+        for ( var z= 100; z &amp;gt; -200; z-=100 ) {
+
+          //Create the perlin noise for the surface of the ground
+  	      var perlinSurface = new PerlinSurface(perlinNoise, 100, 100);
+          var ground = perlinSurface.surface;
+          //rotate 90 degrees around the xaxis so we can see the terrain
+          ground.rotation.x = -Math.PI/-2;
+          // Then set the z position to where it is in the loop (distance of camera)
+          ground.position.z = z;
+          ground.position.y -=4;
+
+          //add the ground to the scene
+          scene.add(ground);
+          //finally push it to the floor array
+          this.floor.push(ground);
+        }
+
+    }&lt;/pre&gt;
+&lt;p&gt;Overall, this will create three pieces of terrain, and in the final line, push them to a floor array, which will be used in the next step.&lt;/p&gt;
+&lt;hr /&gt;
+
+&lt;h3&gt;Step 2: Moving forwards&lt;/h3&gt;
+&lt;p&gt;When the camera moves forwards, move the tile from the back to the very front, keeping the camera on the centre tile.&lt;/p&gt;
+&lt;p&gt;&lt;iframe style=&quot;box-sizing: border-box; border-radius: 0px !important; max-width: 100%;&quot; src=&quot;https://www.youtube.com/embed/Wh-LpGSnnl8&quot; width=&quot;359&quot; height=&quot;202&quot; frameborder=&quot;0&quot; allowfullscreen=&quot;allowfullscreen&quot;&gt;&lt;/iframe&gt;&lt;/p&gt;
+&lt;p&gt;We can create this effect in a new function, moveWithCamera():&lt;/p&gt;
+&lt;pre class=&quot;brush:js;auto-links:false;toolbar:false&quot; contenteditable=&quot;false&quot;&gt;    /**
+     * moveWithCamera
+     * when the camera gets past the first terrain, put the other in front of it
+     */
+     moveWithCamera(camera){
+        // loop through each of the 3 floors
+        for(var i=0; i&amp;lt;this.floor.length; i++) {
+
+          //if the camera has moved past the entire square, move the square
+          if((this.floor[i].position.z - 100)&amp;gt;camera.position.z){
+
+            this.floor[i].position.z-=200;
+          }
+
+        }&lt;/pre&gt;
+&lt;p&gt;This is fairly simple - it&#39;s a modification of&amp;nbsp;&lt;a title=&quot;animating a terrain&quot; href=&quot;/webgl/2015/05/03/animating-terrain-three-js-webgl-part-4.html&quot;&gt;Step 3 in the previous animating terrain tutorial&lt;/a&gt;, although we&#39;ve put it into it&#39;s own function. The key part is again another for loop.&lt;/p&gt;
+&lt;p&gt;This time we&#39;re looping through the array of tiles we created at the end of step 1, and checking if the camera has moved past the square by comparing z positions. If the camera&#39;s z position has a greater negative value than the tile, we move that tile&amp;nbsp;forward (into the screen, and away from the camera) two times it&#39;s height so that it goes from the very back to the front.&amp;nbsp;&lt;/p&gt;
+&lt;hr /&gt;
+
+&lt;h3&gt;Step 3: Moving backwards&lt;/h3&gt;
+&lt;p&gt;The same way we move forward can be applied in reverse to allow us to move backwards. To do this, update&amp;nbsp;&lt;code&gt;moveWithCamera()&lt;/code&gt; to include the following code, just underneath the first z position comparison where we were moving the tiles forward:&lt;/p&gt;
+&lt;pre class=&quot;brush:js;auto-links:false;toolbar:false&quot;&gt;//if the camera has moved past the entire square in the opposite direction, move the square the opposite way
+          else if((this.floor[i].position.z + this.tileHeight)&amp;lt;camera.position.z){
+
+            this.floor[i].position.z+=(this.tileHeight*2);
+          }&lt;/pre&gt;
+&lt;hr /&gt;
+
+&lt;h3&gt;Well done&lt;/h3&gt;
+&lt;p&gt;At this point you should have three tiles of terrain that you can move forwards and backwards along, but not left and right. &lt;a title=&quot;Infinite threejs terrain part 2&quot; href=&quot;/webgl/2015/07/26/threejs-infinite-world-webgl.html&quot;&gt;Part 2&lt;/a&gt;&amp;nbsp;will look at adding two more columns, and implementing the ability to move across the x axis infinitely, the same way we have done here with the z axis.&lt;/p&gt;
+
+</description>
+        <pubDate>Sun, 26 Jul 2015 12:34:20 +0100</pubDate>
+        <link>http://yourdomain.com/webgl/2015/07/26/threejs-infinite-world-webgl-part-1.html</link>
+        <guid isPermaLink="true">http://yourdomain.com/webgl/2015/07/26/threejs-infinite-world-webgl-part-1.html</guid>
+        
+        
+        <category>webgl</category>
+        
+      </item>
+    
+      <item>
+        <title>Code an infinite 3D world with three.js [Part 2]</title>
+        <description>&lt;p&gt;&lt;a title=&quot;infinite threejs terrain part 1&quot; href=&quot;/webgl/2015/07/26/threejs-infinite-world-webgl-part-1.html&quot;&gt;Part 1&lt;/a&gt;&amp;nbsp;of this tutorial left off with just one column of tiles, and the ability to move along the Z axis infinitely. Here, we&#39;re going to build the full grid, and enable the same infinite movement across the X axis.&lt;/p&gt;
+&lt;hr /&gt;
+
+&lt;h3&gt;Step 1: Build up&amp;nbsp;a grid&lt;/h3&gt;
+&lt;p&gt;Just by changing the X position of the tiles, they will apear to the side of the camera:&lt;/p&gt;
+&lt;p&gt;&lt;iframe style=&quot;box-sizing: border-box; border-radius: 0px !important; max-width: 100%;&quot; src=&quot;https://www.youtube.com/embed/vnBPgDxRnUI&quot; width=&quot;359&quot; height=&quot;202&quot; frameborder=&quot;0&quot; allowfullscreen=&quot;allowfullscreen&quot;&gt;&lt;/iframe&gt;&lt;/p&gt;
+&lt;p&gt;Now that we already have one row moving forwards, we can create two more rows either side of it to make a total of&amp;nbsp;9 tiles in&amp;nbsp;3 rows x 3 columns. The changes now are that in the constructor at the top of the terrainMatrix.js file, I have provided definitions for the tile height, width and row number to make the rest of the code easier to understand:&amp;nbsp;&lt;/p&gt;
+&lt;pre class=&quot;brush:js;auto-links:false;toolbar:false&quot;&gt;  function TerrainMatrix(){
+
+    this.floor = [];
+    this.tileHeight=100;
+    this.tileWidth=100;
+    this.tileRowNumber = 3;
+
+  }&lt;/pre&gt;
+&lt;p&gt;Then, inside &lt;code&gt;createTerrainMatrix(&lt;/code&gt;), all we need to do to add two extra rows is wrap the main contents with a for loop that will force the funciton to execute three times. However in addition to this, we provide an alternative&amp;nbsp;X position for each of the three rows.&lt;/p&gt;
+&lt;p&gt;The alternative X position is created towards the top of the function where an xPos is defined. Just in side the loop, we set this X position for each of the three row iterations:&amp;nbsp;&lt;/p&gt;
+&lt;pre class=&quot;brush:js;auto-links:false;toolbar:false&quot;&gt;var xPos=0;
+          //we want a 3 by 3 matrix
+          for(var x = 1; x&amp;lt;4; x+=1){
+            console.log(x)
+            if(x==1){
+              xPos= -this.tileWidth;
+            }
+            else if(x==2){
+              xPos= this.tileWidth;
+            }
+            else if (x==3){
+              xPos = 0
+            }&lt;br /&gt;&lt;br /&gt;&lt;/pre&gt;
+&lt;h4&gt;Setting the X Position&amp;nbsp;&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;The first row (iteration of the loop) sets X to minus the tile width so it appears on the left&lt;/li&gt;
+&lt;li&gt;The second row sets&amp;nbsp;X to 0 so it appears in the center where the camera is&lt;/li&gt;
+&lt;li&gt;The third row sets X to&amp;nbsp;plus the tile width, so it appears to the right of the camera&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Bringing&amp;nbsp;it all together, the rest of the function is exactly the same, except the X position is altered with.&amp;nbsp;&lt;code&gt;ground.position.x = xPos&lt;/code&gt;.&lt;/p&gt;
+&lt;pre class=&quot;brush:js;auto-links:false;toolbar:false&quot;&gt;  /**
+   * Terrain functions
+   */
+  TerrainMatrix.prototype={
+
+    constructor: TerrainMatrix,
+
+    /**
+     * createTerrainMatrix
+     * @TODO: create the matrix of terrains - need to add 9 bits of terrain
+     */
+    createTerrainMatrix:function(scene, perlinNoise){
+
+          var xPos=0;
+          //we want a 3 by 3 matrix
+          for(var row = 0; row&amp;lt;3; row+=1){
+            if(row==0){
+              xPos= -this.tileWidth;
+            }
+            else if(row==1){
+              xPos= this.tileWidth;
+            }
+            else if (x==2){
+              xPos = 0
+            }
+
+            //every 100px on the z axis, add a bit of ground
+            for ( var z= this.tileHeight; z &amp;gt; (this.tileHeight * -this.tileRowNumber); z-=this.tileHeight ) {
+
+              //Create the perlin noise for the surface of the ground
+      	      var perlinSurface = new PerlinSurface(perlinNoise, this.tileWidth, this.tileHeight);
+              var ground = perlinSurface.surface;
+              //rotate 90 degrees around the xaxis so we can see the terrain
+              ground.rotation.x = -Math.PI/-2;
+              // Then set the z position to where it is in the loop (distance of camera)
+              ground.position.z = z;
+              ground.position.y -=4;
+
+              ground.position.x =xPos;
+
+              //add the ground to the scene
+              scene.add(ground);
+              //finally push it to the floor array
+              this.floor.push(ground);
+            }
+          }
+
+    },&lt;/pre&gt;
+&lt;hr /&gt;
+
+&lt;h3&gt;Step 2: Be less memory intensive&lt;/h3&gt;
+&lt;p&gt;One major alteration is required here for this to work. At the moment, we&#39;re creating terrain using &lt;code&gt;PlaneGeometry&lt;/code&gt; in the &lt;code&gt;PerlinSurface&lt;/code&gt;&amp;nbsp;function:&amp;nbsp;&lt;/p&gt;
+&lt;pre class=&quot;brush:js;auto-links:false;toolbar:false&quot;&gt;//create the plane geometry
+     this.geometry = new THREE.PlaneGeometry(width,height,300,300);&lt;/pre&gt;
+&lt;p&gt;This is too memory intensive to create 9 pieces of terrain. Therefore we need to modify this function to use BufferGeometry, which luckily for us can be done in one line:&lt;/p&gt;
+&lt;pre class=&quot;brush:js;auto-links:false;toolbar:false&quot; contenteditable=&quot;false&quot;&gt;      var bufferGeometry = new THREE.BufferGeometry().fromGeometry( this.geometry)
+&lt;/pre&gt;
+&lt;p&gt;Here, we use the &lt;code&gt;fromGeometry()&lt;/code&gt; method to convert &lt;code&gt;PlaneGeometry&lt;/code&gt; to &lt;code&gt;BufferGemetry&lt;/code&gt;.&lt;br /&gt;At this point we&#39;ve got a 3 x 3 grid, and are able to move forward and backwards, but not left and right (without reaching the edge).&lt;/p&gt;
+&lt;hr /&gt;
+
+&lt;h3&gt;Step 3: Moving along the X axis&lt;/h3&gt;
+&lt;p&gt;Very similar code monitoring the Z axis can be used to detect when the camera moves left or right (along the X axis), allowing us to add terrain appropriately along the X axis.&lt;/p&gt;
+&lt;p&gt;&lt;iframe style=&quot;box-sizing: border-box; border-radius: 0px !important; max-width: 100%;&quot; src=&quot;https://www.youtube.com/embed/rhFnA_OnMTY&quot; width=&quot;359&quot; height=&quot;202&quot; frameborder=&quot;0&quot; allowfullscreen=&quot;allowfullscreen&quot;&gt;&lt;/iframe&gt;&lt;/p&gt;
+&lt;p&gt;Here is the code to be added to the &lt;code&gt;moveWithCamera()&lt;/code&gt; function under the last if clause:&amp;nbsp;&lt;/p&gt;
+&lt;pre class=&quot;brush:js;auto-links:false;toolbar:false&quot;&gt;//x positions
+          else if((this.floor[i].position.x - this.tileWidth)&amp;gt;camera.position.x){
+
+            this.floor[i].position.x-=(this.tileWidth*2);
+          }
+          //if the camera has moved past the entire square in the opposite direction, move the square the opposite way
+          else if((this.floor[i].position.x + this.tileWidth)&amp;lt;camera.position.x){
+
+            this.floor[i].position.x+=(this.tileWidth*2);
+          }&lt;/pre&gt;
+&lt;p&gt;It&#39;s exactly the same as the Z position checks, but monitors the X positions, and uses the &lt;code&gt;tileWidth&lt;/code&gt; rather than &lt;code&gt;tileHeight&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;Now the user is trapped, as whatever direction they move, more terrain is &#39;created&#39;.&lt;/p&gt;
+&lt;hr /&gt;
+
+&lt;h3&gt;Well done - but how can this be improved?&lt;/h3&gt;
+&lt;p&gt;You should now have an infinite terrain, but I&#39;m sure this could be improved. After creating this tutorial, I have experimented with the size and number of tiles used to create this effect, and it can be done using just a 2 x 2 grid. Creating and updating just 4 tiles is much less intensive on memory than 9.&lt;/p&gt;
+
+</description>
+        <pubDate>Sun, 26 Jul 2015 12:34:20 +0100</pubDate>
+        <link>http://yourdomain.com/webgl/2015/07/26/threejs-infinite-world-webgl.html</link>
+        <guid isPermaLink="true">http://yourdomain.com/webgl/2015/07/26/threejs-infinite-world-webgl.html</guid>
+        
+        
+        <category>webgl</category>
+        
+      </item>
+    
+      <item>
+        <title>You can&#39;t escape this world (an infinite three.js world)</title>
+        <description>&lt;p&gt;This post will show a&amp;nbsp;step by step overview of how to&amp;nbsp;implement an infinite world in three.js using a&amp;nbsp;method outlined in a&amp;nbsp;&lt;a href=&quot;/webgl/2015/07/25/threejs-3d-world.html&quot;&gt;previous post&lt;/a&gt;. This is just a high level&amp;nbsp;summary using YouTube videos, I&#39;ll go into the code in another post.&amp;nbsp;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/img/threejs-infinite-terrain.png&quot; alt=&quot;&quot; width=&quot;360&quot; height=&quot;204&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&amp;nbsp;&lt;/p&gt;
+&lt;hr /&gt;
+
+&lt;h3&gt;1. &amp;nbsp;Start off with three tiles&lt;/h3&gt;
+&lt;p&gt;First, create three tiles with the camera positioned in the middle:&lt;/p&gt;
+&lt;p&gt;&lt;iframe src=&quot;https://www.youtube.com/embed/mXDzRLPOjQI&quot; width=&quot;359&quot; height=&quot;202&quot; frameborder=&quot;0&quot; allowfullscreen=&quot;allowfullscreen&quot;&gt;&lt;/iframe&gt;&lt;/p&gt;
+&lt;hr /&gt;
+
+&lt;h3&gt;2. Move forwards&lt;/h3&gt;
+&lt;p&gt;When the camera moves forwards, move the tile from the back to the very front, keeping the camera on the centre tile.&lt;/p&gt;
+&lt;p&gt;&lt;iframe src=&quot;https://www.youtube.com/embed/Wh-LpGSnnl8&quot; width=&quot;359&quot; height=&quot;202&quot; frameborder=&quot;0&quot; allowfullscreen=&quot;allowfullscreen&quot;&gt;&lt;/iframe&gt;&lt;/p&gt;
+&lt;hr /&gt;
+
+&lt;h3&gt;3. Build up&amp;nbsp;a grid&lt;/h3&gt;
+&lt;p&gt;Just by changing the X position of the tiles, they will apear to the side of the camera:&lt;/p&gt;
+&lt;p&gt;&lt;iframe src=&quot;https://www.youtube.com/embed/vnBPgDxRnUI&quot; width=&quot;359&quot; height=&quot;202&quot; frameborder=&quot;0&quot; allowfullscreen=&quot;allowfullscreen&quot;&gt;&lt;/iframe&gt;&lt;/p&gt;
+&lt;p&gt;3 rows of tiles can be built up creating a grid using the same initial code as&amp;nbsp;for the first&amp;nbsp;row.&lt;/p&gt;
+&lt;p&gt;We just need to altering the X position - one positive, the other negative.&lt;/p&gt;
+&lt;hr /&gt;
+
+&lt;h3&gt;4. Moving backwards&lt;/h3&gt;
+&lt;p&gt;The same way we move forward can be applied in reverse to allow us to move backwards:&lt;/p&gt;
+&lt;p&gt;&lt;iframe src=&quot;https://www.youtube.com/embed/lF9hzgD4cME&quot; width=&quot;359&quot; height=&quot;202&quot; frameborder=&quot;0&quot; allowfullscreen=&quot;allowfullscreen&quot;&gt;&lt;/iframe&gt;&lt;/p&gt;
+&lt;p&gt;At this point we&#39;ve got a 3 x 3 grid, and are able to move forward and backwards, but not left and right (without reaching the edge).&lt;/p&gt;
+&lt;hr /&gt;
+
+&lt;h3&gt;5. Trap the user in the world forever&lt;/h3&gt;
+&lt;p&gt;Very similar code monitoring the z axis can be used to detect when the camera moves left or right (along the x axis), allowing us to add terrain appropriately along the x axis:&lt;/p&gt;
+&lt;p&gt;&lt;iframe src=&quot;https://www.youtube.com/embed/rhFnA_OnMTY&quot; width=&quot;359&quot; height=&quot;202&quot; frameborder=&quot;0&quot; allowfullscreen=&quot;allowfullscreen&quot;&gt;&lt;/iframe&gt;&lt;/p&gt;
+&lt;p&gt;Now the user is trapped, as whatever direction they move, more terrain is &#39;created&#39;.&lt;/p&gt;
+&lt;hr /&gt;
+
+&lt;h3&gt;6. What&#39;s it like underneath?&lt;/h3&gt;
+&lt;p&gt;Because everybody wants to put a turtle on its back,&amp;nbsp;here&#39;s a look at things from underneath:&lt;/p&gt;
+&lt;p&gt;&lt;iframe src=&quot;https://www.youtube.com/embed/SVwxoCdhI1g&quot; width=&quot;359&quot; height=&quot;202&quot; frameborder=&quot;0&quot; allowfullscreen=&quot;allowfullscreen&quot;&gt;&lt;/iframe&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;data:image/jpeg;base64,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&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+&lt;h4&gt;How to code this?&lt;/h4&gt;
+&lt;p&gt;I&#39;ve written a 2 part tutorial on how to create this effect&amp;nbsp;&lt;a title=&quot;infinite terrain three.js&quot; href=&quot;/webgl/2015/07/26/threejs-infinite-world-webgl-part-1.html&quot;&gt;here&lt;/a&gt;&lt;/p&gt;
+
+</description>
+        <pubDate>Sat, 25 Jul 2015 12:34:20 +0100</pubDate>
+        <link>http://yourdomain.com/webgl/2015/07/25/threejs-infinite-world-webgl-part-0.html</link>
+        <guid isPermaLink="true">http://yourdomain.com/webgl/2015/07/25/threejs-infinite-world-webgl-part-0.html</guid>
+        
+        
+        <category>webgl</category>
+        
+      </item>
+    
+  </channel>
+</rss>

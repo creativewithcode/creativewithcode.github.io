@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Seeing Sounds [Part 2]: Creating the terrain</title>
+  <meta name="description" content="This is the second part of the Seeing Sounds three.js series. Part 1 looked at creating a flying star field, and in this part we'll create the terrain undern...">
+
+  <link rel="canonical" href="http://yourdomain.com/webgl/2015/04/25/create-terrain-three-js-webgl-part-2.html">
+  <link rel="alternate" type="application/rss+xml" title="Creative with Code" href="http://yourdomain.com/feed.xml" />
+
+  <!-- Material Design Lite css Library -->
+  <link rel="stylesheet" href="https://storage.googleapis.com/code.getmdl.io/1.0.5/material.deep_purple-green.min.css" />
+
+  <!-- Material Design Fonts -->
+  <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+
+  <!-- Custom theme css -->
+  <link rel="stylesheet" href="/css/main.css">
+</head>
+
+
+  <body>
+
+    <!-- Start Layout -->
+    
+    <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
+        <header class="mdl-layout__header">
+
+    <div class="mdl-layout__header-row">
+      <!-- Title -->
+      <span class="mdl-layout-title"><a href="/index.html" style="text-decoration:none; color:#fff;">Creative with Code</a></span>
+      <!-- Add spacer, to align navigation to the right -->
+      <div class="mdl-layout-spacer"></div>
+      <!-- Navigation. We hide it in small screens. -->
+      <nav class="mdl-navigation mdl-layout--large-screen-only">
+      
+        
+        <a class="mdl-navigation__link" href="/about/">About</a>
+        
+      
+        
+      
+        
+      
+        
+      
+        
+        <a class="mdl-navigation__link" href="/webgl/index.html">webgl</a>
+        
+      
+        
+        <a class="mdl-navigation__link" href="/technical/index.html">technical</a>
+        
+      
+        
+        <a class="mdl-navigation__link" href="/audio/index.html">audio</a>
+        
+      
+        
+        <a class="mdl-navigation__link" href="/design/index.html">design</a>
+        
+      
+      </nav>
+
+      <div class="android-search-box mdl-textfield mdl-js-textfield mdl-textfield--expandable mdl-textfield--floating-label mdl-textfield--align-right mdl-textfield--full-width">
+        <label class="mdl-button mdl-js-button mdl-button--icon" for="search-field">
+          <i class="material-icons">search</i>
+        </label>
+        <div class="mdl-textfield__expandable-holder">
+          <input class="mdl-textfield__input" type="text" id="search-field" />
+        </div>
+      </div>
+
+      <button class="mdl-button mdl-js-button mdl-button--icon" id="menu-lower-left">
+        <i class="material-icons">more_vert</i>
+      </button>
+
+      <ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="menu-lower-left">
+        
+        <li><a href="www.myawesomelink.com" class="mdl-menu__item">Cool Option 1</a></li>
+        
+        <li><a href="www.myawesomelink.com" class="mdl-menu__item">Cool Option 2</a></li>
+        
+        <li><a href="www.myawesomelink.com" class="mdl-menu__item">Cool Option 3</a></li>
+        
+      </ul>
+    </div>
+  </header>
+
+  <div class="mdl-layout__drawer">
+    <span class="mdl-layout-title">Menu</span>
+    <nav class="mdl-navigation">
+    
+      
+      <a class="mdl-navigation__link" href="/about/">About</a>
+      
+    
+      
+    
+      
+    
+      
+    
+      
+      <a class="mdl-navigation__link" href="/webgl/index.html">webgl</a>
+      
+    
+      
+      <a class="mdl-navigation__link" href="/technical/index.html">technical</a>
+      
+    
+      
+      <a class="mdl-navigation__link" href="/audio/index.html">audio</a>
+      
+    
+      
+      <a class="mdl-navigation__link" href="/design/index.html">design</a>
+      
+    
+    </nav>
+
+  </div>
+
+    
+
+      <main class="mdl-layout__content">
+        <div class="post-ribbon"></div>
+<main class="post-main mdl-layout__content">
+  <div class="post-container mdl-grid">
+    <div class="mdl-cell mdl-cell--2-col mdl-cell--hide-tablet mdl-cell--hide-phone"></div>
+    <div class="post-section mdl-color--white mdl-shadow--4dp content mdl-color-text--grey-800 mdl-cell mdl-cell--8-col">
+      <div class="mdl-color-text--grey-500">
+      Apr 25, 2015 • Graeme Fulton •  webgl  
+      </div>
+      <br>
+      <img src="/img/dunes-2.jpg" style="width:100%;"/>
+      <h3>Seeing Sounds [Part 2]: Creating the terrain</h3>
+      <article class="post-content">
+        <p><p>This is the second part of the Seeing Sounds three.js series. Part 1 looked at creating a flying star field, and in this part we'll create the terrain underneath it. At some point, we'll bring the two parts together, and then add some extra spheres that will animate with the music.</p>
+<p>The outcome of this tutorial is a textured terrain with lighting as below:</p>
+<p><iframe style="width: 100%;" src="//codepen.io/GraemeFulton/embed/GJgWNZ/?height=303&amp;theme-id=0" width="300" height="303" frameborder="no" scrolling="no" allowfullscreen="allowfullscreen">See the Pen <a href="http://codepen.io/GraemeFulton/pen/GJgWNZ/">Three.js - Bumpy terrain</a> by Graeme Fulton (<a href="http://codepen.io/GraemeFulton">@GraemeFulton</a>) on <a href="http://codepen.io">CodePen</a>.</iframe></p>
+<h3>Step 1: Adding a basic terrain</h3>
+<p>This step will show you what we'll use to create a basic, flat terrain. Setting the scene is very similar to my <a title="getting started guide" href="/webgl/2015/04/21/get-up-to-speed-with-three-js-webgl.html">getting started guide</a>, and&nbsp;<a title="part 1 three js" href="/webgl/2015/04/23/create-star-field-three-js-webgl-part-1.html">part 1</a> of this series, so you should be quite familiar with that. The main difference in the code from part 1 is that instead of adding a sphere, we're adding a floor.</p>
+<p>So, if you look at the code in part 1, we'll be replacing the <code>addSphere</code> function with an <code>addGround</code> function in this tutorial. Let's get right to it:</p>
+<p>FIrst set up the html page as usual:</p>
+<pre class="brush:html;auto-links:false;toolbar:false" contenteditable="false">&lt;html lang="en"&gt;
+&lt;head&gt;
+  &lt;title&gt;Three.js starter tutorial&lt;/title&gt;
+  &lt;meta charset="utf-8"&gt;
+&lt;/head&gt;
+&lt;body style="margin:0px;"&gt;
+
+  &lt;script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r71/three.min.js"&gt;&lt;/script&gt;
+
+&lt;script&gt;
+    //tutorial code will go here
+&lt;/script&gt;
+
+&lt;/body&gt;
+&lt;/html&gt;</pre>
+<p>Then add the following code between the empty script tags. You'll notice this is almost exactly the same as the code from part 1:</p>
+<pre class="brush:js;auto-links:false;toolbar:false" contenteditable="false">    //Declare three.js variables
+	var camera, scene, renderer;
+
+	//assign three.js objects to each variable
+	function init(){
+
+		//camera
+		camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 1, 1000);
+		camera.position.z = 5;
+
+		//scene
+		scene = new THREE.Scene();
+
+		//renderer
+		renderer = new THREE.WebGLRenderer();
+		//set the size of the renderer
+		renderer.setSize( window.innerWidth, window.innerHeight );
+
+		//add the renderer to the html document body
+		document.body.appendChild( renderer.domElement );
+	}
+
+	function addGround(){
+
+	//create the ground material
+		var groundMat = new THREE.MeshBasicMaterial( {color: 0xffff00 }  );
+
+		//create the plane geometry
+		var geometry = new THREE.PlaneGeometry(400,400);
+
+		//create the ground form the geometry and material
+		var ground = new THREE.Mesh(geometry,groundMat);
+    ground.position.y = -1.9; //lower it
+    ground.rotation.x = -Math.PI/2;
+		ground.doubleSided = true;
+		//add the ground to the scene
+		scene.add(ground);
+
+	}
+
+	function render() {
+		//get the frame
+		requestAnimationFrame( render );
+
+		//render the scene
+		renderer.render( scene, camera );
+
+	}
+
+	init();
+	addGround();
+	render();</pre>
+<p>Here's what we get:</p>
+<p><iframe style="width: 100%;" src="//codepen.io/GraemeFulton/embed/yNyKYe/?height=268&amp;theme-id=0" width="300" height="268" frameborder="no" scrolling="no" allowfullscreen="allowfullscreen">See the Pen <a href="http://codepen.io/GraemeFulton/pen/yNyKYe/">Three.js - Flat terrain</a> by Graeme Fulton (<a href="http://codepen.io/GraemeFulton">@GraemeFulton</a>) on <a href="http://codepen.io">CodePen</a>.</iframe></p>
+<p>The main difference is the addGround function:</p>
+<ul>
+<li>We start off by creating the material in line 25, giving it a yellow colour, and ensuring it's double sided.</li>
+<li>Line 29 is one of the most important - here we use PlaneGeometry, which is basically three.js's implementation of a flat surface.</li>
+<li>Then on line 32, we use the Mesh function as in part 1, to combine the geometry with the material for the ground.</li>
+<li>Line 33 just lowers the position of the ground, and line 34 rotates it 90 degrees so that we can see it.</li>
+<li>Finally, in line 37, we add the ground to the scene</li>
+</ul>
+<p>That was quite simple - in the next step we'll look at creating the bumpy effect on the terrain.</p>
+<h3>Step 2: Make it bumpy with Perlin noise</h3>
+<p>To create a bumpy terrain, we need to add some random noise to the plane from step 1, so that vertexes are created and distributed randomly but evenly.</p>
+<h4>Perlin Noise</h4>
+<p>A common way to achieve the natural appearances described above is to use a Perlin noise generator, which uses random numbers to generate natural looking textures. Somebody has kindly made a JavaScript version available <a href="https://gist.github.com/banksean/304522" target="_blank">here on GitHub</a>, so we'll use that.</p>
+<p><iframe style="width: 100%;" src="//codepen.io/GraemeFulton/embed/zGxWYN/?height=268&amp;theme-id=0" width="300" height="268" frameborder="no" scrolling="no" allowfullscreen="allowfullscreen">See the Pen <a href="http://codepen.io/GraemeFulton/pen/zGxWYN/">Three.js - Bumpy terrain basic material</a> by Graeme Fulton (<a href="http://codepen.io/GraemeFulton">@GraemeFulton</a>) on <a href="http://codepen.io">CodePen</a>.</iframe></p>
+<p>For speed, we'll just paste the Perlin noise code at the bottom of our script and look at it as a black box. Now to actually use it, we need to set up a couple quick variables at the top of our file:</p>
+<pre class="brush:js;auto-links:false;toolbar:false" contenteditable="false">var date = new Date();
+var pn = new Perlin('rnd' + date.getTime());</pre>
+<ul>
+<li>In line 1 we create a new Date object and assign it to the variable date. This is just used for a random number in line 2, as it's new each time.</li>
+<li>In line 2, we declare the variable <code>p</code>n, and then as an argument to the Perlin class, we provide the <code>getTime</code> function of the date object we just created. This ensures the Perlin object created and assigned to <code>pn</code> will generate the natural appearance we want.</li>
+</ul>
+<h4>Create the vertices</h4>
+<p>We're now going to use the <code>pn</code> variable created above to generate vertices across our plane. We can do this using a <code>for</code> loop inside our addGround function, before we add the ground to the scene:</p>
+<pre class="brush:js;auto-links:false;toolbar:false" contenteditable="false">//make the terrain bumpy
+		for (var i = 0, l = geometry.vertices.length; i &lt; l; i++) {
+		  var vertex = geometry.vertices[i];
+		  var value = pn.noise(vertex.x / 10, vertex.y /10, 0);
+		  vertex.z = value *10;
+		}</pre>
+<p>Here, we loop through the vertices of our <code>PlaneGeometry</code>, and for each vertex, add some noise using <code>pn.noise</code>.</p>
+<p>That's the main bit we need to add to create the vertices. The full <code>addGround</code> function should now look like this:</p>
+<pre class="brush:js;auto-links:false;toolbar:false" contenteditable="false">	function addGround() {
+
+  //create the ground material using Mesh Basic Material
+  var groundMat = new THREE.MeshBasicMaterial({
+    color: 0xffff00
+  });
+
+  //create the plane geometry
+  var geometry = new THREE.PlaneGeometry(120, 100, 100, 100);
+
+  //create the ground form the geometry and material
+  var ground = new THREE.Mesh(geometry, groundMat);
+  ground.position.y = -1.9; //lower it
+  ground.doubleSided = true;
+
+  //make the terrain bumpy
+  for (var i = 0, l = geometry.vertices.length; i &lt; l; i++) {
+    var vertex = geometry.vertices[i];
+    var value = pn.noise(vertex.x / 10, vertex.y / 10, 0);
+    vertex.z = value * 10;
+  }
+
+  //create the ground form the geometry and material
+  var ground = new THREE.Mesh(geometry, groundMat);
+  //rotate 90 degrees around the xaxis so we can see the terrain
+  ground.rotation.x = -Math.PI / -2;
+
+  //add the ground to the scene
+  scene.add(ground);
+}</pre>
+<p>What else has changed? Apart from the loop to create the bumpy terrain, we've altered the geometry variable (line 9) by changing the parameters passed in so that the width and height segments are adjusted too - instead of just the width and height. You can read more about the PlaneGeometry parameters&nbsp;<a href="http://threejs.org/docs/#Reference/Extras.Geometries/PlaneGeometry" target="_blank">here</a>.</p>
+<h4>Make it double sided</h4>
+<p>As seen in the demo output at the top of this step, the terrain produced doesn't look right, as the underside of the vertices have no colour. We can change this with one edit to the Mesh (ground material) in line 5 above. Instead of just including a colour to the material, we make it double sided:</p>
+<pre class="brush:js;auto-links:false;toolbar:false" contenteditable="false">  //create the ground material using MeshLambert Material
+  var groundMat = new THREE.MeshBasicMaterial({
+    color: 0xffff00, side: THREE.DoubleSide
+  });
+</pre>
+<p>By adding <code>side: THREE.DoubleSide</code>, we now get this:</p>
+<p><iframe style="width: 100%;" src="//codepen.io/GraemeFulton/embed/bdNvRG/?height=268&amp;theme-id=0" width="300" height="268" frameborder="no" scrolling="no" allowfullscreen="allowfullscreen">See the Pen <a href="http://codepen.io/GraemeFulton/pen/bdNvRG/">Three.js - Bumpy terrain basic material</a> by Graeme Fulton (<a href="http://codepen.io/GraemeFulton">@GraemeFulton</a>) on <a href="http://codepen.io">CodePen</a>.</iframe></p>
+<p>&nbsp;</p>
+<h3>Step 3: Light and Texture</h3>
+<p>We're nearly there now, we just need to change the texture of the mesh, and add some light to the scene to create the final terrain.</p>
+<h4>Add some light</h4>
+<p>We need to add some light to the scene because the material we will be changing the ground to needs light for it to be seen. Therefore, we'll add an <code>addLight</code> function, and also a call to it just before we call <code>addGround</code>:</p>
+<pre class="brush:js;auto-links:false;toolbar:false" contenteditable="false">	function addLight(){
+
+	  //use directional light
+	  var directionalLight = new THREE.DirectionalLight( 0xffffff, 0.9);
+	  //set the position
+	  directionalLight.position.set(10, 2, 20);
+	  //enable shadow
+	  directionalLight.castShadow = true;
+	  //enable camera
+	  directionalLight.shadowCameraVisible = true;
+
+	  //add light to the scene
+	  scene.add( directionalLight );
+	}</pre>
+<p>This code is fairly straightforward, we're using three.js's directional light, setting its position, enabling shadow, and adding it to our scene. Read more about directional light <a title="Directional light" href="http://threejs.org/docs/#Reference/Lights/DirectionalLight" target="_blank">here</a>.</p>
+<h4>Change the mesh</h4>
+<p>Next, in the <code>addGround</code> function where the ground material is defined, we're going to use <code>MeshLambertMaterial</code> instead of <code>MeshBasicMaterial</code>. We'll use the same arguments, so you just need to switch the name inside the addGroud function:</p>
+<pre class="brush:js;auto-links:false;toolbar:false" contenteditable="false">  //create the ground material using MeshLambert Material
+  var groundMat = new THREE.MeshLambertMaterial({
+    color: 0xffff00, side: THREE.DoubleSide
+  });</pre>
+<p>If you were to run your code with this change, you'd now get this:</p>
+<p><iframe style="width: 100%;" src="//codepen.io/GraemeFulton/embed/MwYVvJ/?height=268&amp;theme-id=0" width="300" height="268" frameborder="no" scrolling="no" allowfullscreen="allowfullscreen">See the Pen <a href="http://codepen.io/GraemeFulton/pen/MwYVvJ/">Three.js - Bumpy terrain basic material</a> by Graeme Fulton (<a href="http://codepen.io/GraemeFulton">@GraemeFulton</a>) on <a href="http://codepen.io">CodePen</a>.</iframe></p>
+<p>The problem here is that the light has not been computed properly, so add these two lines before adding the ground to the scene to finish it all off:</p>
+<pre class="brush:js;auto-links:false;toolbar:false" contenteditable="false">//ensure light is computed correctly
+geometry.computeFaceNormals();
+geometry.computeVertexNormals();</pre>
+<p>With those changes, here's the output we finish with:</p>
+<p><iframe style="width: 100%;" src="//codepen.io/GraemeFulton/embed/aOzYEq/?height=268&amp;theme-id=0" width="300" height="268" frameborder="no" scrolling="no" allowfullscreen="allowfullscreen">See the Pen <a href="http://codepen.io/GraemeFulton/pen/aOzYEq/">Three.js - Bumpy terrain basic material</a> by Graeme Fulton (<a href="http://codepen.io/GraemeFulton">@GraemeFulton</a>) on <a href="http://codepen.io">CodePen</a>.</iframe></p>
+<h3>Well done</h3>
+<p>Nice work, we've covered quite a few new concepts in this part. The next part of this series is not really a proper tutorial, we're just going to combine the star field code from part one with the terrain code from this part.</p>
+<p>You can get the full source code <a title="terrain code" href="https://github.com/GraemeFulton/threejs-starter/blob/master/Terrain.html" target="_blank">here on GitHub</a></p>
+<p>&nbsp;</p>
+
+</p>
+      </article>
+    </div>
+  </div>
+</main>
+
+        <footer class="mdl-mega-footer">
+  <div class="mdl-mega-footer--middle-section">
+
+    <div class="mdl-mega-footer--drop-down-section">
+      <input class="mdl-mega-footer--heading-checkbox" type="checkbox" checked>
+      <h1 class="mdl-mega-footer--heading">INFO</h1>
+      <ul class="mdl-mega-footer--link-list">
+        <li><a href="mailto:creator@createwithcode.com">creator@createwithcode.com</a></li>
+        <li><a href="/feed.xml">subscribe via RSS</a></li>
+      </ul>
+    </div>
+
+    <div class="mdl-mega-footer--drop-down-section">
+      <input class="mdl-mega-footer--heading-checkbox" type="checkbox" checked>
+      <h1 class="mdl-mega-footer--heading">SOCIAL</h1>
+      <ul class="mdl-mega-footer--link-list">
+        
+        <li>
+          <a href="https://github.com/creativewithcode">
+            <span class="icon  icon--github">
+              <svg viewBox="0 0 16 16">
+                <path fill="#828282" d="M7.999,0.431c-4.285,0-7.76,3.474-7.76,7.761 c0,3.428,2.223,6.337,5.307,7.363c0.388,0.071,0.53-0.168,0.53-0.374c0-0.184-0.007-0.672-0.01-1.32 c-2.159,0.469-2.614-1.04-2.614-1.04c-0.353-0.896-0.862-1.135-0.862-1.135c-0.705-0.481,0.053-0.472,0.053-0.472 c0.779,0.055,1.189,0.8,1.189,0.8c0.692,1.186,1.816,0.843,2.258,0.645c0.071-0.502,0.271-0.843,0.493-1.037 C4.86,11.425,3.049,10.76,3.049,7.786c0-0.847,0.302-1.54,0.799-2.082C3.768,5.507,3.501,4.718,3.924,3.65 c0,0,0.652-0.209,2.134,0.796C6.677,4.273,7.34,4.187,8,4.184c0.659,0.003,1.323,0.089,1.943,0.261 c1.482-1.004,2.132-0.796,2.132-0.796c0.423,1.068,0.157,1.857,0.077,2.054c0.497,0.542,0.798,1.235,0.798,2.082 c0,2.981-1.814,3.637-3.543,3.829c0.279,0.24,0.527,0.713,0.527,1.437c0,1.037-0.01,1.874-0.01,2.129 c0,0.208,0.14,0.449,0.534,0.373c3.081-1.028,5.302-3.935,5.302-7.362C15.76,3.906,12.285,0.431,7.999,0.431z"/>
+              </svg>
+            </span>
+
+            <span class="username">creativewithcode</span>
+          </a>
+        </li>
+        
+        
+        <li>
+          <a href="https://twitter.com/creativewithcode">
+            <span class="icon  icon--twitter">
+              <svg viewBox="0 0 16 16">
+                <path fill="#828282" d="M15.969,3.058c-0.586,0.26-1.217,0.436-1.878,0.515c0.675-0.405,1.194-1.045,1.438-1.809
+                c-0.632,0.375-1.332,0.647-2.076,0.793c-0.596-0.636-1.446-1.033-2.387-1.033c-1.806,0-3.27,1.464-3.27,3.27 c0,0.256,0.029,0.506,0.085,0.745C5.163,5.404,2.753,4.102,1.14,2.124C0.859,2.607,0.698,3.168,0.698,3.767 c0,1.134,0.577,2.135,1.455,2.722C1.616,6.472,1.112,6.325,0.671,6.08c0,0.014,0,0.027,0,0.041c0,1.584,1.127,2.906,2.623,3.206 C3.02,9.402,2.731,9.442,2.433,9.442c-0.211,0-0.416-0.021-0.615-0.059c0.416,1.299,1.624,2.245,3.055,2.271 c-1.119,0.877-2.529,1.4-4.061,1.4c-0.264,0-0.524-0.015-0.78-0.046c1.447,0.928,3.166,1.469,5.013,1.469 c6.015,0,9.304-4.983,9.304-9.304c0-0.142-0.003-0.283-0.009-0.423C14.976,4.29,15.531,3.714,15.969,3.058z"/>
+              </svg>
+            </span>
+
+            <span class="username">creativewithcode</span>
+          </a>
+        </li>
+      
+      </ul>
+    </div>
+
+    <div class="mdl-mega-footer--drop-down-section">
+      <input class="mdl-mega-footer--heading-checkbox" type="checkbox" checked>
+      <h1 class="mdl-mega-footer--heading">ABOUT</h1>
+      <ul class="mdl-mega-footer--link-list">
+        <li>Get creative with code. We're about experimenting with new front end web technologies.
+</li>
+      </ul>
+    </div>
+
+
+  </div>
+
+  <div class="mdl-mega-footer--bottom-section">
+    <div class="mdl-logo">Creative with Code</div>
+    <ul class="mdl-mega-footer--link-list">
+      <li><a href="#">Help</a></li>
+      <li><a href="#">Privacy & Terms</a></li>
+    </ul>
+  </div>
+
+</footer>
+
+      </main>
+
+    </div>
+    <!-- /End Layout-->
+
+    <!-- Material Design Lite js Library -->
+    <script type="text/javascript" src="https://storage.googleapis.com/code.getmdl.io/1.0.0/material.min.js"></script>
+    
+  </body>
+
+</html>
