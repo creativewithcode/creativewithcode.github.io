@@ -6,9 +6,22 @@
 </description>
     <link>http://yourdomain.com/</link>
     <atom:link href="http://yourdomain.com/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Sat, 17 Oct 2015 17:43:38 +0100</pubDate>
-    <lastBuildDate>Sat, 17 Oct 2015 17:43:38 +0100</lastBuildDate>
-    <generator>Jekyll v2.5.3</generator>
+    <pubDate>Fri, 06 Nov 2015 18:48:26 +0000</pubDate>
+    <lastBuildDate>Fri, 06 Nov 2015 18:48:26 +0000</lastBuildDate>
+    <generator>Jekyll v3.0.0</generator>
+    
+      <item>
+        <title>Creating a culture</title>
+        <description>&lt;h1&gt;Hello World&lt;/h1&gt;
+</description>
+        <pubDate>Fri, 06 Nov 2015 18:46:20 +0000</pubDate>
+        <link>http://yourdomain.com/design/2015/11/06/creating-a-culture.html</link>
+        <guid isPermaLink="true">http://yourdomain.com/design/2015/11/06/creating-a-culture.html</guid>
+        
+        
+        <category>design</category>
+        
+      </item>
     
       <item>
         <title>Detect audio boost with the Web Audio API</title>
@@ -46,7 +59,7 @@
         <guid isPermaLink="true">http://yourdomain.com/audio/2015/09/18/detect-audio-boost.html</guid>
         
         
-        <category>audio</category>
+        <category>Audio</category>
         
       </item>
     
@@ -132,7 +145,7 @@ this.request = new XMLHttpRequest();&lt;/pre&gt;
         <guid isPermaLink="true">http://yourdomain.com/audio/2015/09/15/loading-audio-with-web-audio-api.html</guid>
         
         
-        <category>audio</category>
+        <category>Audio</category>
         
       </item>
     
@@ -234,7 +247,7 @@ this.source.connect(this.analyser);&lt;/pre&gt;
         <guid isPermaLink="true">http://yourdomain.com/audio/2015/09/11/creating-sound-analyser-web-audio-api.html</guid>
         
         
-        <category>audio</category>
+        <category>Audio</category>
         
       </item>
     
@@ -412,7 +425,7 @@ app.listen(port, function(){
         <guid isPermaLink="true">http://yourdomain.com/technical/2015/09/07/mean-stack-ibm-bluemix.html</guid>
         
         
-        <category>technical</category>
+        <category>Technical</category>
         
       </item>
     
@@ -525,101 +538,7 @@ console.log(&#39;mongodb connected&#39;);
         <guid isPermaLink="true">http://yourdomain.com/technical/2015/08/10/mean-stack-heroku-mongodb-gulp.html</guid>
         
         
-        <category>technical</category>
-        
-      </item>
-    
-      <item>
-        <title>Code an infinite 3D world with three.js [Part 1]</title>
-        <description>&lt;h3&gt;Intro&lt;/h3&gt;
-&lt;p&gt;This tutorial will show you how to create an infinite terrain that can be used in combination with a &lt;a href=&quot;http://stemkoski.github.io/Three.js/Chase-Camera.html&quot;&gt;Chase Camera&lt;/a&gt;. If you try the&amp;nbsp;&lt;a href=&quot;http://stemkoski.github.io/Three.js/Chase-Camera.html&quot;&gt;Chase Camera&lt;/a&gt;&amp;nbsp;demo, the concept created in this tutorial is the creation of new terrain when the object reaches the edge of the existing terrain.&lt;/p&gt;
-&lt;h4&gt;Outcome&lt;/h4&gt;
-&lt;p&gt;The entire tutorial will creatie a 9 x 9 grid, keeping the camera in the middle. In this part, we&#39;ll just be creating the first column made up of three tiles.&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;Step 1 will create those three tiles&lt;/li&gt;
-&lt;li&gt;Step 2 will allow us to move forward, adding ground in front of us&lt;/li&gt;
-&lt;li&gt;Step 3 will allow us to move backwards, adding ground in the opposite direction.&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;This will put is in a good position for &lt;a title=&quot;infinite threejs terrain part 2&quot; href=&quot;/webgl/2015/07/26/threejs-infinite-world-webgl.html&quot;&gt;Part 2&lt;/a&gt;, where we&#39;ll replicate this column twice more to create the full grid, ending in the final infinite world.&lt;/p&gt;
-&lt;hr /&gt;
-
-&lt;h3&gt;Step 1: &amp;nbsp;Start off with three tiles&lt;/h3&gt;
-&lt;p&gt;First, create three tiles with the camera positioned in the middle:&lt;/p&gt;
-&lt;p&gt;&lt;iframe style=&quot;box-sizing: border-box; border-radius: 0px !important; max-width: 100%;&quot; src=&quot;https://www.youtube.com/embed/mXDzRLPOjQI&quot; width=&quot;359&quot; height=&quot;202&quot; frameborder=&quot;0&quot; allowfullscreen=&quot;allowfullscreen&quot;&gt;&lt;/iframe&gt;&lt;/p&gt;
-&lt;p&gt;As seen in the video, we&#39;re creating three tiles of terrain in a row (to create the initial terrain,&amp;nbsp;&lt;a title=&quot;Creating a terrain with three.js&quot; href=&quot;/webgl/2015/04/25/create-terrain-three-js-webgl-part-2.html&quot;&gt;look here&lt;/a&gt;), using tiles of 100 x 100 for simplicity. This is all done inside the &lt;code&gt;createTerrainMatrix&lt;/code&gt; function. Look at the &lt;code&gt;for&lt;/code&gt; loop from within the main block of code:&lt;/p&gt;
-&lt;p&gt;&lt;span class=&quot;pl-k&quot; style=&quot;box-sizing: border-box; color: #a71d5d; font-family: Consolas, &#39;Liberation Mono&#39;, Menlo, Courier, monospace; font-size: 12px; line-height: 16.8px; white-space: pre;&quot;&gt;for&lt;/span&gt;&lt;span style=&quot;color: #333333; font-family: Consolas, &#39;Liberation Mono&#39;, Menlo, Courier, monospace; font-size: 12px; line-height: 16.8px; white-space: pre;&quot;&gt; ( &lt;/span&gt;&lt;span class=&quot;pl-k&quot; style=&quot;box-sizing: border-box; color: #a71d5d; font-family: Consolas, &#39;Liberation Mono&#39;, Menlo, Courier, monospace; font-size: 12px; line-height: 16.8px; white-space: pre;&quot;&gt;var&lt;/span&gt;&lt;span style=&quot;color: #333333; font-family: Consolas, &#39;Liberation Mono&#39;, Menlo, Courier, monospace; font-size: 12px; line-height: 16.8px; white-space: pre;&quot;&gt; z&lt;/span&gt;&lt;span class=&quot;pl-k&quot; style=&quot;box-sizing: border-box; color: #a71d5d; font-family: Consolas, &#39;Liberation Mono&#39;, Menlo, Courier, monospace; font-size: 12px; line-height: 16.8px; white-space: pre;&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;pl-c1&quot; style=&quot;box-sizing: border-box; color: #0086b3; font-family: Consolas, &#39;Liberation Mono&#39;, Menlo, Courier, monospace; font-size: 12px; line-height: 16.8px; white-space: pre;&quot;&gt;100&lt;/span&gt;&lt;span style=&quot;color: #333333; font-family: Consolas, &#39;Liberation Mono&#39;, Menlo, Courier, monospace; font-size: 12px; line-height: 16.8px; white-space: pre;&quot;&gt;; z &lt;/span&gt;&lt;span class=&quot;pl-k&quot; style=&quot;box-sizing: border-box; color: #a71d5d; font-family: Consolas, &#39;Liberation Mono&#39;, Menlo, Courier, monospace; font-size: 12px; line-height: 16.8px; white-space: pre;&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;pl-k&quot; style=&quot;box-sizing: border-box; color: #a71d5d; font-family: Consolas, &#39;Liberation Mono&#39;, Menlo, Courier, monospace; font-size: 12px; line-height: 16.8px; white-space: pre;&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;pl-c1&quot; style=&quot;box-sizing: border-box; color: #0086b3; font-family: Consolas, &#39;Liberation Mono&#39;, Menlo, Courier, monospace; font-size: 12px; line-height: 16.8px; white-space: pre;&quot;&gt;200&lt;/span&gt;&lt;span style=&quot;color: #333333; font-family: Consolas, &#39;Liberation Mono&#39;, Menlo, Courier, monospace; font-size: 12px; line-height: 16.8px; white-space: pre;&quot;&gt;; z&lt;/span&gt;&lt;span class=&quot;pl-k&quot; style=&quot;box-sizing: border-box; color: #a71d5d; font-family: Consolas, &#39;Liberation Mono&#39;, Menlo, Courier, monospace; font-size: 12px; line-height: 16.8px; white-space: pre;&quot;&gt;-=&lt;/span&gt;&lt;span class=&quot;pl-c1&quot; style=&quot;box-sizing: border-box; color: #0086b3; font-family: Consolas, &#39;Liberation Mono&#39;, Menlo, Courier, monospace; font-size: 12px; line-height: 16.8px; white-space: pre;&quot;&gt;100&lt;/span&gt;&lt;span style=&quot;color: #333333; font-family: Consolas, &#39;Liberation Mono&#39;, Menlo, Courier, monospace; font-size: 12px; line-height: 16.8px; white-space: pre;&quot;&gt; )&lt;/span&gt;&lt;/p&gt;
-&lt;p&gt;&lt;span&gt;&lt;span&gt;Consider that our camera is intially positioned at z=5, and our 3 tiles are 100 x 100.&amp;nbsp;With this in mind, we&#39;ll place the first tile behind the camera at z=100, then the second one will be 100 in front (the height of the tile), and the third further away from the camera at z = -200. That&#39;s all created with the for loop. Apart from that, our code is pretty much the same as the original addGround() function from the &lt;a title=&quot;threejs terrain&quot; href=&quot;/webgl/2015/05/03/animating-terrain-three-js-webgl-part-4.html&quot;&gt;previous tutorial&lt;/a&gt;.&lt;/span&gt;&lt;/span&gt;&lt;/p&gt;
-&lt;p&gt;We can create an initial for loop starting at 100, moving to -200. &amp;nbsp;&lt;/p&gt;
-&lt;pre class=&quot;brush:js;auto-links:false;toolbar:false&quot; contenteditable=&quot;false&quot;&gt;    /**
-     * createTerrainMatrix
-     * @TODO: create the matrix of terrains - need to add 9 bits of terrain
-     */
-    createTerrainMatrix:function(scene, perlinNoise){
-
-        //every 100px on the z axis, add a bit of ground
-        for ( var z= 100; z &amp;gt; -200; z-=100 ) {
-
-          //Create the perlin noise for the surface of the ground
-  	      var perlinSurface = new PerlinSurface(perlinNoise, 100, 100);
-          var ground = perlinSurface.surface;
-          //rotate 90 degrees around the xaxis so we can see the terrain
-          ground.rotation.x = -Math.PI/-2;
-          // Then set the z position to where it is in the loop (distance of camera)
-          ground.position.z = z;
-          ground.position.y -=4;
-
-          //add the ground to the scene
-          scene.add(ground);
-          //finally push it to the floor array
-          this.floor.push(ground);
-        }
-
-    }&lt;/pre&gt;
-&lt;p&gt;Overall, this will create three pieces of terrain, and in the final line, push them to a floor array, which will be used in the next step.&lt;/p&gt;
-&lt;hr /&gt;
-
-&lt;h3&gt;Step 2: Moving forwards&lt;/h3&gt;
-&lt;p&gt;When the camera moves forwards, move the tile from the back to the very front, keeping the camera on the centre tile.&lt;/p&gt;
-&lt;p&gt;&lt;iframe style=&quot;box-sizing: border-box; border-radius: 0px !important; max-width: 100%;&quot; src=&quot;https://www.youtube.com/embed/Wh-LpGSnnl8&quot; width=&quot;359&quot; height=&quot;202&quot; frameborder=&quot;0&quot; allowfullscreen=&quot;allowfullscreen&quot;&gt;&lt;/iframe&gt;&lt;/p&gt;
-&lt;p&gt;We can create this effect in a new function, moveWithCamera():&lt;/p&gt;
-&lt;pre class=&quot;brush:js;auto-links:false;toolbar:false&quot; contenteditable=&quot;false&quot;&gt;    /**
-     * moveWithCamera
-     * when the camera gets past the first terrain, put the other in front of it
-     */
-     moveWithCamera(camera){
-        // loop through each of the 3 floors
-        for(var i=0; i&amp;lt;this.floor.length; i++) {
-
-          //if the camera has moved past the entire square, move the square
-          if((this.floor[i].position.z - 100)&amp;gt;camera.position.z){
-
-            this.floor[i].position.z-=200;
-          }
-
-        }&lt;/pre&gt;
-&lt;p&gt;This is fairly simple - it&#39;s a modification of&amp;nbsp;&lt;a title=&quot;animating a terrain&quot; href=&quot;/webgl/2015/05/03/animating-terrain-three-js-webgl-part-4.html&quot;&gt;Step 3 in the previous animating terrain tutorial&lt;/a&gt;, although we&#39;ve put it into it&#39;s own function. The key part is again another for loop.&lt;/p&gt;
-&lt;p&gt;This time we&#39;re looping through the array of tiles we created at the end of step 1, and checking if the camera has moved past the square by comparing z positions. If the camera&#39;s z position has a greater negative value than the tile, we move that tile&amp;nbsp;forward (into the screen, and away from the camera) two times it&#39;s height so that it goes from the very back to the front.&amp;nbsp;&lt;/p&gt;
-&lt;hr /&gt;
-
-&lt;h3&gt;Step 3: Moving backwards&lt;/h3&gt;
-&lt;p&gt;The same way we move forward can be applied in reverse to allow us to move backwards. To do this, update&amp;nbsp;&lt;code&gt;moveWithCamera()&lt;/code&gt; to include the following code, just underneath the first z position comparison where we were moving the tiles forward:&lt;/p&gt;
-&lt;pre class=&quot;brush:js;auto-links:false;toolbar:false&quot;&gt;//if the camera has moved past the entire square in the opposite direction, move the square the opposite way
-          else if((this.floor[i].position.z + this.tileHeight)&amp;lt;camera.position.z){
-
-            this.floor[i].position.z+=(this.tileHeight*2);
-          }&lt;/pre&gt;
-&lt;hr /&gt;
-
-&lt;h3&gt;Well done&lt;/h3&gt;
-&lt;p&gt;At this point you should have three tiles of terrain that you can move forwards and backwards along, but not left and right. &lt;a title=&quot;Infinite threejs terrain part 2&quot; href=&quot;/webgl/2015/07/26/threejs-infinite-world-webgl.html&quot;&gt;Part 2&lt;/a&gt;&amp;nbsp;will look at adding two more columns, and implementing the ability to move across the x axis infinitely, the same way we have done here with the z axis.&lt;/p&gt;
-
-</description>
-        <pubDate>Sun, 26 Jul 2015 12:34:20 +0100</pubDate>
-        <link>http://yourdomain.com/webgl/2015/07/26/threejs-infinite-world-webgl-part-1.html</link>
-        <guid isPermaLink="true">http://yourdomain.com/webgl/2015/07/26/threejs-infinite-world-webgl-part-1.html</guid>
-        
-        
-        <category>webgl</category>
+        <category>Technical</category>
         
       </item>
     
@@ -754,52 +673,93 @@ console.log(&#39;mongodb connected&#39;);
       </item>
     
       <item>
-        <title>You can&#39;t escape this world (an infinite three.js world)</title>
-        <description>&lt;p&gt;This post will show a&amp;nbsp;step by step overview of how to&amp;nbsp;implement an infinite world in three.js using a&amp;nbsp;method outlined in a&amp;nbsp;&lt;a href=&quot;/webgl/2015/07/25/threejs-3d-world.html&quot;&gt;previous post&lt;/a&gt;. This is just a high level&amp;nbsp;summary using YouTube videos, I&#39;ll go into the code in another post.&amp;nbsp;&lt;/p&gt;
-&lt;p&gt;&lt;img src=&quot;/img/threejs-infinite-terrain.png&quot; alt=&quot;&quot; width=&quot;360&quot; height=&quot;204&quot; /&gt;&lt;/p&gt;
-&lt;p&gt;&amp;nbsp;&lt;/p&gt;
+        <title>Code an infinite 3D world with three.js [Part 1]</title>
+        <description>&lt;h3&gt;Intro&lt;/h3&gt;
+&lt;p&gt;This tutorial will show you how to create an infinite terrain that can be used in combination with a &lt;a href=&quot;http://stemkoski.github.io/Three.js/Chase-Camera.html&quot;&gt;Chase Camera&lt;/a&gt;. If you try the&amp;nbsp;&lt;a href=&quot;http://stemkoski.github.io/Three.js/Chase-Camera.html&quot;&gt;Chase Camera&lt;/a&gt;&amp;nbsp;demo, the concept created in this tutorial is the creation of new terrain when the object reaches the edge of the existing terrain.&lt;/p&gt;
+&lt;h4&gt;Outcome&lt;/h4&gt;
+&lt;p&gt;The entire tutorial will creatie a 9 x 9 grid, keeping the camera in the middle. In this part, we&#39;ll just be creating the first column made up of three tiles.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Step 1 will create those three tiles&lt;/li&gt;
+&lt;li&gt;Step 2 will allow us to move forward, adding ground in front of us&lt;/li&gt;
+&lt;li&gt;Step 3 will allow us to move backwards, adding ground in the opposite direction.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;This will put is in a good position for &lt;a title=&quot;infinite threejs terrain part 2&quot; href=&quot;/webgl/2015/07/26/threejs-infinite-world-webgl.html&quot;&gt;Part 2&lt;/a&gt;, where we&#39;ll replicate this column twice more to create the full grid, ending in the final infinite world.&lt;/p&gt;
 &lt;hr /&gt;
 
-&lt;h3&gt;1. &amp;nbsp;Start off with three tiles&lt;/h3&gt;
+&lt;h3&gt;Step 1: &amp;nbsp;Start off with three tiles&lt;/h3&gt;
 &lt;p&gt;First, create three tiles with the camera positioned in the middle:&lt;/p&gt;
-&lt;p&gt;&lt;iframe src=&quot;https://www.youtube.com/embed/mXDzRLPOjQI&quot; width=&quot;359&quot; height=&quot;202&quot; frameborder=&quot;0&quot; allowfullscreen=&quot;allowfullscreen&quot;&gt;&lt;/iframe&gt;&lt;/p&gt;
+&lt;p&gt;&lt;iframe style=&quot;box-sizing: border-box; border-radius: 0px !important; max-width: 100%;&quot; src=&quot;https://www.youtube.com/embed/mXDzRLPOjQI&quot; width=&quot;359&quot; height=&quot;202&quot; frameborder=&quot;0&quot; allowfullscreen=&quot;allowfullscreen&quot;&gt;&lt;/iframe&gt;&lt;/p&gt;
+&lt;p&gt;As seen in the video, we&#39;re creating three tiles of terrain in a row (to create the initial terrain,&amp;nbsp;&lt;a title=&quot;Creating a terrain with three.js&quot; href=&quot;/webgl/2015/04/25/create-terrain-three-js-webgl-part-2.html&quot;&gt;look here&lt;/a&gt;), using tiles of 100 x 100 for simplicity. This is all done inside the &lt;code&gt;createTerrainMatrix&lt;/code&gt; function. Look at the &lt;code&gt;for&lt;/code&gt; loop from within the main block of code:&lt;/p&gt;
+&lt;p&gt;&lt;span class=&quot;pl-k&quot; style=&quot;box-sizing: border-box; color: #a71d5d; font-family: Consolas, &#39;Liberation Mono&#39;, Menlo, Courier, monospace; font-size: 12px; line-height: 16.8px; white-space: pre;&quot;&gt;for&lt;/span&gt;&lt;span style=&quot;color: #333333; font-family: Consolas, &#39;Liberation Mono&#39;, Menlo, Courier, monospace; font-size: 12px; line-height: 16.8px; white-space: pre;&quot;&gt; ( &lt;/span&gt;&lt;span class=&quot;pl-k&quot; style=&quot;box-sizing: border-box; color: #a71d5d; font-family: Consolas, &#39;Liberation Mono&#39;, Menlo, Courier, monospace; font-size: 12px; line-height: 16.8px; white-space: pre;&quot;&gt;var&lt;/span&gt;&lt;span style=&quot;color: #333333; font-family: Consolas, &#39;Liberation Mono&#39;, Menlo, Courier, monospace; font-size: 12px; line-height: 16.8px; white-space: pre;&quot;&gt; z&lt;/span&gt;&lt;span class=&quot;pl-k&quot; style=&quot;box-sizing: border-box; color: #a71d5d; font-family: Consolas, &#39;Liberation Mono&#39;, Menlo, Courier, monospace; font-size: 12px; line-height: 16.8px; white-space: pre;&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;pl-c1&quot; style=&quot;box-sizing: border-box; color: #0086b3; font-family: Consolas, &#39;Liberation Mono&#39;, Menlo, Courier, monospace; font-size: 12px; line-height: 16.8px; white-space: pre;&quot;&gt;100&lt;/span&gt;&lt;span style=&quot;color: #333333; font-family: Consolas, &#39;Liberation Mono&#39;, Menlo, Courier, monospace; font-size: 12px; line-height: 16.8px; white-space: pre;&quot;&gt;; z &lt;/span&gt;&lt;span class=&quot;pl-k&quot; style=&quot;box-sizing: border-box; color: #a71d5d; font-family: Consolas, &#39;Liberation Mono&#39;, Menlo, Courier, monospace; font-size: 12px; line-height: 16.8px; white-space: pre;&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;pl-k&quot; style=&quot;box-sizing: border-box; color: #a71d5d; font-family: Consolas, &#39;Liberation Mono&#39;, Menlo, Courier, monospace; font-size: 12px; line-height: 16.8px; white-space: pre;&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;pl-c1&quot; style=&quot;box-sizing: border-box; color: #0086b3; font-family: Consolas, &#39;Liberation Mono&#39;, Menlo, Courier, monospace; font-size: 12px; line-height: 16.8px; white-space: pre;&quot;&gt;200&lt;/span&gt;&lt;span style=&quot;color: #333333; font-family: Consolas, &#39;Liberation Mono&#39;, Menlo, Courier, monospace; font-size: 12px; line-height: 16.8px; white-space: pre;&quot;&gt;; z&lt;/span&gt;&lt;span class=&quot;pl-k&quot; style=&quot;box-sizing: border-box; color: #a71d5d; font-family: Consolas, &#39;Liberation Mono&#39;, Menlo, Courier, monospace; font-size: 12px; line-height: 16.8px; white-space: pre;&quot;&gt;-=&lt;/span&gt;&lt;span class=&quot;pl-c1&quot; style=&quot;box-sizing: border-box; color: #0086b3; font-family: Consolas, &#39;Liberation Mono&#39;, Menlo, Courier, monospace; font-size: 12px; line-height: 16.8px; white-space: pre;&quot;&gt;100&lt;/span&gt;&lt;span style=&quot;color: #333333; font-family: Consolas, &#39;Liberation Mono&#39;, Menlo, Courier, monospace; font-size: 12px; line-height: 16.8px; white-space: pre;&quot;&gt; )&lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;&lt;span&gt;&lt;span&gt;Consider that our camera is intially positioned at z=5, and our 3 tiles are 100 x 100.&amp;nbsp;With this in mind, we&#39;ll place the first tile behind the camera at z=100, then the second one will be 100 in front (the height of the tile), and the third further away from the camera at z = -200. That&#39;s all created with the for loop. Apart from that, our code is pretty much the same as the original addGround() function from the &lt;a title=&quot;threejs terrain&quot; href=&quot;/webgl/2015/05/03/animating-terrain-three-js-webgl-part-4.html&quot;&gt;previous tutorial&lt;/a&gt;.&lt;/span&gt;&lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;We can create an initial for loop starting at 100, moving to -200. &amp;nbsp;&lt;/p&gt;
+&lt;pre class=&quot;brush:js;auto-links:false;toolbar:false&quot; contenteditable=&quot;false&quot;&gt;    /**
+     * createTerrainMatrix
+     * @TODO: create the matrix of terrains - need to add 9 bits of terrain
+     */
+    createTerrainMatrix:function(scene, perlinNoise){
+
+        //every 100px on the z axis, add a bit of ground
+        for ( var z= 100; z &amp;gt; -200; z-=100 ) {
+
+          //Create the perlin noise for the surface of the ground
+  	      var perlinSurface = new PerlinSurface(perlinNoise, 100, 100);
+          var ground = perlinSurface.surface;
+          //rotate 90 degrees around the xaxis so we can see the terrain
+          ground.rotation.x = -Math.PI/-2;
+          // Then set the z position to where it is in the loop (distance of camera)
+          ground.position.z = z;
+          ground.position.y -=4;
+
+          //add the ground to the scene
+          scene.add(ground);
+          //finally push it to the floor array
+          this.floor.push(ground);
+        }
+
+    }&lt;/pre&gt;
+&lt;p&gt;Overall, this will create three pieces of terrain, and in the final line, push them to a floor array, which will be used in the next step.&lt;/p&gt;
 &lt;hr /&gt;
 
-&lt;h3&gt;2. Move forwards&lt;/h3&gt;
+&lt;h3&gt;Step 2: Moving forwards&lt;/h3&gt;
 &lt;p&gt;When the camera moves forwards, move the tile from the back to the very front, keeping the camera on the centre tile.&lt;/p&gt;
-&lt;p&gt;&lt;iframe src=&quot;https://www.youtube.com/embed/Wh-LpGSnnl8&quot; width=&quot;359&quot; height=&quot;202&quot; frameborder=&quot;0&quot; allowfullscreen=&quot;allowfullscreen&quot;&gt;&lt;/iframe&gt;&lt;/p&gt;
+&lt;p&gt;&lt;iframe style=&quot;box-sizing: border-box; border-radius: 0px !important; max-width: 100%;&quot; src=&quot;https://www.youtube.com/embed/Wh-LpGSnnl8&quot; width=&quot;359&quot; height=&quot;202&quot; frameborder=&quot;0&quot; allowfullscreen=&quot;allowfullscreen&quot;&gt;&lt;/iframe&gt;&lt;/p&gt;
+&lt;p&gt;We can create this effect in a new function, moveWithCamera():&lt;/p&gt;
+&lt;pre class=&quot;brush:js;auto-links:false;toolbar:false&quot; contenteditable=&quot;false&quot;&gt;    /**
+     * moveWithCamera
+     * when the camera gets past the first terrain, put the other in front of it
+     */
+     moveWithCamera(camera){
+        // loop through each of the 3 floors
+        for(var i=0; i&amp;lt;this.floor.length; i++) {
+
+          //if the camera has moved past the entire square, move the square
+          if((this.floor[i].position.z - 100)&amp;gt;camera.position.z){
+
+            this.floor[i].position.z-=200;
+          }
+
+        }&lt;/pre&gt;
+&lt;p&gt;This is fairly simple - it&#39;s a modification of&amp;nbsp;&lt;a title=&quot;animating a terrain&quot; href=&quot;/webgl/2015/05/03/animating-terrain-three-js-webgl-part-4.html&quot;&gt;Step 3 in the previous animating terrain tutorial&lt;/a&gt;, although we&#39;ve put it into it&#39;s own function. The key part is again another for loop.&lt;/p&gt;
+&lt;p&gt;This time we&#39;re looping through the array of tiles we created at the end of step 1, and checking if the camera has moved past the square by comparing z positions. If the camera&#39;s z position has a greater negative value than the tile, we move that tile&amp;nbsp;forward (into the screen, and away from the camera) two times it&#39;s height so that it goes from the very back to the front.&amp;nbsp;&lt;/p&gt;
 &lt;hr /&gt;
 
-&lt;h3&gt;3. Build up&amp;nbsp;a grid&lt;/h3&gt;
-&lt;p&gt;Just by changing the X position of the tiles, they will apear to the side of the camera:&lt;/p&gt;
-&lt;p&gt;&lt;iframe src=&quot;https://www.youtube.com/embed/vnBPgDxRnUI&quot; width=&quot;359&quot; height=&quot;202&quot; frameborder=&quot;0&quot; allowfullscreen=&quot;allowfullscreen&quot;&gt;&lt;/iframe&gt;&lt;/p&gt;
-&lt;p&gt;3 rows of tiles can be built up creating a grid using the same initial code as&amp;nbsp;for the first&amp;nbsp;row.&lt;/p&gt;
-&lt;p&gt;We just need to altering the X position - one positive, the other negative.&lt;/p&gt;
+&lt;h3&gt;Step 3: Moving backwards&lt;/h3&gt;
+&lt;p&gt;The same way we move forward can be applied in reverse to allow us to move backwards. To do this, update&amp;nbsp;&lt;code&gt;moveWithCamera()&lt;/code&gt; to include the following code, just underneath the first z position comparison where we were moving the tiles forward:&lt;/p&gt;
+&lt;pre class=&quot;brush:js;auto-links:false;toolbar:false&quot;&gt;//if the camera has moved past the entire square in the opposite direction, move the square the opposite way
+          else if((this.floor[i].position.z + this.tileHeight)&amp;lt;camera.position.z){
+
+            this.floor[i].position.z+=(this.tileHeight*2);
+          }&lt;/pre&gt;
 &lt;hr /&gt;
 
-&lt;h3&gt;4. Moving backwards&lt;/h3&gt;
-&lt;p&gt;The same way we move forward can be applied in reverse to allow us to move backwards:&lt;/p&gt;
-&lt;p&gt;&lt;iframe src=&quot;https://www.youtube.com/embed/lF9hzgD4cME&quot; width=&quot;359&quot; height=&quot;202&quot; frameborder=&quot;0&quot; allowfullscreen=&quot;allowfullscreen&quot;&gt;&lt;/iframe&gt;&lt;/p&gt;
-&lt;p&gt;At this point we&#39;ve got a 3 x 3 grid, and are able to move forward and backwards, but not left and right (without reaching the edge).&lt;/p&gt;
-&lt;hr /&gt;
-
-&lt;h3&gt;5. Trap the user in the world forever&lt;/h3&gt;
-&lt;p&gt;Very similar code monitoring the z axis can be used to detect when the camera moves left or right (along the x axis), allowing us to add terrain appropriately along the x axis:&lt;/p&gt;
-&lt;p&gt;&lt;iframe src=&quot;https://www.youtube.com/embed/rhFnA_OnMTY&quot; width=&quot;359&quot; height=&quot;202&quot; frameborder=&quot;0&quot; allowfullscreen=&quot;allowfullscreen&quot;&gt;&lt;/iframe&gt;&lt;/p&gt;
-&lt;p&gt;Now the user is trapped, as whatever direction they move, more terrain is &#39;created&#39;.&lt;/p&gt;
-&lt;hr /&gt;
-
-&lt;h3&gt;6. What&#39;s it like underneath?&lt;/h3&gt;
-&lt;p&gt;Because everybody wants to put a turtle on its back,&amp;nbsp;here&#39;s a look at things from underneath:&lt;/p&gt;
-&lt;p&gt;&lt;iframe src=&quot;https://www.youtube.com/embed/SVwxoCdhI1g&quot; width=&quot;359&quot; height=&quot;202&quot; frameborder=&quot;0&quot; allowfullscreen=&quot;allowfullscreen&quot;&gt;&lt;/iframe&gt;&lt;/p&gt;
-&lt;p&gt;&lt;img src=&quot;data:image/jpeg;base64,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&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
-&lt;h4&gt;How to code this?&lt;/h4&gt;
-&lt;p&gt;I&#39;ve written a 2 part tutorial on how to create this effect&amp;nbsp;&lt;a title=&quot;infinite terrain three.js&quot; href=&quot;/webgl/2015/07/26/threejs-infinite-world-webgl-part-1.html&quot;&gt;here&lt;/a&gt;&lt;/p&gt;
+&lt;h3&gt;Well done&lt;/h3&gt;
+&lt;p&gt;At this point you should have three tiles of terrain that you can move forwards and backwards along, but not left and right. &lt;a title=&quot;Infinite threejs terrain part 2&quot; href=&quot;/webgl/2015/07/26/threejs-infinite-world-webgl.html&quot;&gt;Part 2&lt;/a&gt;&amp;nbsp;will look at adding two more columns, and implementing the ability to move across the x axis infinitely, the same way we have done here with the z axis.&lt;/p&gt;
 
 </description>
-        <pubDate>Sat, 25 Jul 2015 12:34:20 +0100</pubDate>
-        <link>http://yourdomain.com/webgl/2015/07/25/threejs-infinite-world-webgl-part-0.html</link>
-        <guid isPermaLink="true">http://yourdomain.com/webgl/2015/07/25/threejs-infinite-world-webgl-part-0.html</guid>
+        <pubDate>Sun, 26 Jul 2015 12:34:20 +0100</pubDate>
+        <link>http://yourdomain.com/webgl/2015/07/26/threejs-infinite-world-webgl-part-1.html</link>
+        <guid isPermaLink="true">http://yourdomain.com/webgl/2015/07/26/threejs-infinite-world-webgl-part-1.html</guid>
         
         
         <category>webgl</category>
